@@ -1,18 +1,18 @@
-const Employee = require("../Models/employeeSchema");
+const Employee_Schema = require("../Models/employeeSchema");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
 
-
-async function checkadmin(req, res, next) {
+ // check admin done test it for employee
+  async function checkadmin(req, res, next) {
     const admin = ["admin", "doctor"];
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
       /*------------redirect to error page--------------------- */
       try {
-        const userdata = await user.findOne({
+        const userdata = await user.Employee_Schema({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
@@ -33,6 +33,7 @@ async function checkadmin(req, res, next) {
     next();
   }
   
+
   async function checkreception(req, res, next) {
     const admin = ["admin", "doctor", "reception"];
     try {
@@ -40,7 +41,7 @@ async function checkadmin(req, res, next) {
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
       /*------------redirect to error page--------------------- */
       try {
-        const userdata = await user.findOne({
+        const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
@@ -56,6 +57,7 @@ async function checkadmin(req, res, next) {
     /*------------redirect to error page--------------------- */
     next();
   }
+
   async function checkdoctor(req, res, next) {
     const admin = ["doctor"];
     try {
@@ -63,7 +65,7 @@ async function checkadmin(req, res, next) {
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
       /*------------redirect to error page--------------------- */
       try {
-        const userdata = await user.findOne({
+        const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
@@ -80,6 +82,7 @@ async function checkadmin(req, res, next) {
     next();
   }
  
+
   async function checkaccount(req, res, next) {
     const admin = ["admin", "account"];
     try {
@@ -87,7 +90,7 @@ async function checkadmin(req, res, next) {
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
       /*------------redirect to error page--------------------- */
       try {
-        const userdata = await user.findOne({
+        const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,

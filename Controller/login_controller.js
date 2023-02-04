@@ -1,18 +1,18 @@
-const Employee = require("../Models/employeeSchema");
+const Employee_Schema = require("../Models/employeeSchema");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 dotenv.config();
 
 async function userLogin(request, response,next) {
-    const { error } = validation.userloginvalidation(request.body);
-    if (error) return response.send({ error: error.details[0].message });
-  
-    const usernameexist = await user.findOne({
+    const usernameexist = await Employee_Schema.findOne({
       user_name: request.body.user_name,
       phoneno: request.body.phoneno,
       status: true,
     });
-    if (!usernameexist) return response.send({ error: "This user does not exist" });
+    if (!usernameexist) {
+      return response.send({ error: "This user does not exist" });
+    }
   
     async function checkpassword() {
       dbpassword = await usernameexist.password;
@@ -27,45 +27,46 @@ async function userLogin(request, response,next) {
     if (usernameexist && (await checkpassword())) {
       token = jwt.sign(
         { id: usernameexist._id, role: usernameexist.role },
-        process.env.jwt_secret
+        process.env.jwt_secret,
+        {expiresIn:"1h"}
       );
-      res.send({
+      response.send({
         success: await token,
         role: usernameexist.user_role,
         name: usernameexist.user_name,
       });
-    } else return res.send({ error: "Wrong password" });
+    } else return response.json({ error: "Wrong password" });
   }
   
-  /**
-   * Function to Verify Details
-   */
-  async function verifyUserDetails(req, res) {
+
+   // Function to Verify Details
+  
+  async function verifyUserDetails(request, response,next) {
     try {
-      const token = await req.body.token;
-      const payload = jwt.verify(await token, process.env.jwt_master_secret);
+      const token = await request.body.token;
+      const decoded = jwt.verify(await token, process.env.jwt_secret);
       try {
         const userdata = await user.findOne({
-          _id: await payload.id,
-          role: await payload.role,
+          _id: await decoded.id,
+          role: await decoded.role,
           status: true,
         });
         if (userdata)
-          return res.send({
+          return response.json({
             success: "Found user",
             name: userdata.user_name,
             role: userdata.user_role,
             id: userdata._id,
           });
-      } catch (err) {
-        return res.send({ error: "Could not find any user" });
+      } catch (error) {
+        return response.json({ error: "Could not find any user" });
       }
-    } catch (err) {
-      return res.send({ error: "Session expired, Login again to continue" });
+    } catch (error) {
+      return response.json({ error: "Session expired, Login again to continue" });
     }
   }
 
 
 
-
+  module.exports = {userLogin,verifyUserDetails}
   

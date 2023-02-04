@@ -1,5 +1,7 @@
 const express=require("express");
 const mongoose=require("mongoose");
+const loginRoute=require("./Routers/login_route");
+const employeeRoute =require("./Routers/employee_rpoute");
 const server=express(); 
 
 require("dotenv").config();
@@ -21,21 +23,18 @@ mongoose.connect(process.env.DB_URL)
         })
 
 
+// first middleware
 server.use((request,response,next)=>{
-    if(true)
-    {
-            next();
-    }
-    else{
-         next(new Error("Not Authenticated")) 
-    }
-});
+    console.log("Hello from FirstMW", request.url,request.method);
+     next();
+  });
 
 // convert content to json 
 server.use(express.json());
 
 // routs
-
+server.use(loginRoute);
+server.use(employeeRoute);
 
 
 //Not Found
@@ -44,5 +43,6 @@ server.use((request,response,next)=>{
 });
 // Error MiddleWar
 server.use((error,request,response,next)=>{
-    response.status(500).json({message:"Error "+error});
+    const status = error.status||500
+    response.status(status).json({message:"Error "+error});
 });

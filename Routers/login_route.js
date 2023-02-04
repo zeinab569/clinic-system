@@ -7,15 +7,11 @@ const router = express.Router();
 
 
 
+//router.route("/login", async (req, res))
+       // .post(controller.userLogin(req, res))
 
-
-
-
-
-
-
-
-
-
-
+ router.post("/login", async (req, res) => {
+                controller.userLogin(req, res);
+              });
+        
 module.exports = router;
