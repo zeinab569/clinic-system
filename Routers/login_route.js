@@ -6,10 +6,6 @@ const thevalidate_object= require("./../Middlelwares/the_valid_object")
 const router = express.Router();
 
 
-
-//router.route("/login", async (req, res))
-       // .post(controller.userLogin(req, res))
-
  router.post("/login", async (req, res) => {
               controller.userLogin(req, res);
         });

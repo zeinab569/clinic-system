@@ -11,7 +11,7 @@ dotenv.config();
 
 // create user done
 async function createUser(request, response,next) {
-    //const img = request.files.image;
+
     if (request.body.user_role === "admin") {
       const checkadmin = await Employee_Schema.find({ user_role: "admin", status: true });
       if ((await checkadmin.length) >= 2) {
@@ -27,19 +27,19 @@ async function createUser(request, response,next) {
       user_role: request.body.user_role,
       name:request.body.name,
       phoneno: request.body.phoneno,
+      employeeImage: request.file.path,
       email: request.body.email,
       password: hashedpassword,
       salary:request.body.salary,
       gender:request.body.gender,
       workHours:request.body.workHours,
       address:{
-        city: request.body.address.city,
-        street: request.body.address.street,
-        building: request.body.address.building,
+        city: request.body.city,
+        street: request.body.street,
+        building: request.body.building,
     },
- 
     
-
+  
     });
   
     const isuser = await Employee_Schema.findOne({

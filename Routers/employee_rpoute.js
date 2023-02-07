@@ -2,7 +2,7 @@ const express = require("express")
 const {body,param,query,validationResult}= require("express-validator")
 const controller = require("./../Controller/EmployeeController")
 const validate = require("./../Middlelwares/error_validation")
-
+const upload=require('./../Middlelwares/image');
 const check_permission= require("../Middlelwares/check_users");
 const thevalidate_object= require("./../Middlelwares/the_valid_object");
 const { route } = require("express/lib/application");
@@ -13,6 +13,7 @@ router.route("/employee")
   .all(check_permission.checkadmin)
   .get(controller.getAllEmployees)  
   .post(
+    upload.single('employeeImage'),
     thevalidate_object.employee_is_valid,
     validate,
     controller.createUser
