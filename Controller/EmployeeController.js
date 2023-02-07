@@ -119,8 +119,11 @@ async function changeUserPassword(request, response,next) {
 }
 
 // get employee by id
- function getbyid(request,response,next){
-   response.status(200).json({data: request.params._id})
+async function getbyid(request,response,next){
+   await Employee_Schema.findOne({data: request.params.id},)
+   .then(thedata=>{
+       response.status(200).json({data:thedata})
+   }).catch(error=>next(error))
 }
 
 //get all Doctors
@@ -177,6 +180,23 @@ async function getAccountantList(request, response,next) {
   }
 }
 
+// get list of pharmacist
+async function getPharmacistList(request, response,next) {
+  try {
+    const list = [];
+    const datas = await Employee_Schema.find(
+      { status: true, user_role: "pharmacist" },
+      { user_name: 1,name:1, _id: 0 }
+    );
+    if (datas.length > 0) {
+      return response.json({ success: datas });
+    } else {
+      return response.json({ error: "No pharmacist found" });
+    }
+  } catch {
+    (error) =>next(error)
+  }
+}
 // delete
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
@@ -184,8 +204,16 @@ async function deleteUser(request, response,next) {
               response.status(200).json({message:" delete the user successfuly"})
        }).catch(error=>next(error))
 }
-
 // sort
+async function sortEmployees(request,response,next){
+  Employee_Schema.aggregate(
+    [
+      { $sort : { salary : 1 } }
+    ]
+ ).then(data=>{
+    response.status(200).json(data)
+ }).catch(error=>next(error))
+}
 
 module.exports = {
   createUser,
@@ -197,4 +225,6 @@ module.exports = {
   getAllEmployees,
   update,
   getbyid,
+  getPharmacistList,
+  sortEmployees,
 };

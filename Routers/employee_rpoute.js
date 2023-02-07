@@ -21,13 +21,13 @@ router.route("/employee")
   .delete(controller.deleteUser)
 
 // get employee by id
-router.get("/employee/:id",
+router.get("/employee/:id",check_permission.checkadmin,
   param("id").isInt().withMessage("your id should be integer"),
   controller.getbyid
 )
 
 // get all doctors
-router.get("/doctorList",
+router.get("/doctorList",check_permission.checkadmin,
  controller.getDoctorList
 )
 
@@ -41,6 +41,15 @@ router.get("/accountantList",check_permission.checkadmin,
  controller.getAccountantList
 )
 
+// get all pharmacist
+router.get("/pharmacistList",check_permission.checkadmin,
+ controller.getPharmacistList
+)
+
 //change password
 
+//sort 
+router.get("/sortemployees",check_permission.checkadmin,
+controller.sortEmployees
+)
 module.exports = router;
