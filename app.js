@@ -2,19 +2,22 @@ const express=require("express");
 const mongoose=require("mongoose");
 const loginRoute=require("./Routers/login_route");
 const employeeRoute =require("./Routers/employee_rpoute");
-const bodyParser = require("body-parser");
-const server=express(); 
+const doctorsRouter=require("./Routers/doctor");
+const clinicRouter=require("./Routers/clinic");
 
+const server=express(); 
 require("dotenv").config();
 let port=process.env.PORT||8080;
+
 
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.DB_URL)
       .then(()=>{
-            console.log("DBconected");
+            // console.log("DBconected");
             server.listen(port,()=>{
-                console.log("I am listening..............", port);
+                console.log("server is open now I am listening  ^_^", port);
             });
+            console.log("DB successfully connected...");
          })
         .catch(error=>{
             console.log("DBproblem"+ error)
@@ -31,6 +34,9 @@ server.use(express.json());
 // routs
 server.use(loginRoute);
 server.use(employeeRoute);
+server.use(doctorsRouter);
+server.use(clinicRouter);
+
 
 
 //Not Found

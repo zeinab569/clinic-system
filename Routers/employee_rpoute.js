@@ -1,6 +1,6 @@
 const express = require("express")
 const {body,param,query,validationResult}= require("express-validator")
-const controller = require("./../Controller/EmployeeController")
+const controller = require("./../Controllers/EmployeeController")
 const validate = require("./../Middlelwares/error_validation")
 
 const check_permission= require("../Middlelwares/check_users");
@@ -21,10 +21,10 @@ router.route("/employee")
   .delete(controller.deleteUser)
 
 // get employee by id
-router.get("/employee/:id",
-  param("id").isInt().withMessage("your id should be integer"),
-  controller.getbyid
-)
+// router.get("/employee/:id",
+//   param("id").isInt().withMessage("your id should be integer"),
+//   controller.getbyid
+// )
 
 // get all doctors
 router.get("/doctorList",

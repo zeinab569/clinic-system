@@ -118,10 +118,10 @@ async function changeUserPassword(request, response,next) {
   }
 }
 
-// get employee by id
- function getbyid(request,response,next){
-   response.status(200).json({data: request.params._id})
-}
+// // get employee by id
+//  function getbyid(request,response,next){
+//    response.status(200).json({data: request.params._id})
+// }
 
 //get all Doctors
 async function getDoctorList(request, response,next) {
@@ -177,7 +177,7 @@ async function getAccountantList(request, response,next) {
   }
 }
 
-// delete
+// delete by id
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
         .then(result=>{
@@ -196,5 +196,5 @@ module.exports = {
   deleteUser,
   getAllEmployees,
   update,
-  getbyid,
+  // getbyid,
 };

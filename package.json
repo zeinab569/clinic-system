@@ -1,7 +1,7 @@
 {
   "name": "nodejsproject",
   "version": "1.0.0",
-  "description": "",
+  "description": "Clinic Management System is a system enabling clinics to manage information and data related to all aspects of healthcare – processes,\r providers, patients, and more, which in turn ensures that processes are completed swiftly and effectively.\r Key features of a clinic Management System:\r Patient Management\r Appointment Management\r Facility Management\r Billing Management\r Staff Management\r Report Management",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,11 +17,20 @@
     "express-validator": "^6.14.3",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.0",
+    "mongoose-sequence": "^5.3.1",
     "multer": "^1.4.5-lts.1",
     "x": "^0.1.2",
     "y": "^0.3.2"
   },
   "devDependencies": {
     "morgan": "^1.10.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeinab569/clinic-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zeinab569/clinic-system/issues"
+  },
+  "homepage": "https://github.com/zeinab569/clinic-system#readme"
 }
