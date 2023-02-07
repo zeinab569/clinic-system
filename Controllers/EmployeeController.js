@@ -118,12 +118,8 @@ async function changeUserPassword(request, response,next) {
   }
 }
 
-<<<<<<< HEAD:Controllers/EmployeeController.js
-// // get employee by id
-//  function getbyid(request,response,next){
-//    response.status(200).json({data: request.params._id})
-// }
-=======
+
+
 // get employee by id
 async function getbyid(request,response,next){
    await Employee_Schema.findOne({data: request.params.id},)
@@ -131,7 +127,7 @@ async function getbyid(request,response,next){
        response.status(200).json({data:thedata})
    }).catch(error=>next(error))
 }
->>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7:Controller/EmployeeController.js
+
 
 //get all Doctors
 async function getDoctorList(request, response,next) {
@@ -187,9 +183,9 @@ async function getAccountantList(request, response,next) {
   }
 }
 
-<<<<<<< HEAD:Controllers/EmployeeController.js
+
 // delete by id
-=======
+
 // get list of pharmacist
 async function getPharmacistList(request, response,next) {
   try {
@@ -208,7 +204,7 @@ async function getPharmacistList(request, response,next) {
   }
 }
 // delete
->>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7:Controller/EmployeeController.js
+
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
         .then(result=>{
@@ -235,11 +231,9 @@ module.exports = {
   deleteUser,
   getAllEmployees,
   update,
-<<<<<<< HEAD:Controllers/EmployeeController.js
-  // getbyid,
-=======
+
   getbyid,
   getPharmacistList,
   sortEmployees,
->>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7:Controller/EmployeeController.js
+
 };
