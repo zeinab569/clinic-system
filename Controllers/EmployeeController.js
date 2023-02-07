@@ -118,10 +118,20 @@ async function changeUserPassword(request, response,next) {
   }
 }
 
+<<<<<<< HEAD:Controllers/EmployeeController.js
 // // get employee by id
 //  function getbyid(request,response,next){
 //    response.status(200).json({data: request.params._id})
 // }
+=======
+// get employee by id
+async function getbyid(request,response,next){
+   await Employee_Schema.findOne({data: request.params.id},)
+   .then(thedata=>{
+       response.status(200).json({data:thedata})
+   }).catch(error=>next(error))
+}
+>>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7:Controller/EmployeeController.js
 
 //get all Doctors
 async function getDoctorList(request, response,next) {
@@ -177,15 +187,44 @@ async function getAccountantList(request, response,next) {
   }
 }
 
+<<<<<<< HEAD:Controllers/EmployeeController.js
 // delete by id
+=======
+// get list of pharmacist
+async function getPharmacistList(request, response,next) {
+  try {
+    const list = [];
+    const datas = await Employee_Schema.find(
+      { status: true, user_role: "pharmacist" },
+      { user_name: 1,name:1, _id: 0 }
+    );
+    if (datas.length > 0) {
+      return response.json({ success: datas });
+    } else {
+      return response.json({ error: "No pharmacist found" });
+    }
+  } catch {
+    (error) =>next(error)
+  }
+}
+// delete
+>>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7:Controller/EmployeeController.js
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
         .then(result=>{
               response.status(200).json({message:" delete the user successfuly"})
        }).catch(error=>next(error))
 }
-
 // sort
+async function sortEmployees(request,response,next){
+  Employee_Schema.aggregate(
+    [
+      { $sort : { salary : 1 } }
+    ]
+ ).then(data=>{
+    response.status(200).json(data)
+ }).catch(error=>next(error))
+}
 
 module.exports = {
   createUser,
@@ -196,5 +235,11 @@ module.exports = {
   deleteUser,
   getAllEmployees,
   update,
+<<<<<<< HEAD:Controllers/EmployeeController.js
   // getbyid,
+=======
+  getbyid,
+  getPharmacistList,
+  sortEmployees,
+>>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7:Controller/EmployeeController.js
 };

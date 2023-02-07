@@ -21,13 +21,20 @@ router.route("/employee")
   .delete(controller.deleteUser)
 
 // get employee by id
+<<<<<<< HEAD
 // router.get("/employee/:id",
 //   param("id").isInt().withMessage("your id should be integer"),
 //   controller.getbyid
 // )
+=======
+router.get("/employee/:id",check_permission.checkadmin,
+  param("id").isInt().withMessage("your id should be integer"),
+  controller.getbyid
+)
+>>>>>>> 132e8b7613e027478ff5b1d92e7fa52ef49263f7
 
 // get all doctors
-router.get("/doctorList",
+router.get("/doctorList",check_permission.checkadmin,
  controller.getDoctorList
 )
 
@@ -41,6 +48,15 @@ router.get("/accountantList",check_permission.checkadmin,
  controller.getAccountantList
 )
 
+// get all pharmacist
+router.get("/pharmacistList",check_permission.checkadmin,
+ controller.getPharmacistList
+)
+
 //change password
 
+//sort 
+router.get("/sortemployees",check_permission.checkadmin,
+controller.sortEmployees
+)
 module.exports = router;
