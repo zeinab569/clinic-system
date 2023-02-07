@@ -11,7 +11,8 @@ const router = express.Router();
        // .post(controller.userLogin(req, res))
 
  router.post("/login", async (req, res) => {
-                controller.userLogin(req, res);
-              });
-        
+              controller.userLogin(req, res);
+        });
+    
+              
 module.exports = router;

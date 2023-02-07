@@ -2,15 +2,13 @@ const express=require("express");
 const mongoose=require("mongoose");
 const loginRoute=require("./Routers/login_route");
 const employeeRoute =require("./Routers/employee_rpoute");
+const bodyParser = require("body-parser");
 const server=express(); 
 
 require("dotenv").config();
-
 let port=process.env.PORT||8080;
 
 mongoose.set('strictQuery', true);
-
-
 mongoose.connect(process.env.DB_URL)
       .then(()=>{
             console.log("DBconected");
@@ -29,9 +27,7 @@ server.use((request,response,next)=>{
      next();
   });
 
-// convert content to json 
 server.use(express.json());
-
 // routs
 server.use(loginRoute);
 server.use(employeeRoute);

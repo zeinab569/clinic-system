@@ -10,26 +10,20 @@ dotenv.config();
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-      /*------------redirect to error page--------------------- */
-      try {
-        const userdata = await user.Employee_Schema({
+     
+        const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
         });
         if (admin.findIndex((x) => x === userdata.user_role) === -1)
-          return res.send({ error: "g" });
-      } catch (err) {
-        return /*redirect to error page*/ res.send({ error: "d" });
-      }
-
-    } catch (error) {
+          return res.json({ error: "not admin" });
+      
+      } catch (error) {
         error.status=403;
         error.message="not authorized";
         next(error)
-      //return res.send({ error: err });
-    }
-    /*------------redirect to error page--------------------- */
+    } 
     next();
   }
   
@@ -47,12 +41,12 @@ dotenv.config();
           status: true,
         });
         if (admin.findIndex((x) => x === userdata.user_role) === -1)
-          return res.send({ error: "g" });
+          return res.json({ error: "g" });
       } catch (err) {
-        return /*redirect to error page*/ res.send({ error: "d" });
+        return /*redirect to error page*/ res.json({ error: "d" });
       }
     } catch (err) {
-      return res.send({ error: "f" });
+      return res.json({ error: "f" });
     }
     /*------------redirect to error page--------------------- */
     next();
@@ -103,5 +97,7 @@ dotenv.config();
     } catch (err) {
       return res.send({ error: "f" });
     }}
+
+    // phamsysit
     
   module.exports = { checkadmin, checkreception, checkdoctor ,checkaccount};

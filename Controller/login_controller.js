@@ -11,7 +11,7 @@ async function userLogin(request, response,next) {
       status: true,
     });
     if (!usernameexist) {
-      return response.send({ error: "This user does not exist" });
+      return response.send({ error: "This user does not exist in clinicDB" });
     }
   
     async function checkpassword() {
@@ -35,18 +35,18 @@ async function userLogin(request, response,next) {
         role: usernameexist.user_role,
         name: usernameexist.user_name,
       });
-    } else return response.json({ error: "Wrong password" });
+    } else return response.json({ error: "Wrong password try again" });
   }
+  
   
 
    // Function to Verify Details
-  
   async function verifyUserDetails(request, response,next) {
     try {
       const token = await request.body.token;
       const decoded = jwt.verify(await token, process.env.jwt_secret);
       try {
-        const userdata = await user.findOne({
+        const userdata = await Employee_Schema.findOne({
           _id: await decoded.id,
           role: await decoded.role,
           status: true,
