@@ -2,6 +2,7 @@ const { request, response, query } = require('express');
 const mongoose =require('mongoose');
 
 require("./../Models/clinic");
+require("./../Models/doctor");
 const clinicSchema=mongoose.model("clinic");
 
 
@@ -25,7 +26,7 @@ exports.getAllClinic=(request,response,next)=>{
   
     clinicSchema.find({})//call filter here
     //  .populate({path:"Department"})
-     //.populate({path:"doctorId"})//select column
+     //.populate({path:"doctorId",select:'fullName'})//select column
     .then((data )=>{ 
         sortedData=clinicSort(data,request.query)
         response.status(200).json({message:"All Clinic sorted by name.....",sortedData});
@@ -39,7 +40,7 @@ exports.getAllClinic=(request,response,next)=>{
 //add a new clinic  
 exports.addClinic=(request,response,next)=>{
         let clinicObject=new clinicSchema({
-            _id:       request.body._id,
+         
             clinicName: request.body.clinicName,
             contact:{
                 email: request.body.email,
@@ -49,6 +50,11 @@ exports.addClinic=(request,response,next)=>{
                 city:request.body.city,
                 street:request.body.street,
                 building:request.body.building
+            },
+            schedule:{
+                date:request.body.date,
+                departmentId:request.body.departmentId,
+                doctorId:[request.body.doctorId],
             }
         });
         clinicObject.save()

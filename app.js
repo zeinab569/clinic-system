@@ -11,7 +11,7 @@ const DepartmentRouter=require("./Routers/DepartmentRoute")
 const medicineRouter=require("./Routers/MedicineRoute")
 const server=express(); 
 require("dotenv").config();
-let port=process.env.PORT||8090;
+let port=process.env.PORT||8080;
 
 
 mongoose.set('strictQuery', true);
