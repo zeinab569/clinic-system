@@ -22,7 +22,6 @@ router.route("/employee")
   .delete(controller.deleteUser)
 
 // get employee by id
-
 router.get("/employee/:id",check_permission.checkadmin,
   param("id").isInt().withMessage("your id should be integer"),
   controller.getbyid
@@ -51,11 +50,8 @@ router.get("/pharmacistList",check_permission.checkadmin,
 
 //change password
 
-//sort 
-router.get("/sortemployees",check_permission.checkadmin,
-controller.sortEmployees
-)
-// filter
+
+// filter and sort
 router.get("/search/:filterNumbers",check_permission.checkadmin,
 controller.SearchEmployees
 

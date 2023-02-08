@@ -33,6 +33,7 @@ async function createUser(request, response,next) {
       salary:request.body.salary,
       gender:request.body.gender,
       workHours:request.body.workHours,
+      age:request.body.age,
       address:{
         city: request.body.city,
         street: request.body.street,
@@ -150,7 +151,7 @@ async function getReseptionistList(request, response,next) {
   try {
     const list = [];
     const datas = await Employee_Schema.find(
-      { status: true, user_role: "reseptionast" },
+      { status: true, user_role: "receptionist" },
       { user_name: 1 ,name:1, _id: 0 }
     );
     if (datas.length > 0) {
@@ -181,9 +182,6 @@ async function getAccountantList(request, response,next) {
   }
 }
 
-
-// delete by id
-
 // get list of pharmacist
 async function getPharmacistList(request, response,next) {
   try {
@@ -201,25 +199,15 @@ async function getPharmacistList(request, response,next) {
     (error) =>next(error)
   }
 }
-// delete
-
+// delete by id
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
         .then(result=>{
               response.status(200).json({message:" delete the user successfuly"})
        }).catch(error=>next(error))
 }
-// sort
-async function sortEmployees(request,response,next){
-  Employee_Schema.aggregate(
-    [
-      { $sort : { salary : 1 } }
-    ]
- ).then(data=>{
-    response.status(200).json(data)
- }).catch(error=>next(error))
-}
 
+//filter and sort
 async function SearchEmployees(request,response,next){
   try {
     // 1A) Filtering
@@ -270,6 +258,5 @@ module.exports = {
   update,
   getbyid,
   getPharmacistList,
-  sortEmployees,
   SearchEmployees,
 };

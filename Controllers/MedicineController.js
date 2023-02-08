@@ -13,7 +13,6 @@ const mongoose=require("mongoose");
     
  }
 //getting medicine by id
-
     exports.getMedicinebyId = (req, res, next) => {
         DepartmentSchema.findOne({ id: req.params.id })
         //.populate({ path: "patient" })
@@ -26,9 +25,6 @@ const mongoose=require("mongoose");
                 next(err);
             });
     };
-
-
-
 
 //adding new medicine
  exports.Addmedicine=(request,response,next)=>{
