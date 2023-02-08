@@ -33,6 +33,7 @@ async function createUser(request, response,next) {
       salary:request.body.salary,
       gender:request.body.gender,
       workHours:request.body.workHours,
+      age:request.body.age,
       address:{
         city: request.body.city,
         street: request.body.street,
@@ -63,7 +64,7 @@ async function createUser(request, response,next) {
 
 // get all employees
 async function getAllEmployees(request,response,next){
-  Employee_Schema.find().then((data)=>{
+  await Employee_Schema.find().then((data)=>{
       response.status(200).json(data);
    }).catch(error=>next(error))
 }
@@ -118,8 +119,6 @@ async function changeUserPassword(request, response,next) {
   }
 }
 
-
-
 // get employee by id
 async function getbyid(request,response,next){
    await Employee_Schema.findOne({data: request.params.id},)
@@ -152,7 +151,7 @@ async function getReseptionistList(request, response,next) {
   try {
     const list = [];
     const datas = await Employee_Schema.find(
-      { status: true, user_role: "reseptionast" },
+      { status: true, user_role: "receptionist" },
       { user_name: 1 ,name:1, _id: 0 }
     );
     if (datas.length > 0) {
@@ -183,9 +182,6 @@ async function getAccountantList(request, response,next) {
   }
 }
 
-
-// delete by id
-
 // get list of pharmacist
 async function getPharmacistList(request, response,next) {
   try {
@@ -203,23 +199,52 @@ async function getPharmacistList(request, response,next) {
     (error) =>next(error)
   }
 }
-// delete
-
+// delete by id
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
         .then(result=>{
               response.status(200).json({message:" delete the user successfuly"})
        }).catch(error=>next(error))
 }
-// sort
-async function sortEmployees(request,response,next){
-  Employee_Schema.aggregate(
-    [
-      { $sort : { salary : 1 } }
-    ]
- ).then(data=>{
-    response.status(200).json(data)
- }).catch(error=>next(error))
+
+//filter and sort
+async function SearchEmployees(request,response,next){
+  try {
+    // 1A) Filtering
+    
+    const queryObj = { ...request.query }
+    const excludedFields = ['page', 'sort', 'limit', 'fields']
+    excludedFields.forEach(el => delete queryObj[el])
+    console.log(queryObj)
+    //1B) Advanced filtering
+    let queryString = JSON.stringify(queryObj)
+    console.log(queryString)
+    queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+    let query = Employee_Schema.find(JSON.parse(queryString))
+    
+   //sort
+    if (request.query.sort) {
+      const sortBy = request.query.sort.split(',').join(' ')
+      query = query.sort(sortBy)
+    } else {
+      query = query.sort('salary')
+    }
+
+    const filterNumbers = await query
+    response.status(200).json({
+      status: 'success',
+      results: filterNumbers.length,
+      data: {
+        filterNumbers
+      }
+    });
+   
+  } catch (err) {
+    response.status(400).json({
+      status: 'fail',
+      message: err
+    })
+  }
 }
 
 module.exports = {
@@ -231,9 +256,7 @@ module.exports = {
   deleteUser,
   getAllEmployees,
   update,
-
   getbyid,
   getPharmacistList,
-  sortEmployees,
-
+  SearchEmployees,
 };

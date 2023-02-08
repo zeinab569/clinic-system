@@ -72,13 +72,12 @@ exports.addDoctors=async(request,response,next)=>{
   }
   
     let doctorObject=new doctorSchema({
-        _id:       request.body._id,
-        fullName:  request.body.fullName,
-        email:     request.body.email,
-       // doctorImage:request.file.path,
-        userName:request.body.userName,
-        password:request.body.password,
-        clinicId:request.body.clinicId,/////--------------
+
+        _id:        request.body._id,
+        fullName:       request.body.fullName,
+        doctorImage:     request.file.path,
+        email:          request.body.email,
+        doctorImage:request.body.doctorImage,
         Specialization:request.body.Specialization,
         salary:request.body.salary,
         departmentId:request.body.departmentId,
@@ -203,10 +202,11 @@ exports.getDoctorById=(request,response,next)=>{
 //                         res.status(200).json({message:"invalid Specialization D:"})
 //                     }
 
-//                  }
-//                 ).catch(
-//                  error=>next(error)
-//                 ) 
-//         }
-//     })
+
+    //              }
+    //             ).catch(
+    //              error=>next(error)
+    //             ) 
+    //     }
+    // })
 
