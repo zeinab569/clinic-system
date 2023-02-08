@@ -33,7 +33,8 @@ const MedicalHistory=new mongoose.Schema(
           },
           patientId:{type:Number,
             required:true,ref:"patient"},
-          doctorId:{type:Number,ref:"doctor"}
+          doctorId:{type:Number,
+            required:true,ref:"doctor"}
         },{_id:false}
     )
 mongoose.model('MedicalHistory',MedicalHistory)  

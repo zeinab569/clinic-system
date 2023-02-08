@@ -7,7 +7,7 @@ const MedicineSchema=new mongoose.Schema(
 {
 
 //_id: mongoose.Types.ObjectId,//will generate object id in runtime
-id:{type:Number,required:true,unique:true},
+id:{type:Number,required:true},
 Name:{type:String,required:true,unique:true},
 production_Date:{type:Date,required:true},
 expiary_Date:{type:Date,required:true},

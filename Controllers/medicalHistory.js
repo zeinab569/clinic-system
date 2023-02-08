@@ -15,7 +15,7 @@ exports.createMedicalHistory=((req,res,next)=>
     medicine:req.body.prescriptionNumber,
     chronicdiseases:req.body.chronicdiseases,
     bloodType:req.body.bloodType,
-    //doctorId:
+    doctorId:req.body.doctorId
 
  });
  addpateintMedicalHistory.save().then(
@@ -42,9 +42,9 @@ exports.editpateintMedicalHistory=((req,res,next)=>{
 });
 exports.getAllMedicalHistory=((req,res,next)=>{   
 MedicalHistorySchema.find().populate({path:"patientId",select:'firstName lastName age gender'})
-.populate({path:"doctorId",select:'fullName Specialization'}).
-populate({path:"medicine",select:'medicine'})
-then(
+.populate({path:"doctorId",select:'fullName Specialization'})
+.populate({path:"medicine",select:'medicine'})
+.then(
 (data)=>res.status(200).json(data) 
 )
 });
