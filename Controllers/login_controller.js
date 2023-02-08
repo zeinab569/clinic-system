@@ -68,5 +68,5 @@ async function userLogin(request, response,next) {
 
 
 
-  module.exports = {userLogin,verifyUserDetails}
+  module.exports = {userLogin}
   
