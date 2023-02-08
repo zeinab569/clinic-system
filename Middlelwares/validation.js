@@ -6,7 +6,7 @@ let doctorValidation=[
     body("fullName").isAlpha().withMessage("full name must be string"),
     body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
     body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^01[0125](-)?[0-9]{8}$/),
-    body("Specialization").isAlpha().withMessage("Specialization must be text or word"),
+    body("Specialization").isString().withMessage("Specialization must be text or word"),
     body("gender").isAlpha().withMessage("gender must be one of two [female,male]"),
     body("userName").isString().withMessage("userName must be string"),
     body("password").isString().withMessage("password minimum length is 8"),//make it encrbiمشفره
@@ -19,21 +19,21 @@ let doctorValidation=[
     body("clinicId").isInt().withMessage("clinicId must be number"),
     body("appointmentId").isInt().withMessage("buliding must be number"),
 ];
-let doctorValidation1=[
+let importVIP=[
     body("_id").isInt().withMessage("_id must be integer"),
-    body("fullName").isAlpha().withMessage("full name must be string"),
     body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
+    body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/),
+
 ];
 
 let clinicValidation=[
     body("clinicName").isAlpha().withMessage("clinic name must be string"),
     body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
-   // body("phoneNumber").isString().withMessage("it is not a matched format for phone number").matches(/^01[0125](-)?[0-9]{8}$/),// بيعمل ايرورس
    
 ];
 
 
-module.exports={doctorValidation,clinicValidation}
+module.exports={doctorValidation,clinicValidation,importVIP}
 module.exports.patientValidation=[
     body("patientFirstName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
     body("patientLastName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
