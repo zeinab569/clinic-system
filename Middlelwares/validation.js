@@ -61,3 +61,24 @@ module.exports.prescriptionValidation=[
     body("patient_id").isInt().withMessage("patient id should be integer"),
     body("doctor_id").isInt().withMessage("doctor id should be integer")
 ]
+let Department=[
+    body("id").isInt().withMessage("id must be int"),
+    body("Name").isAlpha().trim().withMessage("your name should be string"),
+   
+    body("Service").isArray().withMessage("Service must be array of object"),
+    body("Service.serviceName").isAlpha().withMessage("serviceName must be string"),
+    body("Service.price").isNumeric().withMessage("price must be Numeric").matches(/^\d{0,8}[.]?\d{1,4}$/),
+];
+
+
+
+let Medicine=[
+    body("id").isInt().withMessage("it must be int"),
+    body("Name").isAlpha().withMessage("Name must be String"), 
+    body("production_Date").isDate().withMessage("production_Date must be Date"),
+    body("expiary_Date").isDate().withMessage("expiary_Date must be Date"),
+    body("price").isNumeric().withMessage("price must be number").matches(/^\d{0,8}[.]?\d{1,4}$/),
+    body("Recommendation").isAlpha().withMessage("Recommendation must be string"),
+    body("quantity").isNumeric().withMessage("quantity must be Number"),
+    body("img").isString().withMessage("img must be string")
+]
