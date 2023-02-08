@@ -118,6 +118,8 @@ async function changeUserPassword(request, response,next) {
   }
 }
 
+
+
 // get employee by id
 async function getbyid(request,response,next){
    await Employee_Schema.findOne({data: request.params.id},)
@@ -125,6 +127,7 @@ async function getbyid(request,response,next){
        response.status(200).json({data:thedata})
    }).catch(error=>next(error))
 }
+
 
 //get all Doctors
 async function getDoctorList(request, response,next) {
@@ -180,6 +183,9 @@ async function getAccountantList(request, response,next) {
   }
 }
 
+
+// delete by id
+
 // get list of pharmacist
 async function getPharmacistList(request, response,next) {
   try {
@@ -198,6 +204,7 @@ async function getPharmacistList(request, response,next) {
   }
 }
 // delete
+
 async function deleteUser(request, response,next) {
   await Employee_Schema.deleteOne({ _id: request.body.id },)
         .then(result=>{
@@ -224,7 +231,9 @@ module.exports = {
   deleteUser,
   getAllEmployees,
   update,
+
   getbyid,
   getPharmacistList,
   sortEmployees,
+
 };
