@@ -55,4 +55,9 @@ router.get("/pharmacistList",check_permission.checkadmin,
 router.get("/sortemployees",check_permission.checkadmin,
 controller.sortEmployees
 )
+// filter
+router.get("/search/:filterNumbers",check_permission.checkadmin,
+controller.SearchEmployees
+
+)
 module.exports = router;

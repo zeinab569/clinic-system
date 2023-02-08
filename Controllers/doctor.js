@@ -65,7 +65,7 @@ exports.addDoctors=async(request,response,next)=>{
     let doctorObject=new doctorSchema({
         _id:        request.body._id,
         fullName:       request.body.fullName,
-         doctorImage:     request.file.path,
+        doctorImage:     request.file.path,
         email:          request.body.email,
         Specialization:request.body.Specialization,
         address:{
