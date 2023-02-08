@@ -34,3 +34,30 @@ let clinicValidation=[
 
 
 module.exports={doctorValidation,clinicValidation}
+module.exports.patientValidation=[
+    body("patientFirstName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
+    body("patientLastName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
+    body("patientAge").isNumeric().withMessage("patient age should be a number"),
+    body("patientGender").isAlpha().withMessage("gender must be one of two [female,male]"),
+    body("patientEmail").isString().matches(/.+\@.+\..+/).withMessage(" invalid Email"),
+    body("patientInsuranceNumber").isString(),
+    body("patientPhoneNumber").isString().matches(/^(010|011|012|015)+-+\d{8}$/).withMessage("please Enter valid phone Number")
+
+]
+module.exports.medicalHistoryValidation=[
+    body("id").isInt(),
+body("patientId").isInt().withMessage("patient Id must be a Number"),
+body("medicinesbefore.name").isString().withMessage("medicine name must be alpha"),
+body("medicinesbefore.quantity").isInt().withMessage("medicine quantity should be a number"),
+body("medicinesbefore.from").isString().withMessage("date should be date like this YYYY-MM-DD ."),
+body("medicinesbefore.to").isString().withMessage("date should be date like this YYYY-MM-DD ."),
+body("prescriptionNumber").isInt().withMessage("prescription Number  should be number"),
+body("chronicdiseases").isString()
+]
+module.exports.prescriptionValidation=[
+    body("medicine").isObject().withMessage("medicine should be an object"),
+    body("medicine.id").isInt().withMessage("medicine.id should be a number"),
+    body("dosage").isString().withMessage("dosage should be string"),
+    body("patient_id").isInt().withMessage("patient id should be integer"),
+    body("doctor_id").isInt().withMessage("doctor id should be integer")
+]

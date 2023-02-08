@@ -4,7 +4,9 @@ const loginRoute=require("./Routers/login_route");
 const employeeRoute =require("./Routers/employee_rpoute");
 const doctorsRouter=require("./Routers/doctor");
 const clinicRouter=require("./Routers/clinic");
-
+const patientRouter=require("./Routers/patientRoute")
+const MedicalHistoryRouter=require("./Routers/MedicalHistory")
+const prescreptionRouter=require("./Routers/prescreptionRoute")
 const server=express(); 
 require("dotenv").config();
 let port=process.env.PORT||8080;
@@ -36,7 +38,9 @@ server.use(loginRoute);
 server.use(employeeRoute);
 server.use(doctorsRouter);
 server.use(clinicRouter);
-
+server.use(patientRouter);
+server.use(prescreptionRouter)
+server.use(MedicalHistoryRouter);
 
 
 //Not Found
