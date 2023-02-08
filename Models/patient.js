@@ -34,7 +34,7 @@ const patientSchema= new mongoose.Schema(
         address:patientAddress_schema,
         email:{type:String,
             match: /.+\@.+\..+/,
-            unique: true},  
+        unique: true},  
         insuranceNumber:{
             type:String,
             unique:true,

@@ -9,8 +9,8 @@ const router= express.Router();
 
 router.route("/Department")
     .get(Controller.getAllDepartment)
-    .post(Controller.AddDepartment)
-    .patch(Controller.updateDepartment)
+    .post(validator,Controller.AddDepartment)
+    .patch(validator,Controller.updateDepartment)
   //.delete(Controller.DeleteDepartment);
 
 

@@ -8,7 +8,7 @@ let doctorValidation=[
     body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^01[0125](-)?[0-9]{8}$/),
     body("Specialization").isAlpha().withMessage("Specialization must be text or word"),
     body("gender").isAlpha().withMessage("gender must be one of two [female,male]"),
-    body("userName").isString().withMessage("userName must be string"),
+    // body("userName").isString().withMessage("userName must be string"),
     body("password").isString().withMessage("password minimum length is 8"),//make it encrbiمشفره
     body("image").isString().withMessage("image path isn't right"),//------------
     body("salary").isInt().withMessage("salary must be more than 2000"),
@@ -32,8 +32,14 @@ let clinicValidation=[
    
 ];
 
+let importVIP=[
+    body("_id").isInt().withMessage("_id must be integer"),
+    body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
+    // body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/),
 
-module.exports={doctorValidation,clinicValidation}
+];
+
+module.exports={doctorValidation,clinicValidation,importVIP}
 module.exports.patientValidation=[
     body("patientFirstName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
     body("patientLastName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
@@ -82,3 +88,4 @@ let Medicine=[
     body("quantity").isNumeric().withMessage("quantity must be Number"),
     body("img").isString().withMessage("img must be string")
 ]
+

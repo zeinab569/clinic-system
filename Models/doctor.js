@@ -24,6 +24,7 @@ const doctorSchema=new mongoose.Schema({
    Specialization:{
     type:String
    },
+   age:Number,
    gender:{
       type:String,
       enum:['female','male']
@@ -31,17 +32,16 @@ const doctorSchema=new mongoose.Schema({
    userName:{
     type:String,
     //required:true,
-    unique:true,
-    matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,
+   //  unique:true,
+   // matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,
    },
    password:{
-    type:Number,
-   // required:true,
+    type:String,
+  // required:true,
     minLength:8,
    },
    doctorImage:{
     type:String,
-   
    },
    salary:{
     type:Number,
@@ -49,9 +49,9 @@ const doctorSchema=new mongoose.Schema({
    },
    address:schemas.addressSchema,
    clinicId:{
-      type:Number,
-      ref:'clinic',
-   },
+      type:Array,
+       ref:'clinic',
+    },
    departmentId:{
       type:Number,
       ref:'Department',

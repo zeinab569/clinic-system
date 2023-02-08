@@ -18,18 +18,18 @@ exports.getPatientById=(req,res,next)=>{
 exports.createPatient=(req,res,next)=>{
     let addPatientSchema=new patientSchema({
         _id:req.body.id,
-         firstName:req.body.patientFirstName,
-         lastName:req.body.patientLastName,
-         age:req.body.patientAge,
-         gender:req.body.patientGender,
-         "address.city":req.body.address.city,
-         "address.street":req.body.address.street,
-         "address.building":req.body.address.building,
-         email:req.body.patientEmail, 
-        insuranceNumber:req.body.patientInsuranceNumber,
+         firstName:req.body.firstName,
+         lastName:req.body.lastName,
+         age:req.body.age,
+         gender:req.body.gender,
+        "address.city":req.body.address.city,
+        "address.street":req.body.address.street,
+        "address.building":req.body.address.building,
+         email:req.body.email,
+        insuranceNumber:req.body.insuranceNumber,
         phoneNumber:req.body.patientPhoneNumber,
-        appointmentId:[{appointmentid:req.body.appointmentId}],
-        img:req.file.path
+       appointmentId:[{appointmentid:req.body.appointmentId}],
+    //    img:req.file.path
         
     });
     addPatientSchema.save(
