@@ -31,13 +31,14 @@ const doctorSchema=new mongoose.Schema({
    },
    userName:{
     type:String,
-    //required:true,
-   //  unique:true,
-   // matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,
+
+    required:true,
+    unique:true,
+    matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,
    },
    password:{
     type:String,
-  // required:true,
+    required:true,
     minLength:8,
    },
    doctorImage:{

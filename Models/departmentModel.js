@@ -7,7 +7,7 @@ const ServiceSchema= new mongoose.Schema(
 {
     Name:{type:String,required:true,unique:true},
     price:{type:Number,required:true},
-    id:false
+    _id:false
 
 })
 

@@ -3,7 +3,6 @@ const mongoose =require('mongoose');
 require("./../Models/doctor");
 const doctorSchema=mongoose.model("doctor");
 
-//-------------FILTER------------//
 const filterByKey = (model, query) => {
   let filterKey = {};
   for (let key in query) {
@@ -75,9 +74,9 @@ exports.addDoctors=async(request,response,next)=>{
 
         _id:        request.body._id,
         fullName:       request.body.fullName,
-     //   doctorImage:     request.file.path,
         email:          request.body.email,
-       // doctorImage:request.body.doctorImage,
+        doctorImage:     request.file.path,
+       
         Specialization:request.body.Specialization,
         salary:request.body.salary,
         departmentId:request.body.departmentId,
@@ -203,6 +202,12 @@ exports.getDoctorById=(request,response,next)=>{
 //                     }
 
 
+    //              }
+    //             ).catch(
+    //              error=>next(error)
+    //             ) 
+    //     }
+    // })
     //              }
     //             ).catch(
     //              error=>next(error)

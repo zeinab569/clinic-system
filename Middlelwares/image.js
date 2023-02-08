@@ -6,7 +6,8 @@ const storage=multer.diskStorage({
            cb(null,'./uploads/');
      },
    filename:function(req,file,cb){
-       return cb(null,`${file.filename}_${Date.now()}${path.extname(file.originalname)}`)//return call back with error(null) or success withe file name ,time with milsc,and extention of file
+       return cb(null,`${file.filename}_${Date.now()}${path.extname(file.originalname)}`)
+       //return call back with error(null) or success withe file name ,time with milsc,and extention of file
    }
 })
 
