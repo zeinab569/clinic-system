@@ -16,7 +16,8 @@ const schema= new mongoose.Schema({        //constructor to define object
    paymentWay:{type:String,required:true,enum:['cash','credit','insurance credit']},
    dueDate:{type:String,required:true,validate:/^\d{2}-\d{2}-\d{4}$/},
    appointmentID:{type:Number,ref:"appointment",required:true},
-})
+   serviceID:{type:Number,ref:"Service",required:true},
+},{_id:false})
 
-//schema.plugin(autoIncrement , {_id:'invoiceCounter'});
+schema.plugin(autoIncrement,{id:"invoiceId",inc_field:"_id",start_seq:300});
 mongoose.model("invoice",schema)

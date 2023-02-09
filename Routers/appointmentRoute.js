@@ -18,11 +18,9 @@ router.route('/appointment')
       .get(appointmentController.getAllAppointments)
 
 
+
 router.route("/appointment/sort",check_permission.checkreception)
       .get(appointmentController.sort)
-
-router.route("/appointment/ConsoleReport",check_permission.checkreception)
-      .get(appointmentController.report)
 
 router.route("/appointment/fileReport",check_permission.checkreception)
       .get(appointmentController.fReport)
@@ -38,5 +36,7 @@ router.route('/appointmentDate/:id',check_permission.checkreception)
 
 router.route('/appointmentStatus/:id',check_permission.checkreception)
        .patch([idValidate,status],validator,appointmentController.updateAppointStatusByID)
+
+router.get("/searhApp/:filterNumbers",appointmentController.searchAppointments)
 
 module.exports=router

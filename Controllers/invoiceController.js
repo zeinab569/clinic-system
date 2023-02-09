@@ -9,7 +9,7 @@ const datePattern=/^\d{2}-\d{2}-\d{4}$/
 // get invoices
 exports.getAllInvoices=(req,res,next)=>{
     invoiceSchema.find().populate('appointmentID',{'date':1,'time':1,'_id':0}).populate('patientID',{'firstName':1,'_id':0 })
-                        .populate('employeeID', {'name':1,'user_role':1,'_id':0})
+                        .populate('employeeID', {'name':1,'user_role':1,'_id':0}).populate('serviceID',{'name':1,'price':1,'_id':0 })
                 .then(data=>res.status(200).json(data))
                 .catch(error=>next(error))
 }
@@ -26,7 +26,8 @@ exports.addInvoice=(req,res,next)=>{
       paymentWay:req.body.payment_way,
       remainingAmount:req.body.remaining_amount,
       dueDate:req.body.due_date,
-      appointmentID:req.body.appointmentID
+      appointmentID:req.body.appointmentID,
+      serviceID:req.body.serviceID
     })
     newInvoice.save()
     .then((data)=>{
@@ -178,12 +179,12 @@ exports.SortByDueDate=(req,res,next)=>
   // report 
  exports.fReport=(req,res,next)=>{
    invoiceSchema.find().populate('appointmentID',{'date':1,'time':1,'_id':0}).populate('patientID',{'firstName':1,'_id':0 })
-                       .populate('employeeID', {'name':1,'user_role':1,'_id':0})
+                       .populate('employeeID', {'name':1,'user_role':1,'_id':0}).populate('departmentID',{'Name':1, '_id':0 })
                    .then((data)=>
                    {
                      const formattedReports = data.map(function(report) {
                        return {
-                         id: report._id,
+                         id: report._id, 
                          date: report.date,
                          employee:report.employeeID,
                          patient: report.patientID,
