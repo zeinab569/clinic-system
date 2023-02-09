@@ -3,7 +3,7 @@ const address_schema=new mongoose.Schema({
    city:{type:String},
    street:{type:String},
    building:{type:Number},
-})
+},{_id:false})
 const EmployeeSchema= new mongoose.Schema({
     _id:Number,
     status:{type:Boolean,default:true,required:true},
@@ -25,7 +25,8 @@ const EmployeeSchema= new mongoose.Schema({
     workHours:{type:Number,required:true},
     employeeImage: { type:String},
     age:{type:Number,min:18},
-    clinictId:{type:Array,ref:'clinic'}, //refrance
+    clinictId:{type:Array,ref:'clinic'},
+    dept_id:{type:Number,ref:'Department'}
     
 },{_id:false})
 

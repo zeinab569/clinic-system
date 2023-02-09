@@ -10,7 +10,10 @@ const router=express.Router();
 router.route("/clinic")
 .all(check_permission.checkadmin)
 .get (clinicController.getAllClinic)
-.post(Validator,errorValidator,clinicController.addClinic)
+.post(
+    Validator,
+    errorValidator,
+    clinicController.addClinic)
 
 
 
