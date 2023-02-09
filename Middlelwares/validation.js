@@ -88,7 +88,6 @@ let Medicine=[
 
 module.exports.appointValidation=[
     
-    body("id").isInt().withMessage("id must be integer"),
     body("employeeID").isInt().withMessage("employeeID should be Number ."),
     body("patientID").isInt().withMessage("patientId should be Number ."),
     body("departmentID").isInt().withMessage("serviceId should be Number ."),
@@ -100,7 +99,6 @@ module.exports.appointValidation=[
 
 module.exports.invoiceValidation=[
 
-    body("id").isInt().withMessage("id must be integer"),
     body("employeeID").isInt().withMessage("employeeID should be Number ."),
     body("patientID").isInt().withMessage("patientId should be Number ."),
     body("date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("date should be date like this  DD-MM-YYYY ."),

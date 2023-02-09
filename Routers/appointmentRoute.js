@@ -16,14 +16,9 @@ router.route('/appointment')
       .get(appointmentController.getAllAppointments)
 
 
-router.route("/appointment/sort")
-      .get(appointmentController.sort)
+router.get("/appointment/sort",appointmentController.sort)
 
-router.route("/appointment/ConsoleReport")
-      .get(appointmentController.report)
-
-router.route("/appointment/fileReport")
-      .get(appointmentController.fReport)
+router.get("/appointment/fileReport",appointmentController.fReport)
 
 router.route('/appointmentDelete/:id')
       .delete(idValidate,validator,appointmentController.deleteAppointmentByID)
@@ -36,5 +31,7 @@ router.route('/appointmentDate/:id')
 
 router.route('/appointmentStatus/:id')
        .patch([idValidate,status],validator,appointmentController.updateAppointStatusByID)
+
+router.get("/searhApp/:filterNumbers",appointmentController.searchAppointments)
 
 module.exports=router

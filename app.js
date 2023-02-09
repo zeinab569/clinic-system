@@ -11,6 +11,7 @@ const DepartmentRouter=require("./Routers/DepartmentRoute")
 const medicineRouter=require("./Routers/MedicineRoute")
 const invoiceRoute=require("./Routers/invoiceRoute")
 const appointmentRouter=require("./Routers/appointmentRoute")
+const serviceRouter=require("./Routers/serivceRoute")
 
 const server=express(); 
 require("dotenv").config();
@@ -50,7 +51,7 @@ server.use(DepartmentRouter);
 server.use(medicineRouter);
 server.use(invoiceRoute)
 server.use(appointmentRouter)
-
+server.use(serviceRouter)
 
 
 //Not Found
