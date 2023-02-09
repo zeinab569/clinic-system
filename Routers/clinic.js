@@ -2,7 +2,7 @@ const express=require("express");
 const {body,query,param,validationResult}=require("express-validator");
 const clinicController=require("./../Controllers/clinic");
 const errorValidator=require("./../Middlelwares/error_validation");
-const  Validator=require("./../Middlelwares/validation").importVIP;
+const  Validator=require("./../Middlelwares/validation").clinicValidation;
 const router=express.Router();
 
 

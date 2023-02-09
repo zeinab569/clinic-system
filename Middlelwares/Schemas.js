@@ -23,16 +23,17 @@ exports.addressSchema=new mongoose.Schema({
        
  },{_id:false})
 
+ 
  exports.scheduleSchema=new mongoose.Schema({
     date:{
            type:String,
            unique:true,
-   matchRegx:/s+(?:0[1-9]|[12][0-9]|3[01])[-/.](?:0[1-9]|1[012])[-/.](?:19\d{2}|20[01][0-9]|2020)/,
+          // matchRegx:/s+(?:0[1-9]|[12][0-9]|3[01])[-/.](?:0[1-9]|1[012])[-/.](?:19\d{2}|20[01][0-9]|2020)/,
         },
     departmentId:{
             type:Number,
              ref:'Department',
-            default:'null',
+           
          },
     doctorId:{
            type:Array,

@@ -25,8 +25,9 @@ const clinicSort=(data,query)=>{
 exports.getAllClinic=(request,response,next)=>{
   
     clinicSchema.find({})//call filter here
-    //  .populate({path:"Department"})
-     //.populate({path:"doctorId",select:'fullName'})//select column
+ 
+     .populate({path:"schedule.doctorId",select:'fullName'})
+     .populate({path:"schedule.departmentId",select:'Name'})
     .then((data )=>{ 
         sortedData=clinicSort(data,request.query)
         response.status(200).json({message:"All Clinic sorted by name.....",sortedData});
@@ -68,9 +69,9 @@ exports.addClinic=(request,response,next)=>{
 exports.updateClinic=(request,response,next)=>{
         clinicSchema.updateOne({_id:request.params._id},{
             $set:{ clinicName:   request.body.clinicName,
-                //   contact:{
-                //     email: request.body.email,
-                //     phoneNumber:request.body.phoneNumber},
+                  contact:{
+                    email: request.body.email,
+                    phoneNumber:request.body.phoneNumber},
             },
         })
         .then((data)=>{

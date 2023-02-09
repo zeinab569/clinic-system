@@ -19,8 +19,7 @@ const mongoose=require("mongoose");
     let NewDepartment=new DepartmentSchema({
         _id:request.body._id,
         Name: request.body.Name,   
-        Service:request.body.Service
-,
+        Service:request.body.Service,
       doctor_id:request.body.doctor_id,
       patient_id:request.body.patient_id
 

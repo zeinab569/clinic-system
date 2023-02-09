@@ -1,5 +1,5 @@
 const mongoose =require("mongoose")
-const autoIncrement=require("mongoose-sequence")(mongoose)
+
 const medicineSchema=new mongoose.Schema({
     name:{
         type:String,
@@ -36,4 +36,5 @@ const MedicalHistory=new mongoose.Schema(
           doctorId:{type:Number,ref:"doctor"}
         },{_id:false}
     )
+    
 mongoose.model('MedicalHistory',MedicalHistory)  

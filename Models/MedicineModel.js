@@ -19,5 +19,6 @@ patient_Id:{type:mongoose.Schema.Types.ObjectId,ref:'patient'}
 
 
 })
+
 //mapping schema bind collection  -- modeling
  mongoose.model("medicines",MedicineSchema);

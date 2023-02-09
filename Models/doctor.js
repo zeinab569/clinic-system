@@ -37,7 +37,7 @@ const doctorSchema=new mongoose.Schema({
    },
    password:{
     type:String,
-    required:true,
+   //  required:true,
     minLength:8,
    },
    doctorImage:{
@@ -65,5 +65,7 @@ const doctorSchema=new mongoose.Schema({
   },
 
 },{_id:false})//end of schema
-//  doctorSchema.plugin(AutoIncrement);
+ doctorSchema.plugin(AutoIncrement,
+   {id:"doctorId",inc_field:"_id",start_seq:1}
+   );
 module.exports=mongoose.model("doctor",doctorSchema);
