@@ -3,7 +3,10 @@ const express=require("express");
 const medicalHistoryController=require("../Controllers/medicalHistory")
 const {medicalHistoryValidation}=require("../Middlelwares/validation")
 const validator=require("../Middlelwares/error_validation")
+const check_permission= require("../Middlelwares/check_users");
 router.route('/MedicalRecord')
+
+
 //.all() check for doctor only
 .post(medicalHistoryValidation,validator,medicalHistoryController.createMedicalHistory)
 .patch(medicalHistoryController.editpateintMedicalHistory)

@@ -13,7 +13,7 @@ router.route("/employee")
   .get(controller.getAllEmployees)  
   .post(
     upload.single('employeeImage'),
-    // thevalidate_object.employee_is_valid,
+   // thevalidate_object.employee_is_valid,
     validate,
     controller.createUser
     )
@@ -45,8 +45,6 @@ router.get("/accountantList",check_permission.checkadmin,
 router.get("/pharmacistList",check_permission.checkadmin,
  controller.getPharmacistList
 )
-
-//change password
 
 // filter and sort
 router.get("/search/:filterNumbers",check_permission.checkadmin,

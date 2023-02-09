@@ -3,6 +3,7 @@ const {body,query,param,validationResult}=require("express-validator");
 const clinicController=require("./../Controllers/clinic");
 const errorValidator=require("./../Middlelwares/error_validation");
 const  Validator=require("./../Middlelwares/validation").clinicValidation;
+const check_permission= require("../Middlelwares/check_users");
 const router=express.Router();
 
 

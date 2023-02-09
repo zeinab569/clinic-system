@@ -2,6 +2,7 @@ const express=require("express");
 const validator=require("../Middlelwares/error_validation");
 const prescriptionController=require("../Controllers/prescreptionController");
 const {prescriptionValidation}=require("../Middlelwares/validation")
+const check_permission= require("../Middlelwares/check_users");
 
 const router= express.Router();
 
