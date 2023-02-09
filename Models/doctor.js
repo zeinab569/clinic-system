@@ -1,5 +1,4 @@
 const mongoose=require("mongoose");
-
 const schemas = require("../Middlelwares/Schemas");
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
@@ -31,14 +30,12 @@ const doctorSchema=new mongoose.Schema({
    },
    userName:{
     type:String,
-
     required:true,
     unique:true,
     matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,
    },
    password:{
     type:String,
-   //  required:true,
     minLength:8,
    },
    doctorImage:{
@@ -63,11 +60,12 @@ const doctorSchema=new mongoose.Schema({
      time:{type:String ,default:" "},
      date:{type:String,default:" "},
      ref:'appointment',
+   },
+   user_role:{
+     type:String,
+     required:true,lowercase:true,
+     default:"doctor",
   },
-  user_role:{type:String,
-   required:true,lowercase:true,
-   default:"doctor",
-},
  patientid:{
     type:Array,
     ref:'patient',
@@ -77,7 +75,8 @@ const doctorSchema=new mongoose.Schema({
     ref:'prescriptions'
  }
 
-},{_id:false})//end of schema
+},
+{_id:false})//end of schema
  doctorSchema.plugin(AutoIncrement,
    {id:"doctorId",inc_field:"_id",start_seq:1}
    );

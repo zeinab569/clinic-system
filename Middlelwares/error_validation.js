@@ -1,5 +1,3 @@
-//validationResult in expresss
-
 const express = require('express');
 const {body,query,param,validationResult}= require("express-validator")
 

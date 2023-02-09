@@ -8,12 +8,9 @@ const router=express.Router();
 
 
 router.route("/clinic")
-.all(check_permission.checkadmin)
+ .all(check_permission.checkadmin)
 .get (clinicController.getAllClinic)
-.post(
-    Validator,
-    errorValidator,
-    clinicController.addClinic)
+.post(Validator,errorValidator,clinicController.addClinic)
 
 
 
@@ -24,8 +21,13 @@ router.route("/clinic/:_id")
 .patch(param("_id").isInt().withMessage("id must be Number"),errorValidator,clinicController.updateClinic) 
 
 
-// router.route("/clinicSort/:filterKey")
-// .get(clinicController.filterbyKey)
+
+
+
+router.get("/clinic/:thesearch/:res",check_permission.checkadmin,clinicController.SearchClinic)
+
+
+
 
 
 

@@ -1,7 +1,5 @@
 const mongoose=require("mongoose");
-
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-
 const schemas = require("../Middlelwares/Schemas");
 
 
@@ -23,6 +21,5 @@ const clinicSchema=new mongoose.Schema({
 clinicSchema.plugin(AutoIncrement,
   {id:"clinicId",inc_field:"_id",start_seq:100});
 
-// clinicSchema.plugin(AutoIncrement);
-//module.exports=mongoose.model("doctor",doctorSchema);
+
 mongoose.model("clinic",clinicSchema);

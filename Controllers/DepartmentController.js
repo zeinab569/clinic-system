@@ -7,10 +7,9 @@ const mongoose=require("mongoose");
 
     DepartmentSchema.find()
     .populate({
-        path: 'doctor',
-        // select: 'fullName'
+        path: 'doctor',select: 'fullName'
     })
-    // .populate('patient')
+ .populate('patient')
     .then((data)=>{
 
         response.status(200).json(data);
@@ -20,11 +19,13 @@ const mongoose=require("mongoose");
 //adding new Department //Done
  exports.AddDepartment=(request,response,next)=>{
     let NewDepartment=new DepartmentSchema({
-       _id:request.body._id,
+  
         Name: request.body.Name,   
         Service:request.body.Service,
-      doctor_id:request.body.doctor_id,
-      patient_id:request.body.patient_id
+      doctor:request.body.doctor,
+      patient:request.body.patient,
+      phoneNumber:request.body.phoneNumber,
+      medicine:request.body.medicine
     });
 
     NewDepartment.save()
@@ -54,6 +55,26 @@ catch(error){
             
     }
 
+
+
+
+    exports.DeleteDepartment=(request,response,next)=>{
+        let Name=request.body.Name;
+        DepartmentSchema.delete({
+                _id:request.body.id,
+                Name:request.body.Name
+            }
+            ).then(result=>
+                
+                {
+                    response.status(200).json({message:`${Name} is deleted from the pharmacy`});
+            
+                }).catch(error=>next(error))
+            
+            
+            }
+
+
  //updating department//Done
 exports.updateDepartment= async(req,res,next)=>{
 try{
@@ -73,25 +94,11 @@ response.status(200).json({message:` UPDATED SUCCESSFULLY`});
     
 }
 
-//getting Department By Name//Done
-    // exports.getDepartmentbyName= (req, res, next) => {
-    //     DepartmentSchema.findOne({ Name: req.params.Name })
-    //         .then((data) => {
-    //             if (data == null) throw new Error("We have no D with that Name");
-    //             res.status(200).json(data);
-    //         })
-    //         .catch((err) => {
-    //             next(err);
-    //         });
-    // };
+
     
-//Getting Department by ID//Done
+//Getting Department by ID
     exports.getDepartmentbyId = (req, res, next) => {
-        DepartmentSchema.findOne({_id: req.params.id })
-
-        DepartmentSchema.findOne({ _id: req.params._id })
-
-            // .populate({ path: "doctor" })
+        DepartmentSchema.findOne({ _id: req.params._id }).populate({ path: "doctor" }).populate({ path: "patient" })
     
             .then((data) => {
                 if (data == null) throw new Error("there is No department with this id");
@@ -180,7 +187,44 @@ console.log("error:",error)
     }
 
 
-
+    exports.SearchDepartment= async (request,response,next)=>{
+        try {
+          //  Filtering
+          const queryObj = { ...request.query }
+          const excludedFields = ['page', 'sort', 'limit', 'fields']
+          excludedFields.forEach(el => delete queryObj[el])
+          console.log(queryObj)
+      
+          // Advanced filtering
+          let queryString = JSON.stringify(queryObj)
+          console.log(queryString)
+          queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+          let query = DepartmentSchema.find(JSON.parse(queryString))
+          
+         //sort
+          if (request.query.sort) {
+            const sortBy = request.query.sort.split(',').join(' ')
+            query = query.sort(sortBy)
+          } else {
+            query = query.sort('Name')
+          }
+      
+          const res =  await query
+          response.status(200).json({
+            status: 'success',
+            results: res.length,
+            data: {
+              res
+            }
+          });
+         
+        } catch (err) {
+          response.status(400).json({
+            status: 'fail',
+            message: err
+          })
+        }
+      }
 
 
 
