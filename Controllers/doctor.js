@@ -7,8 +7,9 @@ const doctorSchema=mongoose.model("doctor");
 exports.getAllDoctors=(request,response,next)=>{
     doctorSchema.find({})
     .populate({path:"clinicId",select:'clinicName'})
-   .populate({path:"departmentId",select:'Name'})
-
+    .populate("departmentId",{'Name':1})
+    .populate("prescreption",{'_id':1 })
+    .populate("patientid",{'firstName':1,'lastName':1})
     // .populate({path:"appointments"})
   .then((data) => {
     if (data ){ 

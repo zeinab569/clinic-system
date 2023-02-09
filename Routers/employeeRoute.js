@@ -14,7 +14,7 @@ router.route("/employee")
   .get(controller.getAllEmployees)  
   .post(
     upload.single('employeeImage'),
-   // thevalidate_object.employee_is_valid,
+    thevalidate_object.employee_is_valid,
     validate,
     controller.createUser
     )

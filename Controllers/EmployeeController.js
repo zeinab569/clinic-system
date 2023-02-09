@@ -20,13 +20,13 @@ function sendMail(username,pass){
     secure: false,
     auth: {
     user: "zeinabelazzab875@gmail.com",
-    pass:"********"
+    pass:"*******"
    }
   });
   
     const mailOptions = {
       from: 'zeinabelazzab875@gmail.com',
-      to: 'testem@gmail.com',
+      to: 'emailtest@gmail.com',
       subject: 'welcome to our clinic',
       text: `Your password is ${pass} and your user name is ${username}`
     }
@@ -96,7 +96,6 @@ async function createUser(request, response,next) {
 // get all employees
 async function getAllEmployees(request,response,next){
   await Employee_Schema.find()
-  .populate({path:"clinicId",select:'clinicName'})
   .then((data)=>{
       response.status(200).json(data);
    }).catch(error=>next(error))
