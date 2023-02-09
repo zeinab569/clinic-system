@@ -6,7 +6,6 @@ const MedicalHistorySchema=mongoose.model("MedicalHistory");
 exports.createMedicalHistory=((req,res,next)=>
 {
  let addpateintMedicalHistory=new MedicalHistorySchema({
-    _id:req.body.id,
     patientId:req.body.patientId,
     "medicinesbefore.name":req.body.medicinesbefore.name,
     "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
@@ -52,7 +51,7 @@ exports.getMedicalHistoryByPatientId=((req,res,next)=>{
     MedicalHistorySchema.findOne({patientId:req.params.id})
     .populate({path:"patientId",select:'firstName lastName age gender'})
     .populate({path:"doctorId",select:'fullName Specialization'}).
-    populate({path:"medicine",select:'medicine.id'}).then(
+    populate({path:"medicine",select:'medicine'}).then(
     (data)=>res.status(200).json(data) 
     )
     })
@@ -73,3 +72,7 @@ exports.getMedicalHistoryById=((req,res,next)=>{
             (data)=>res.status(200).json(data) 
             )
             })
+ exports.deleteMedicalHistory =((req,res,next)=>  {
+  MedicalHistorySchema.deleteOne({_id:req.body.id}).then(data=>res.status(200).json({message:"deleted is done"}))
+  .catch(err=>next(err))
+ })      

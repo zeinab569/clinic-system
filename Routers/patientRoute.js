@@ -19,4 +19,5 @@ router.route('/patient')
 router.route('/patient/:id',check_permission.checkreception).get(patientController.getPatientById);
 router.route('/patient/filter/:filterKey',check_permission.checkreception).get(patientController.filterbyKey);
 router.route('/patient/sort/:sortKey',check_permission.checkreception).get(patientController.sortbykey);
+router.get('/patient/search/:searchkey',patientController.searchPatient)
 module.exports=router

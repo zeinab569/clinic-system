@@ -68,7 +68,14 @@ const doctorSchema=new mongoose.Schema({
    required:true,lowercase:true,
    default:"doctor",
 },
-
+ patientid:{
+    type:Array,
+    ref:'patient',
+ },
+ prescreption:{
+    type:Number,
+    ref:'prescriptions'
+ }
 
 },{_id:false})//end of schema
  doctorSchema.plugin(AutoIncrement,

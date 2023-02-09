@@ -76,7 +76,6 @@ module.exports.patientValidation=[
 
 ]
 module.exports.medicalHistoryValidation=[
-    body("id").isInt(),
 body("patientId").isInt().withMessage("patient Id must be a Number"),
 body("medicinesbefore.name").isString().withMessage("medicine name must be alpha"),
 body("medicinesbefore.quantity").isInt().withMessage("medicine quantity should be a number"),

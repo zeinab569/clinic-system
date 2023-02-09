@@ -20,6 +20,7 @@ router.get('/prescreption/doctor/:id',check_permission.checkdoctor,prescriptionC
 router.get('/prescreption/patient/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionByPatientId)
 router.get('/prescreption/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionById)
 router.get('/prescrption/sort/:sortKey',check_permission.checkdoctor,prescriptionController.sort)
+router.get('/prescrption/search/:filter',prescriptionController.searchPrescrption)
 
 
 module.exports=router;

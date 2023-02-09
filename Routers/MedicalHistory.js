@@ -9,7 +9,7 @@ router.route('/MedicalRecord')
 
 .all(check_permission.checkdoctor) 
 .post(medicalHistoryValidation,validator,medicalHistoryController.createMedicalHistory)
-.patch(medicalHistoryController.editpateintMedicalHistory)
+.patch(medicalHistoryController.editpateintMedicalHistory).delete(medicalHistoryController.deleteMedicalHistory)
 router.route('/MedicalRecord/:id')
 .all(check_permission.checkdoctor) 
 .get(medicalHistoryController.getMedicalHistoryById)
