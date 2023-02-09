@@ -13,18 +13,18 @@ exports.getAllDoctors=(request,response,next)=>{
     doctorSchema.find({})
     .populate({path:"clinicId",select:'clinicName'})
    .populate({path:"departmentId",select:'Name'})
-   //.populate({prth:"appointments"})
-   //.populate({prth:"روشتهID"})
-    .then((data )=>{
-        response.status(200)
-        .json({message:"All Doctors.....",data});
-    })
-    .catch(error=>{
-      next(error);
-    })
 
-    }//done trueeeeeeee
-
+    // .populate({path:"appointments"})
+  .then((data) => {
+    if (data ){ 
+      response.status(200).json({message:"The Doctor with this Id.....",data});
+      console.log(data);
+    }else {
+      next(new Error("Doctor  is not  here -_-"));
+    }
+  })
+  .catch((error) => next(error));
+}
 
 
 exports.addDoctors=async(request,response,next)=>{
@@ -56,13 +56,6 @@ exports.addDoctors=async(request,response,next)=>{
                   .then(()=>{response.status(201).json({message:"Add is done successfully ^_^"}) })
                   .catch(error=>{next(error)})
     }//done 
-
-
-
-
-
-
-
 
 
 exports.updateDoctor=(request,response,next)=>{
@@ -119,13 +112,7 @@ exports.getDoctorById=(request,response,next)=>{
           }
         })
         .catch((error) => next(error));
-    }//done 
 
 
-
-
-
-
-
-
+    }//done trueeeeeeeeeeeeee
 

@@ -1,4 +1,5 @@
 const Employee_Schema = require("../Models/employeeSchema");
+const Doctor_Schema=require("../Models/doctor")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
@@ -11,9 +12,26 @@ async function userLogin(request, response,next) {
       status: true,
     });
     if (!usernameexist) {
-      return response.send({ error: "This user does not exist in clinicDB" });
+      const doctourusername = await Doctor_Schema.findOne({
+        userName:request.body.user_name,
+        phoneNumber:request.body.phoneno,
+      })
+      if(!doctourusername){
+        return response.send({ error: "This user does not exist in clinicDB" });
+      }else{
+        token = jwt.sign(
+          { id: doctourusername._id, role: doctourusername.role },
+          process.env.jwt_secret,
+          {expiresIn:"1h"}
+        );
+        response.json({
+          success: await token,
+          role: doctourusername.user_role,
+          name: doctourusername.userName,
+        });
+      }
     }
-  
+    
     async function checkpassword() {
       dbpassword = await usernameexist.password;
       const validpassword = bcrypt.compareSync(
@@ -30,17 +48,18 @@ async function userLogin(request, response,next) {
         process.env.jwt_secret,
         {expiresIn:"1h"}
       );
-      response.send({
+      response.json({
         success: await token,
         role: usernameexist.user_role,
         name: usernameexist.user_name,
       });
     } else return response.json({ error: "Wrong password try again" });
+     
   }
   
   
 
-   // Function to Verify Details
+   // Function to Verify Details of Employees
   async function verifyUserDetails(request, response,next) {
     try {
       const token = await request.body.token;
@@ -68,5 +87,5 @@ async function userLogin(request, response,next) {
 
 
 
-  module.exports = {userLogin}
+  module.exports = {userLogin,verifyUserDetails}
   

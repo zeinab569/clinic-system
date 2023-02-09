@@ -30,9 +30,9 @@ clinic_id:{
     type:Number,
     ref:"clinic"
 },
-services_id:{
+dept_id:{
     type:Number,
- //   ref:"clincService"
+   ref:"Department"
 }
 },{_id:false})
  mongoose.model("prescriptions",prescreptionSchema);

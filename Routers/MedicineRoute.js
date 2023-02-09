@@ -3,7 +3,7 @@ const validator=require("./../Middlelwares/error_validation");
 
 const Controller=require("../Controllers/MedicineController");
 const validatemedicine=require("./../Middlelwares/the_valid_object").Medicine
-
+const check_permission= require("../Middlelwares/check_users");
 const router= express.Router();
 
 
@@ -12,7 +12,6 @@ router.route("/medicine")
     .post(Controller.Addmedicine)
     .patch(Controller.updatemedicine)
   .delete(Controller.DeleteMedicine);
-
 
 //getting medicine by id
 router.get("/medicine/:id",

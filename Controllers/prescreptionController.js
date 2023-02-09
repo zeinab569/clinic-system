@@ -177,7 +177,7 @@ module.exports.sort=((req,res,next)=>{
         prescreptionSchema.find().populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
         .populate({path:"doctor_id",select:{fullName:1}})
         .populate({path:"clinic_id",select:{clinicName:1}})
-        .populate({path:"service_id",select:{servicesName}})
+        .populate({path:"dept_id",select:{servicesName}})
         .then((data)=>{
            response.status(200).json(data);
        }).catch(error=>next(error))
