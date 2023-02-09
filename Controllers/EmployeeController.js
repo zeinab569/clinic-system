@@ -127,7 +127,6 @@ async function getbyid(request,response,next){
    }).catch(error=>next(error))
 }
 
-
 //get all Doctors
 async function getDoctorList(request, response,next) {
   try {
@@ -210,13 +209,14 @@ async function deleteUser(request, response,next) {
 //filter and sort
 async function SearchEmployees(request,response,next){
   try {
-    // 1A) Filtering
-    
+
+    //  Filtering
     const queryObj = { ...request.query }
     const excludedFields = ['page', 'sort', 'limit', 'fields']
     excludedFields.forEach(el => delete queryObj[el])
     console.log(queryObj)
-    //1B) Advanced filtering
+
+    // Advanced filtering
     let queryString = JSON.stringify(queryObj)
     console.log(queryString)
     queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  

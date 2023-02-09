@@ -45,7 +45,6 @@ server.use(MedicalHistoryRouter);
 server.use(DepartmentRouter);
 server.use(medicineRouter);
 
-
 //Not Found
 server.use((request,response,next)=>{
     response.status(404).json({data:"Not Fount"});
