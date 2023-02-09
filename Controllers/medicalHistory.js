@@ -6,7 +6,6 @@ const MedicalHistorySchema=mongoose.model("MedicalHistory");
 exports.createMedicalHistory=((req,res,next)=>
 {
  let addpateintMedicalHistory=new MedicalHistorySchema({
-    _id:req.body.id,
     patientId:req.body.patientId,
     "medicinesbefore.name":req.body.medicinesbefore.name,
     "medicinesbefore.quantity":req.body.medicinesbefore.quantity,

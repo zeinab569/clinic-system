@@ -28,7 +28,37 @@ let clinicValidation=[
    
 ];
 
-module.exports={doctorValidation,clinicValidation,importVIP}
+
+
+let Department=[
+ 
+    body("Name").isAlpha().trim().withMessage("your name should be string"),
+
+   
+    body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/),
+
+ 
+];
+let Medicine=[
+
+    body("Name").isAlpha().withMessage("Name must be String"), 
+    body("production_Date").isString().withMessage("production_Date must be string"),
+    body("expiary_Date").isString().withMessage("expiary_Date must be string"),
+    body("price").isNumeric().withMessage("price must be number").matches(/^\d{0,8}[.]?\d{1,4}$/),
+    body("Recommendation").isString().withMessage("Recommendation must be string"),
+    body("quantity").isNumeric().withMessage("quantity must be Number")
+
+]
+let Service =[
+ 
+    body("Name").isAlpha().withMessage("Name must be string"),
+     body("price").isNumeric().withMessage("price must be Numeric"),
+     body("description").isString().withMessage("description must be string")
+     
+     
+]
+
+module.exports={doctorValidation,clinicValidation,importVIP,Department,Medicine,Service}
 module.exports.patientValidation=[
     body("patientFirstName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
     body("patientLastName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
@@ -40,7 +70,6 @@ module.exports.patientValidation=[
 
 ]
 module.exports.medicalHistoryValidation=[
-    body("id").isInt(),
 body("patientId").isInt().withMessage("patient Id must be a Number"),
 body("medicinesbefore.name").isString().withMessage("medicine name must be alpha"),
 body("medicinesbefore.quantity").isInt().withMessage("medicine quantity should be a number"),
@@ -55,27 +84,6 @@ module.exports.prescriptionValidation=[
     body("dosage").isString().withMessage("dosage should be string"),
     body("patient_id").isInt().withMessage("patient id should be integer"),
     body("doctor_id").isInt().withMessage("doctor id should be integer")
-]
-let Department=[
-    body("id").isInt().withMessage("id must be int"),
-    body("Name").isAlpha().trim().withMessage("your name should be string"),
-   
-    body("Service").isArray().withMessage("Service must be array of object"),
-    body("Service.serviceName").isAlpha().withMessage("serviceName must be string"),
-    body("Service.price").isNumeric().withMessage("price must be Numeric").matches(/^\d{0,8}[.]?\d{1,4}$/),
-];
-
-
-
-let Medicine=[
-    body("id").isInt().withMessage("it must be int"),
-    body("Name").isAlpha().withMessage("Name must be String"), 
-    body("production_Date").isDate().withMessage("production_Date must be Date"),
-    body("expiary_Date").isDate().withMessage("expiary_Date must be Date"),
-    body("price").isNumeric().withMessage("price must be number").matches(/^\d{0,8}[.]?\d{1,4}$/),
-    body("Recommendation").isAlpha().withMessage("Recommendation must be string"),
-    body("quantity").isNumeric().withMessage("quantity must be Number"),
-    body("img").isString().withMessage("img must be string")
 ]
 
 

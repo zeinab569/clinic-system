@@ -37,5 +37,5 @@ const MedicalHistory=new mongoose.Schema(
             required:true,ref:"doctor"}
         },{_id:false}
     )
- MedicalHistory.plugin(autoIncrement,{id:"MedicalHistoryId",inc_field:"_id"});    
+ MedicalHistory.plugin(autoIncrement,{inc_field:"_id"});    
 mongoose.model('MedicalHistory',MedicalHistory)  

@@ -36,7 +36,7 @@ exports.addDoctors=async(request,response,next)=>{
         fullName:       request.body.fullName,
         userName:request.body.userName,
         email:          request.body.email,
-        doctorImage:     request.file.path,
+       // doctorImage:     request.file.path,
         Specialization:request.body.Specialization,
         salary:request.body.salary,
         departmentId:request.body.departmentId,
