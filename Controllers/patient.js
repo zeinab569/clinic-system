@@ -27,7 +27,6 @@ exports.getPatientById=(req,res,next)=>{
 }
 exports.createPatient=(req,res,next)=>{
     let addPatientSchema=new patientSchema({
-        _id:req.body.id,
          firstName:req.body.patientFirstName,
          lastName:req.body.patientLastName,
          age:req.body.patientAge,
@@ -41,8 +40,7 @@ exports.createPatient=(req,res,next)=>{
         appointmentId:[{appointmentid:req.body.appointmentId}],
         healthRecordId:req.body.healthRecordId,
         clinicId:req.body.clinicId,
-
-       // img:req.file.path
+         img:req.file.path
         
     });
     addPatientSchema.save(
@@ -185,3 +183,28 @@ exports.sortbykey=((req,res,next)=>{
     }
 })
 
+exports. searchPatient=async(req,res,next)=>{
+    try {
+      const queryObj = { ...req.query }
+      const excludedFields = ['page', 'sort', 'limit', 'fields']
+      excludedFields.forEach(el => delete queryObj[el])
+      console.log(queryObj)
+      // Advanced filtering
+      let queryString = JSON.stringify(queryObj)
+      console.log(queryString)
+      queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+      let query = patientSchema.find(JSON.parse(queryString))
+      
+     //sort
+      if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        query = query.sort(sortBy)
+      } else {
+        query = query.sort('firstName')
+      }
+  
+      const searchFilterKey = await query
+      res.status(200).json({status: 'success',results: searchFilterKey.length,data:searchFilterKey});
+     } 
+     catch (err) {next(err) }
+  } 

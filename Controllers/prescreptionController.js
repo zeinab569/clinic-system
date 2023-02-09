@@ -20,7 +20,6 @@ exports.getAllprescreptions=(request,response,next)=>{
 //Adding 
 exports.createPrescreption=(request,response,next)=>{
    let newprescreption=new prescreptionSchema({
-       _id:request.body.id,
        medicine:[{id:request.body.medicine.id ,
          quantity:request.body.medicine.quantity,
          period:request.body.medicine.period }],
@@ -190,5 +189,30 @@ module.exports.sort=((req,res,next)=>{
            response.status(200).json(data);
        }).catch(error=>next(error))
     }
-})
+});
+exports.searchPrescrption=async(req,res,next)=>{
+   try {
+     const queryObj = { ...req.query }
+     const excludedFields = ['page', 'sort', 'limit', 'fields']
+     excludedFields.forEach(el => delete queryObj[el])
+     console.log(queryObj)
+     // Advanced filtering
+     let queryString = JSON.stringify(queryObj)
+     console.log(queryString)
+     queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+     let query = prescreptionSchema.find(JSON.parse(queryString))
+     
+    //sort
+     if (req.query.sort) {
+       const sortBy = req.query.sort.split(',').join(' ')
+       query = query.sort(sortBy)
+     } else {
+       query = query.sort('_id')
+     }
+ 
+     const searchFilterKey = await query
+     res.status(200).json({status: 'success',results: searchFilterKey.length,data:searchFilterKey});
+    } 
+    catch (err) {next(err) }
+ }  
     
