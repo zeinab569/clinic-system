@@ -2,10 +2,9 @@ const express=require("express");
 const validator=require("./../Middlelwares/error_validation");
 
 const Controller=require("../Controllers/MedicineController");
-const validatemedicine=require("./../Middlelwares/the_valid_object").Medicine
+const validatemedicine=require("./../Middlelwares/validation").Medicine
 const check_permission= require("../Middlelwares/check_users");
 const router= express.Router();
-
 
 router.route("/medicine")
    .all(check_permission.checkpharmasist)

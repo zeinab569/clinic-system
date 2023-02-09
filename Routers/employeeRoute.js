@@ -4,17 +4,16 @@ const controller = require("../Controllers/EmployeeController")
 const validate = require("../Middlelwares/error_validation")
 const upload=require('../Middlelwares/image');
 const check_permission= require("../Middlelwares/check_users");
-const thevalidate_object= require("../Middlelwares/the_valid_object");
+const {employeevalidation}= require("../Middlelwares/validation");
 const { route } = require("express/lib/application");
 const router = express.Router();
-
 
 router.route("/employee")
   .all(check_permission.checkadmin)
   .get(controller.getAllEmployees)  
   .post(
     upload.single('employeeImage'),
-    thevalidate_object.employee_is_valid,
+    employeevalidation,
     validate,
     controller.createUser
     )
@@ -48,7 +47,7 @@ router.get("/pharmacistList",check_permission.checkadmin,
 )
 
 // filter and sort
-router.get("/search/:theQuery",check_permission.checkadmin,
+router.get("/employee/:search/:theQuery",check_permission.checkadmin,
 controller.SearchEmployees
 
 )

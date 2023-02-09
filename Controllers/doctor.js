@@ -115,7 +115,7 @@ exports.getDoctorById=(request,response,next)=>{
     }//done 
 
  
-exports.SearchDoctor=(request,response,next)=>{
+exports.SearchDoctor=async(request,response,next)=>{
       try {
         //  Filtering
         const queryObj = { ...request.query }
@@ -137,7 +137,7 @@ exports.SearchDoctor=(request,response,next)=>{
           query = query.sort('salary')
         }
     
-        const res = query
+        const res = await query
         response.status(200).json({
           status: 'success',
           results: res.length,
