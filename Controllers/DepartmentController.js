@@ -6,8 +6,11 @@ const mongoose=require("mongoose");
  exports.getAllDepartment=(request,response,next)=>{
 
     DepartmentSchema.find()
-    //.populate('doctor')
-    //.populate('patient')
+    .populate({
+        path: 'doctor',
+        // select: 'fullName'
+    })
+    // .populate('patient')
     .then((data)=>{
 
         response.status(200).json(data);
@@ -17,20 +20,17 @@ const mongoose=require("mongoose");
 //adding new Department //Done
  exports.AddDepartment=(request,response,next)=>{
     let NewDepartment=new DepartmentSchema({
-        _id:request.body._id,
+  
+ _id:request.body._id,
         Name: request.body.Name,   
         Service:request.body.Service,
       doctor_id:request.body.doctor_id,
       patient_id:request.body.patient_id
-
-
-        
     });
 
     NewDepartment.save()
-        .then((data)=> 
-            {
-                    response.status(201).json({message:"new Department added to the clinic"}) })
+        .then(()=> 
+            { response.status(201).json({message:"new Department added to the clinic"})})
             .catch(error=>{next(error)})
 
     
@@ -61,7 +61,7 @@ try{
 const _id=req.params._id;
 const update=req.body;
 const options={new :true}
-const result= await  DepartmentSchema.findByIdAndUpdate(_id,update,options);
+const result= await  DepartmentSchema.findByIdAndUpdate(id,update,options).populate('doctor');
 
 res.send(result);
 response.status(200).json({message:` UPDATED SUCCESSFULLY`});
@@ -88,7 +88,10 @@ response.status(200).json({message:` UPDATED SUCCESSFULLY`});
     
 //Getting Department by ID//Done
     exports.getDepartmentbyId = (req, res, next) => {
+        DepartmentSchema.findOne({_id: req.params.id })
+
         DepartmentSchema.findOne({ _id: req.params._id })
+
             // .populate({ path: "doctor" })
     
             .then((data) => {

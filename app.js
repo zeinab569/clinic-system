@@ -9,9 +9,9 @@ const MedicalHistoryRouter=require("./Routers/MedicalHistory")
 const prescreptionRouter=require("./Routers/prescreptionRoute")
 const DepartmentRouter=require("./Routers/DepartmentRoute")
 const medicineRouter=require("./Routers/MedicineRoute")
+
 const server=express(); 
 require("dotenv").config();
-
 let port=process.env.PORT||8080;
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.DB_URL)
@@ -44,6 +44,7 @@ server.use(prescreptionRouter)
 server.use(MedicalHistoryRouter);
 server.use(DepartmentRouter);
 server.use(medicineRouter);
+
 
 
 //Not Found

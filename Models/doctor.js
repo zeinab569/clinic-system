@@ -31,6 +31,7 @@ const doctorSchema=new mongoose.Schema({
    },
    userName:{
     type:String,
+
     required:true,
     unique:true,
     matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,

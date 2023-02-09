@@ -1,9 +1,35 @@
 const { default: mongoose } = require('mongoose')
 require('../Models/patient');
 const patientSchema=mongoose.model("patient");
-exports.getPatient=(req,res,next)=>{
+exports.getAllPatient=(req,res,next)=>{
+//     patientSchema.aggregate(
+//         [{$addFields: {
+//           firstVisit:"$prescriptionId",
+//           lastVisit: "p"
+//     },
+    
+// },
+// // {$lookup:
+// //     {
+// //         from:"MedicalHistory" ,
+// //         localField: "healthRecordId",
+// //         foreignField: "_id",
+// //         pipeline:[{ $project:  {patientId:0,medicine:0,_id:0}}  ],
+// //         as :"patientMedicalHisto"
+// //      }
+     
+//    // },
+// ],
+//       ).then(data=>{
+        
+//         res.status(200).json(data);
+
+//     }).catch(err=>next(err))
     patientSchema.find().
-    populate({path:"appointmentId",select:{ patient:1}}).populate({path:"healthRecordId",select:{_id:0,patientId:0}}).populate({path:"prescriptionId"}).then((data)=>{
+    populate({path:"appointmentId",select:{ date:1,status:1}})
+    .populate({path:"healthRecordId",select:{patientId:0,medicine:0,_id:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .then((data)=>{
         res.status(200).json(data)
     })
     .catch(error=>{next(error)})
@@ -18,18 +44,22 @@ exports.getPatientById=(req,res,next)=>{
 exports.createPatient=(req,res,next)=>{
     let addPatientSchema=new patientSchema({
         _id:req.body.id,
-         firstName:req.body.patientFirstName,
-         lastName:req.body.patientLastName,
-         age:req.body.patientAge,
-         gender:req.body.patientGender,
-         "address.city":req.body.address.city,
-         "address.street":req.body.address.street,
-         "address.building":req.body.address.building,
-         email:req.body.patientEmail, 
-        insuranceNumber:req.body.patientInsuranceNumber,
+         firstName:req.body.firstName,
+         lastName:req.body.lastName,
+         age:req.body.age,
+         gender:req.body.gender,
+        "address.city":req.body.address.city,
+        "address.street":req.body.address.street,
+        "address.building":req.body.address.building,
+         email:req.body.email,
+        insuranceNumber:req.body.insuranceNumber,
         phoneNumber:req.body.patientPhoneNumber,
-        appointmentId:[{appointmentid:req.body.appointmentId}],
-        img:req.file.path
+
+       appointmentId:[{appointmentid:req.body.appointmentId}],
+    //    img:req.file.path
+        healthRecordId:req.body.healthRecordId
+       // img:req.file.path
+
         
     });
     addPatientSchema.save(

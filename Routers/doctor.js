@@ -4,6 +4,10 @@ const {body,query,param,validationResult}=require("express-validator");
 const controller=require('./../Controllers/doctor')
 const errorValidator=require("./../Middlelwares/error_validation")
 const Validator=require("./../Middlelwares/validation").importVIP;
+
+
+
+
 //const Validator=require("./../Middlelwares/validation").doctorValidation;
 const upload=require('./../Middlelwares/image');
 
