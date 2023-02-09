@@ -4,11 +4,6 @@ require("./../Models/doctor");
 const doctorSchema=mongoose.model("doctor");
 
 
-
-
-
-
-
 exports.getAllDoctors=(request,response,next)=>{
     doctorSchema.find({})
     .populate({path:"clinicId",select:'clinicName'})
@@ -114,5 +109,48 @@ exports.getDoctorById=(request,response,next)=>{
         .catch((error) => next(error));
 
 
-    }//done trueeeeeeeeeeeeee
+    }//done 
+
+ 
+exports.SearchDoctor=(request,response,next)=>{
+      try {
+        //  Filtering
+        const queryObj = { ...request.query }
+        const excludedFields = ['page', 'sort', 'limit', 'fields']
+        excludedFields.forEach(el => delete queryObj[el])
+        console.log(queryObj)
+    
+        // Advanced filtering
+        let queryString = JSON.stringify(queryObj)
+        console.log(queryString)
+        queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+        let query = doctorSchema.find(JSON.parse(queryString))
+        
+       //sort
+        if (request.query.sort) {
+          const sortBy = request.query.sort.split(',').join(' ')
+          query = query.sort(sortBy)
+        } else {
+          query = query.sort('salary')
+        }
+    
+        const res = query
+        response.status(200).json({
+          status: 'success',
+          results: res.length,
+          data: {
+            res
+          }
+        });
+       
+      } catch (err) {
+        response.status(400).json({
+          status: 'fail',
+          message: err
+        })
+      }
+    }
+    
+    
+
 

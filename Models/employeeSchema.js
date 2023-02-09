@@ -25,7 +25,7 @@ const EmployeeSchema= new mongoose.Schema({
     workHours:{type:Number,required:true},
     employeeImage: { type:String},
     age:{type:Number,min:18},
-    clinictId:{type:Number,ref:'clinic'}, //refrance
+    clinictId:{type:Array,ref:'clinic'}, //refrance
     
 },{_id:false})
 

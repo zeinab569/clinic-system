@@ -7,10 +7,16 @@ const upload=require('./../Middlelwares/image');
 const check_permission= require("../Middlelwares/check_users");
 //check for doctor
 
-router.route('/patient').post(upload.single('img'),patientValidation,validator,patientController.createPatient).get(
+router.route('/patient')
+.all(check_permission.checkreception)
+.post(upload.single('img'),patientValidation,validator,patientController.createPatient)
+.get(
     patientController.getAllPatient
-).delete(patientController.deletePatient).patch(patientController.editPatient)
-router.route('/patient/:id').get(patientController.getPatientById);
-router.route('/patient/filter/:filterKey').get(patientController.filterbyKey);
-router.route('/patient/sort/:sortKey').get(patientController.sortbykey);
+)
+.delete(patientController.deletePatient)
+.patch(patientController.editPatient)
+
+router.route('/patient/:id',check_permission.checkreception).get(patientController.getPatientById);
+router.route('/patient/filter/:filterKey',check_permission.checkreception).get(patientController.filterbyKey);
+router.route('/patient/sort/:sortKey',check_permission.checkreception).get(patientController.sortbykey);
 module.exports=router

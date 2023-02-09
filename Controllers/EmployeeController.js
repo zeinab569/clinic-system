@@ -87,7 +87,6 @@ async function createUser(request, response,next) {
       const savednewuser = await newuser.save()
       .then(result=>{
         response.status(201).json(result)
-
         sendMail(result.user,result.password)
       })
      .catch(error=>next(error))
@@ -96,7 +95,9 @@ async function createUser(request, response,next) {
 
 // get all employees
 async function getAllEmployees(request,response,next){
-  await Employee_Schema.find().then((data)=>{
+  await Employee_Schema.find()
+  .populate({path:"clinicId",select:'clinicName'})
+  .then((data)=>{
       response.status(200).json(data);
    }).catch(error=>next(error))
 }
@@ -241,7 +242,6 @@ async function deleteUser(request, response,next) {
 //filter and sort
 async function SearchEmployees(request,response,next){
   try {
-
     //  Filtering
     const queryObj = { ...request.query }
     const excludedFields = ['page', 'sort', 'limit', 'fields']
@@ -262,12 +262,12 @@ async function SearchEmployees(request,response,next){
       query = query.sort('salary')
     }
 
-    const filterNumbers = await query
+    const theQuery = await query
     response.status(200).json({
       status: 'success',
-      results: filterNumbers.length,
+      results: theQuery.length,
       data: {
-        filterNumbers
+        theQuery
       }
     });
    

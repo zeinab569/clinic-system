@@ -10,13 +10,9 @@ const check_permission=require("../Middlelwares/check_users")
 
 const upload=require('./../Middlelwares/image');
 
-
 router.route("/doctor")
-
 .all(check_permission.checkadmin)
-// .get(controller.getAllDoctors)
-.get(controller.filterDocotr)
-
+.get(controller.getAllDoctors)
 .post(upload.single('doctorImage'),Validator,errorValidator,controller.addDoctors)
 
 
@@ -26,9 +22,11 @@ router.route("/doctor/:_id")
       .delete(param("_id").isInt().withMessage("_id must be Number"),errorValidator,controller.deleteDoctorbyID)
       .patch(param("_id").isInt().withMessage("_id must be Number"),errorValidator,controller.updateDoctor)
 
-// router.route("/doctorSort/:filterKey")
-//       .get(controller.filterbyKey)
-
-
+      
+      
+router.get("/thesearch/:res",check_permission.checkadmin,
+      controller.SearchDoctor
+      
+      )
 
 module.exports=router;

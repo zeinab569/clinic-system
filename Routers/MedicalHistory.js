@@ -4,22 +4,22 @@ const medicalHistoryController=require("../Controllers/medicalHistory")
 const {medicalHistoryValidation}=require("../Middlelwares/validation")
 const validator=require("../Middlelwares/error_validation")
 const check_permission= require("../Middlelwares/check_users");
+
 router.route('/MedicalRecord')
 
-
-//.all() check for doctor only
+.all(check_permission.checkdoctor) 
 .post(medicalHistoryValidation,validator,medicalHistoryController.createMedicalHistory)
 .patch(medicalHistoryController.editpateintMedicalHistory)
 router.route('/MedicalRecord/:id')
-//.all check for doctor
+.all(check_permission.checkdoctor) 
 .get(medicalHistoryController.getMedicalHistoryById)
 router.route('/MedicalRecord/patient/:id')
-//.all check for doctor
+.all(check_permission.checkdoctor) 
 .get(medicalHistoryController.getMedicalHistoryByPatientId)
 
 router.route('/MedicalRecord/doctor/:id').get(medicalHistoryController.getMedicalHistoryByDoctorId)
 
 router
-//.all check for admin
+.all(check_permission.checkadmin) 
 .get('/MedicalRecord',medicalHistoryController.getAllMedicalHistory)
 module.exports=router

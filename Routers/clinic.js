@@ -8,12 +8,14 @@ const router=express.Router();
 
 
 router.route("/clinic")
+.all(check_permission.checkadmin)
 .get (clinicController.getAllClinic)
 .post(Validator,errorValidator,clinicController.addClinic)
 
 
 
 router.route("/clinic/:_id")
+.all(check_permission.checkadmin)
 .get(param("_id").isInt().withMessage("id must be Number"),errorValidator,clinicController.getClinicById)
 .delete(param("_id").isInt().withMessage("id must be Number"),errorValidator,clinicController.deleteClinicbyId)
 .patch(param("_id").isInt().withMessage("id must be Number"),errorValidator,clinicController.updateClinic) 

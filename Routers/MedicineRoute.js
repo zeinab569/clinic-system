@@ -8,19 +8,20 @@ const router= express.Router();
 
 
 router.route("/medicine")
+   .all(check_permission.checkpharmasist)
     .get(Controller.getAllmedicine)
     .post(Controller.Addmedicine)
     .patch(Controller.updatemedicine)
   .delete(Controller.DeleteMedicine);
 
 //getting medicine by id
-router.get("/medicine/:id",
+router.get("/medicine/:id",check_permission.checkpharmasist,
 Controller.getMedicinebyId
 )
 
 
 //Deleting medicine by id
-router.delete("/medicine/:id",
+router.delete("/medicine/:id",check_permission.checkpharmasist,
 Controller.DeleteMedicineById
  );
 

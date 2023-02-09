@@ -1,12 +1,13 @@
 const express = require("express")
 const {body,param,query,validationResult}= require("express-validator")
-const controller = require("./../Controllers/EmployeeController")
-const validate = require("./../Middlelwares/error_validation")
-const upload=require('./../Middlelwares/image');
+const controller = require("../Controllers/EmployeeController")
+const validate = require("../Middlelwares/error_validation")
+const upload=require('../Middlelwares/image');
 const check_permission= require("../Middlelwares/check_users");
-const thevalidate_object= require("./../Middlelwares/the_valid_object");
+const thevalidate_object= require("../Middlelwares/the_valid_object");
 const { route } = require("express/lib/application");
 const router = express.Router();
+
 
 router.route("/employee")
   .all(check_permission.checkadmin)
@@ -47,7 +48,7 @@ router.get("/pharmacistList",check_permission.checkadmin,
 )
 
 // filter and sort
-router.get("/search/:filterNumbers",check_permission.checkadmin,
+router.get("/search/:theQuery",check_permission.checkadmin,
 controller.SearchEmployees
 
 )

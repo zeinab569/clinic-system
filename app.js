@@ -1,7 +1,7 @@
 const express=require("express");
 const mongoose=require("mongoose");
 const loginRoute=require("./Routers/login_route");
-const employeeRoute =require("./Routers/employee_rpoute");
+const employeeRoute =require("./Routers/employeeRoute");
 const doctorsRouter=require("./Routers/doctor");
 const clinicRouter=require("./Routers/clinic");
 const patientRouter=require("./Routers/patientRoute")
