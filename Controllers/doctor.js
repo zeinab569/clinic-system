@@ -3,14 +3,14 @@ const mongoose =require('mongoose');
 require("./../Models/doctor");
 const doctorSchema=mongoose.model("doctor");
 
-
+//get all doctor
 exports.getAllDoctors=(request,response,next)=>{
     doctorSchema.find({})
     .populate({path:"clinicId",select:'clinicName'})
     .populate("departmentId",{'Name':1})
     .populate("prescreption",{'_id':1 })
     .populate("patientid",{'firstName':1,'lastName':1})
-    // .populate({path:"appointments"})
+    .populate({path:"appointments"})
 
 
   .then((data) => {
@@ -24,7 +24,7 @@ exports.getAllDoctors=(request,response,next)=>{
   .catch((error) => next(error));
 }
 
-
+//add new doctor
 exports.addDoctors=async(request,response,next)=>{
   const emailTest= await doctorSchema.findOne({email:request.body.email});
   if(emailTest){
@@ -53,9 +53,9 @@ exports.addDoctors=async(request,response,next)=>{
     doctorObject.save()
                   .then(()=>{response.status(201).json({message:"Add is done successfully ^_^"}) })
                   .catch(error=>{next(error)})
-    }//done 
+    }
 
-
+//update doctor
 exports.updateDoctor=(request,response,next)=>{
         doctorSchema.updateOne({_id:request.params._id},{
             $set:{
@@ -83,9 +83,9 @@ exports.updateDoctor=(request,response,next)=>{
             response.status(201).json({message:"update is done successfully ^_^"})
         })
         .catch(error=>{next(error)})
-    }// done 
+    }
      
-    
+//delete doctor
 exports.deleteDoctorbyID=(request,response,next)=>{
             doctorSchema.deleteOne({_id:request.params._id})
             .then((data)=>{
@@ -97,9 +97,9 @@ exports.deleteDoctorbyID=(request,response,next)=>{
                     next(new Error("Not found.."+request.params._id))
                 }
             })
-    }//done 
+    }
             
-    
+//get doctor(id) 
 exports.getDoctorById=(request,response,next)=>{
         doctorSchema.findOne({ _id: request.params._id })
         .then((data) => {
@@ -112,10 +112,10 @@ exports.getDoctorById=(request,response,next)=>{
         .catch((error) => next(error));
 
 
-    }//done 
+    }
 
- 
-exports.SearchDoctor=(request,response,next)=>{
+//filter & sort 
+exports.SearchDoctor=async(request,response,next)=>{
       try {
         //  Filtering
         const queryObj = { ...request.query }
@@ -137,7 +137,7 @@ exports.SearchDoctor=(request,response,next)=>{
           query = query.sort('salary')
         }
     
-        const res = query
+        const res = await query
         response.status(200).json({
           status: 'success',
           results: res.length,

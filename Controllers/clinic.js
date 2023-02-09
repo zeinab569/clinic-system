@@ -1,42 +1,22 @@
 const { request, response, query } = require('express');
 const mongoose =require('mongoose');
-
 require("./../Models/clinic");
 require("./../Models/doctor");
 const clinicSchema=mongoose.model("clinic");
 
 
-// sort fun too use it while getting
-const clinicSort=(data,query)=>{
-    let sortKey=query.sortKey||'clinicName';
-    let order = query.order||'asc';
-    let orderValue = order==='asc'? 1:-1
-    return data.sort((a,b)=>{
-        if(a[sortKey]<b[sortKey]) return -1*orderValue
-        if(a[sortKey]>b[sortKey]) return  1*orderValue
-
-    })
-}//done trueeeeeeeeeee
-
-
-
-
 //get all clinic
 exports.getAllClinic=(request,response,next)=>{
-  
-    clinicSchema.find({})//call filter here
- 
+    clinicSchema.find({})
      .populate({path:"schedule.doctorId",select:'fullName'})
      .populate({path:"schedule.departmentId",select:'Name'})
-    .then((data )=>{ 
-        sortedData=clinicSort(data,request.query)
-        response.status(200).json({message:"All Clinic sorted by name.....",sortedData});
+     .then((data )=>{ 
+        response.status(200).json({message:"All Clinic sorted by name.....",data});
     })
     .catch(error=>{
       next(error);
     })
-}//done trueeeeeeeeeee
-
+}
 
 //add a new clinic  
 exports.addClinic=(request,response,next)=>{
@@ -61,11 +41,9 @@ exports.addClinic=(request,response,next)=>{
         clinicObject.save()
                         .then(()=>{response.status(201).json({message:"Add is done successfully ^_^"}) })
                         .catch(error=>{next(error)})
-          }//done trueeeeeeeeeee
+}
       
-
-
-//update clinic with id
+//update clinic (id)
 exports.updateClinic=(request,response,next)=>{
         clinicSchema.updateOne({_id:request.params._id},{
             $set:{ clinicName:   request.body.clinicName,
@@ -81,9 +59,9 @@ exports.updateClinic=(request,response,next)=>{
             console.log(data),
             response.status(201).json({message:"update is done successfully ^_^"})
         }).catch(error=>{next(error)}) 
-    }//done trueeeeeeeeeee
+}
 
-// get clinic by id   
+//get clinic(id) 
 exports.getClinicById=(request,response,next)=>{
     clinicSchema.findOne({ _id: request.params._id })
         .then((data) => {
@@ -94,9 +72,9 @@ exports.getClinicById=(request,response,next)=>{
           }
         })
         .catch((error) => next(error));
-    }//done trueeeeeeeeeeee
+}
 
-//delete clinic by id 
+//delete clinic(id) 
 exports.deleteClinicbyId=(request,response,next)=>{
     clinicSchema.deleteOne({_id:request.params._id})
         .then((data)=>{
@@ -108,37 +86,48 @@ exports.deleteClinicbyId=(request,response,next)=>{
                 next(new Error("Not found.."+request.params.id))
             }
         })
-     }//done trueeeeeeeeeeeeeeeee
+}
+
+//filter & sort 
+exports.SearchClinic=async(request,response,next)=>{
+    try {
+      //  Filtering
+      const queryObj = { ...request.query }
+      const excludedFields = ['page', 'sort', 'limit', 'fields']
+      excludedFields.forEach(el => delete queryObj[el])
+      console.log(queryObj)
+  
+      // Advanced filtering
+      let queryString = JSON.stringify(queryObj)
+      console.log(queryString)
+      queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+      let query = clinicSchema.find(JSON.parse(queryString))
+      
+     //sort
+      if (request.query.sort) {
+        const sortBy = request.query.sort.split(',').join(' ')
+        query = query.sort(sortBy)
+      } else {
+        query = query.sort('clinicName')
+      }
+  
+      const res = await query
+      response.status(200).json({
+        status: 'success',
+        results: res.length,
+        data: {
+          res
+        }
+      });
+     
+    } catch (err) {
+      response.status(400).json({
+        status: 'fail',
+        message: err
+      })
+    }
+}
         
 
 
-
-     //------------sort----------------//
-// exports.filterbyKey=((req,res,next)=>{
-//         if((isNaN(req.params.filterKey)))
-//         {
-//             clinicSchema.find().sort({clinicName:1}).then(
-//                 (data) => res.status(200).json(data)
-//                 ).catch(
-//                  error=>next(error)
-//                 )
-//         }
-//         else
-//         {
-//             clinicSchema.find({city:req.params.filterKey},{}).sort({city:1}).then(
-//                 (data) => {
-//                     if(data.length!=0)
-//                     {
-//                         res.status(200).json(data);
-//                     }
-//                     else{
-//                         res.status(200).json({message:"invalid city D:"})
-//                     }
-
-//                  }
-//                 ).catch(
-//                  error=>next(error)
-//                 ) 
-//         }
-//     })
 
