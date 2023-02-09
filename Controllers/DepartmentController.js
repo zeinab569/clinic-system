@@ -17,7 +17,7 @@ const mongoose=require("mongoose");
 //adding new Department //Done
  exports.AddDepartment=(request,response,next)=>{
     let NewDepartment=new DepartmentSchema({
-        id:request.body.id,
+        _id:request.body.id,
         Name: request.body.Name,   
     Service:request.body.Service
 ,

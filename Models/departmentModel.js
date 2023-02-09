@@ -17,7 +17,7 @@ const ServiceSchema= new mongoose.Schema(
 const DepartmentSchema=new mongoose.Schema(
 
 {
-id:{type:Number,required:true,unique:true},
+_id:{type:Number},
 Name:{type:String,required:true,unique:true},
 Service:{ServiceSchema,type:Array,required:false},
 doctor:{type:mongoose.Schema.Types.ObjectId,ref:"Doctor"},

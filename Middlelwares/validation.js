@@ -82,3 +82,28 @@ let Medicine=[
     body("quantity").isNumeric().withMessage("quantity must be Number"),
     body("img").isString().withMessage("img must be string")
 ]
+
+
+module.exports.appointValidation=[
+    
+    body("id").isInt().withMessage("id must be integer"),
+    body("employeeID").isInt().withMessage("employeeID should be Number ."),
+    body("patientID").isInt().withMessage("patientId should be Number ."),
+    body("departmentID").isInt().withMessage("serviceId should be Number ."),
+    body("doctorID").isInt().withMessage("doctorId should be Number ."),
+    body("date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("date should be date like this DD-MM-YYYY ."),
+    body("time").isString().matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/).withMessage("time should be time like this HH:MM ."),
+    body("status").default('unAssign')
+]
+
+module.exports.invoiceValidation=[
+
+    body("id").isInt().withMessage("id must be integer"),
+    body("employeeID").isInt().withMessage("employeeID should be Number ."),
+    body("patientID").isInt().withMessage("patientId should be Number ."),
+    body("date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("date should be date like this  DD-MM-YYYY ."),
+    body("amount").isInt().withMessage("amount should be int"),
+    body("payment_way").isIn(["cash","credit","insurance credit"]).withMessage("payment should be cash or credit or Insurance Card "),
+    body("due_date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("due_date should be date like this  DD-MM-YYYY ."),
+    body("appointmentID").isInt().withMessage("appointmentId should be Number ."),
+]

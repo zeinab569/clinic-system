@@ -9,9 +9,12 @@ const MedicalHistoryRouter=require("./Routers/MedicalHistory")
 const prescreptionRouter=require("./Routers/prescreptionRoute")
 const DepartmentRouter=require("./Routers/DepartmentRoute")
 const medicineRouter=require("./Routers/MedicineRoute")
+const invoiceRoute=require("./Routers/invoiceRoute")
+const appointmentRouter=require("./Routers/appointmentRoute")
+
 const server=express(); 
 require("dotenv").config();
-let port=process.env.PORT||8090;
+let port=process.env.PORT||8080;
 
 
 mongoose.set('strictQuery', true);
@@ -36,6 +39,7 @@ server.use((request,response,next)=>{
 
 server.use(express.json());
 // routs
+
 server.use(loginRoute);
 server.use(employeeRoute);
 server.use(doctorsRouter);
@@ -45,6 +49,8 @@ server.use(prescreptionRouter)
 server.use(MedicalHistoryRouter);
 server.use(DepartmentRouter);
 server.use(medicineRouter);
+server.use(invoiceRoute)
+server.use(appointmentRouter)
 
 
 //Not Found

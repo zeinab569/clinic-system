@@ -64,6 +64,6 @@ const doctorSchema=new mongoose.Schema({
      ref:'appointment',
   },
 
-},{_id:false})//end of schema
+})//end of schema
 //  doctorSchema.plugin(AutoIncrement);
 module.exports=mongoose.model("doctor",doctorSchema);

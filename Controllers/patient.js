@@ -29,7 +29,7 @@ exports.createPatient=(req,res,next)=>{
         insuranceNumber:req.body.patientInsuranceNumber,
         phoneNumber:req.body.patientPhoneNumber,
         appointmentId:[{appointmentid:req.body.appointmentId}],
-        img:req.file.path
+       // img:req.file.path
         
     });
     addPatientSchema.save(
