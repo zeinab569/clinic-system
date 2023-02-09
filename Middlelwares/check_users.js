@@ -1,5 +1,5 @@
 const Employee_Schema = require("../Models/employeeSchema");
-const DoctorSchema=require("../Models/doctor")
+const Doctor_Schema=require("../Models/doctor")
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -56,7 +56,7 @@ dotenv.config();
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-        const userdata = await Employee_Schema.findOne({
+        const userdata = await Doctor_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
@@ -111,6 +111,5 @@ dotenv.config();
       } catch (err) {
         return res.json({ error: "not authorized" });
     }}
-
 
   module.exports = { checkadmin, checkreception, checkdoctor ,checkaccount,checkpharmasist};

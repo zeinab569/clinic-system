@@ -42,11 +42,6 @@ exports.filterDocotr=(request,response,next)=>{
   })
   .catch((error) => next(error));
 }
-
-
-
-
-
 // exports.getAllDoctors=(request,response,next)=>{
 //     doctorSchema.find({})
 //    .populate({path:"clinicId",select:'clinicName'})
@@ -61,8 +56,6 @@ exports.filterDocotr=(request,response,next)=>{
 //     })
 
 //     }//done trueeeeeeee
-
-
 
 exports.addDoctors=async(request,response,next)=>{
   const emailTest= await doctorSchema.findOne({email:request.body.email});
@@ -93,13 +86,6 @@ exports.addDoctors=async(request,response,next)=>{
                   .then(()=>{response.status(201).json({message:"Add is done successfully ^_^"}) })
                   .catch(error=>{next(error)})
     }//done trueeeeeeeeeee
-
-
-
-
-
-
-
 
 
 exports.updateDoctor=(request,response,next)=>{
@@ -156,16 +142,8 @@ exports.getDoctorById=(request,response,next)=>{
           }
         })
         .catch((error) => next(error));
+
     }//done trueeeeeeeeeeeeee
-
-
-
-
-
-
-
-
-
 
     //------------sort------------------------//
 
