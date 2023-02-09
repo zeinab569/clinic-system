@@ -53,7 +53,6 @@ server.use(invoiceRoute)
 server.use(appointmentRouter)
 server.use(serviceRouter)
 
-
 //Not Found
 server.use((request,response,next)=>{
     response.status(404).json({data:"Not Fount"});

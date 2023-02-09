@@ -3,34 +3,17 @@ const mongoose =require('mongoose');
 require("./../Models/doctor");
 const doctorSchema=mongoose.model("doctor");
 
-const filterByKey = (model, query) => {
-  let filterKey = {};
-  for (let key in query) {
-    let value = key;
-    if (value.includes("<")) {
-      if(value.charAt(value.length - 1) == "<"){(filter[key.slice(0, key.indexOf("<"))] = { $lte: query[key] })}
-      else{(filter[key.slice(0, key.indexOf("<"))] = {
-        $lt: +value.slice(value.indexOf("<") + 1),
-      });}
-    
-     
-    } else if (value.includes(">")) {
-      if(value.charAt(value.length - 1) == ">"){(filter[key.slice(0, key.indexOf(">"))] = { $gte: query[key] })}
-      else{(filter[key.slice(0, key.indexOf(">"))] = {
-        $gt: +value.slice(value.indexOf(">") + 1),
-      });}
-    } else {
-      filterKey[key] = query[key];
-    }
-    console.log(key);
-  }
-  return model.find({ ...filterKey});
-};
 
-exports.filterDocotr=(request,response,next)=>{
-   filterByKey(doctorSchema,request.query)
-   .populate({path:"clinicId",select:'clinicName'})
+
+
+
+
+
+exports.getAllDoctors=(request,response,next)=>{
+    doctorSchema.find({})
+    .populate({path:"clinicId",select:'clinicName'})
    .populate({path:"departmentId",select:'Name'})
+
     // .populate({path:"appointments"})
   .then((data) => {
     if (data ){ 
@@ -42,26 +25,6 @@ exports.filterDocotr=(request,response,next)=>{
   })
   .catch((error) => next(error));
 }
-
-
-
-
-
-// exports.getAllDoctors=(request,response,next)=>{
-//     doctorSchema.find({})
-//    .populate({path:"clinicId",select:'clinicName'})
-//   //  .populate("clinic",{'clinicName':1})
-//    //.populate({path:"appointment"}).populate({path:"Department"})//select column
-//     .then((data )=>{
-//         response.status(200)
-//         .json({message:"All Doctors.....",data});
-//     })
-//     .catch(error=>{
-//       next(error);
-//     })
-
-//     }//done trueeeeeeee
-
 
 
 exports.addDoctors=async(request,response,next)=>{
@@ -92,14 +55,7 @@ exports.addDoctors=async(request,response,next)=>{
     doctorObject.save()
                   .then(()=>{response.status(201).json({message:"Add is done successfully ^_^"}) })
                   .catch(error=>{next(error)})
-    }//done trueeeeeeeeeee
-
-
-
-
-
-
-
+    }//done 
 
 
 exports.updateDoctor=(request,response,next)=>{
@@ -129,7 +85,7 @@ exports.updateDoctor=(request,response,next)=>{
             response.status(201).json({message:"update is done successfully ^_^"})
         })
         .catch(error=>{next(error)})
-    }// done trueeeeeeeeee
+    }// done 
      
     
 exports.deleteDoctorbyID=(request,response,next)=>{
@@ -143,7 +99,7 @@ exports.deleteDoctorbyID=(request,response,next)=>{
                     next(new Error("Not found.."+request.params._id))
                 }
             })
-    }//done trueeeeeeeeeee
+    }//done 
             
     
 exports.getDoctorById=(request,response,next)=>{
@@ -156,60 +112,7 @@ exports.getDoctorById=(request,response,next)=>{
           }
         })
         .catch((error) => next(error));
+
+
     }//done trueeeeeeeeeeeeee
 
-
-
-
-
-
-
-
-
-
-    //------------sort------------------------//
-
-
-// exports.filterbyKey=((req,res,next)=>{
-//         if(!(isNaN(req.params.filterKey)))
-//         {
-//           doctorSchema.find().sort({fullName:1}).then(
-//                 (data) => res.status(200).json(data)
-//                 ).catch(
-//                  error=>next(error)
-//                 )
-//         }
-//         else if((req.params.filterKey=="female"||req.params.filterKey=="male"))
-//         {
-//             doctorSchema.find({gender:req.params.filterKey},{}).sort({fullName:1}).then(
-//                 (data) => res.status(200).json(data)
-//                 ).catch(
-//                  error=>next(error)
-//                 )
-//         }
-
-//         else
-//         {
-//             doctorSchema.find({Specialization:req.params.filterKey},{}).sort({age:1}).then(
-//                 (data) => {
-//                     if(data.length!=0)
-//                     {
-//                         res.status(200).json(data);
-//                     }
-//                     else{
-//                         res.status(200).json({message:"invalid Specialization D:"})
-//                     }
-
-
-    //              }
-    //             ).catch(
-    //              error=>next(error)
-    //             ) 
-    //     }
-    // })
-    //              }
-    //             ).catch(
-    //              error=>next(error)
-    //             ) 
-    //     }
-    // })

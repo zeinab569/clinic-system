@@ -6,9 +6,6 @@ require("../Models/AppointmentModel")
 const appointmentSchema=mongoose.model("appointment")
 const doctorSchema=mongoose.model("doctor")
 
-
-
-
 // get appointments with specified id and after it
 exports.getAllAppointments=(req,res,next)=>{
   appointmentSchema.find().populate( 'patientID',{'firstName':1,'_id':0 }).populate('departmentID',{'Name':1,'Service':1,'_id':0 })

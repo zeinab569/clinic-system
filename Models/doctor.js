@@ -64,6 +64,12 @@ const doctorSchema=new mongoose.Schema({
      date:{type:String,default:" "},
      ref:'appointment',
   },
+  user_role:{type:String,
+   required:true,lowercase:true,
+   default:"doctor",
+},
+
+
 },{_id:false})//end of schema
  doctorSchema.plugin(AutoIncrement,
    {id:"doctorId",inc_field:"_id",start_seq:1}

@@ -8,13 +8,12 @@ const thevalidate_object= require("./../Middlelwares/the_valid_object");
 const { route } = require("express/lib/application");
 const router = express.Router();
 
-
 router.route("/employee")
   .all(check_permission.checkadmin)
   .get(controller.getAllEmployees)  
   .post(
     upload.single('employeeImage'),
-    // thevalidate_object.employee_is_valid,
+   // thevalidate_object.employee_is_valid,
     validate,
     controller.createUser
     )
@@ -26,7 +25,6 @@ router.get("/employee/:id",check_permission.checkadmin,
   param("id").isInt().withMessage("your id should be integer"),
   controller.getbyid
 )
-
 
 // get all doctors
 router.get("/doctorList",check_permission.checkadmin,
@@ -47,9 +45,6 @@ router.get("/accountantList",check_permission.checkadmin,
 router.get("/pharmacistList",check_permission.checkadmin,
  controller.getPharmacistList
 )
-
-//change password
-
 
 // filter and sort
 router.get("/search/:filterNumbers",check_permission.checkadmin,
