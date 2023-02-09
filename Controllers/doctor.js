@@ -31,7 +31,7 @@ exports.filterDocotr=(request,response,next)=>{
    filterByKey(doctorSchema,request.query)
    .populate({path:"clinicId",select:'clinicName'})
    .populate({path:"departmentId",select:'Name'})
-    // .populate({path:"appointments"})
+    //.populate({path:"appointments"})
   .then((data) => {
     if (data ){ 
       response.status(200).json({message:"The Doctor with this Id.....",data});

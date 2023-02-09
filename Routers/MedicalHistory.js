@@ -6,7 +6,7 @@ const validator=require("../Middlelwares/error_validation")
 router.route('/MedicalRecord')
 //.all() check for doctor only
 .post(medicalHistoryValidation,validator,medicalHistoryController.createMedicalHistory)
-.patch(medicalHistoryController.editpateintMedicalHistory)
+.patch(medicalHistoryController.editpateintMedicalHistory).delete(medicalHistoryController.deleteMedicalHistory)
 router.route('/MedicalRecord/:id')
 //.all check for doctor
 .get(medicalHistoryController.getMedicalHistoryById)

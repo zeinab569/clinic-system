@@ -2,45 +2,25 @@ const { default: mongoose } = require('mongoose')
 require('../Models/patient');
 const patientSchema=mongoose.model("patient");
 exports.getAllPatient=(req,res,next)=>{
-//     patientSchema.aggregate(
-//         [{$addFields: {
-//           firstVisit:{ $arrayElemAt: ['$appointmentId',0] },
-//           lastVisit: { $arrayElemAt: [ "$appointmentId", -1 ] }
-//     },
-    
-    
-// },
-// // { $lookup: { from: "tbl_items", localField: "items.item", foreignField: "_id", as: "items.item" }}
-// // {$lookup:
-// //     {
-// //         from:"MedicalHistory" ,
-// //         localField: "healthRecordId",
-// //         foreignField: "_id",
-// //         pipeline:[{ $project:  {patientId:0,medicine:0,_id:0}}  ],
-// //         as :"patientMedicalHisto"
-// //      }
-     
-//    // },
-// ],
-//       ).then(data=>{
-        
-//         res.status(200).json(data);
-
-//     }).catch(err=>next(err))
-    patientSchema.find().
-    populate({path:"appointmentId",select:{ date:1,status:1}})
-    .populate({path:"healthRecordId",select:{patientId:0,medicine:0,_id:0}})
+    patientSchema.find()
+    .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
     .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}})
     .then((data)=>{
         res.status(200).json(data)
+        console.log(data);
     })
     .catch(error=>{next(error)})
 }
 exports.getPatientById=(req,res,next)=>{
-    patientSchema.findOne({_id:req.params.id}).populate({path:"appointmentId",select:{ patient:1}})
-    .populate({path:"healthRecordId",select:{_id:1,patientId:1}})
-    .populate({path:"prescriptionId"}).
-    populate({path:clinicId,select:clinicName}).then((data)=>{
+    patientSchema.findOne({_id:req.params.id})
+    .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}})
+   
+    .then((data)=>{
         res.status(200).json(data)
     })
     .catch(error=>{next(error)})
@@ -59,7 +39,9 @@ exports.createPatient=(req,res,next)=>{
         insuranceNumber:req.body.patientInsuranceNumber,
         phoneNumber:req.body.patientPhoneNumber,
         appointmentId:[{appointmentid:req.body.appointmentId}],
-        healthRecordId:req.body.healthRecordId
+        healthRecordId:req.body.healthRecordId,
+        clinicId:req.body.clinicId,
+
        // img:req.file.path
         
     });
@@ -99,8 +81,12 @@ exports.deletePatient=((req,res,next)=>{
   exports.filterbyKey=((req,res,next)=>{
     if(!(isNaN(req.params.filterKey)))
     {
-        patientSchema.find({age:req.params.filterKey},{}).populate({path:"appointmentId",select:{ patient:1}})
-        .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).sort({firstName:1}).then(
+        patientSchema.find({age:req.params.filterKey},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}})
+        .sort({firstName:1}).then(
             (data) => res.status(200).json(data)
             ).catch(
              error=>next(error)
@@ -108,8 +94,11 @@ exports.deletePatient=((req,res,next)=>{
     }
     else if((req.params.filterKey=="female"||req.params.filterKey=="male"))
     {
-        patientSchema.find({gender:req.params.filterKey},{}).populate({path:"appointmentId",select:{ patient:1}})
-        .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).sort({firstName:1}).then(
+        patientSchema.find({gender:req.params.filterKey},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+        .populate({path:"healthRecordId",select:{patientId:0}})
+        .populate({path:"prescriptionId",select:{_id:0}})
+        .populate({path:"clinicId",select:{clinicName:1}}).sort({firstName:1}).then(
             (data) => res.status(200).json(data)
             ).catch(
              error=>next(error)
@@ -117,8 +106,11 @@ exports.deletePatient=((req,res,next)=>{
     }
     else
     {
-        patientSchema.find({firstName:req.params.filterKey},{}).
-        populate({path:"appointmentId",select:{ patient:1}}).populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).sort({age:1}).then(
+        patientSchema.find({firstName:req.params.filterKey},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+        .populate({path:"healthRecordId",select:{patientId:0}})
+        .populate({path:"prescriptionId",select:{_id:0}})
+        .populate({path:"clinicId",select:{clinicName:1}}).sort({age:1}).then(
             (data) => {
                 if(data.length!=0)
                 {
@@ -145,8 +137,11 @@ exports.deletePatient=((req,res,next)=>{
 exports.sortbykey=((req,res,next)=>{
     if(req.params.sortKey=="age")
     {
-        patientSchema.find({},{}).populate({path:"appointmentId",select:{ patient:1}})
-        .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).sort({age:1}).then(
+        patientSchema.find({},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}}).sort({age:1}).then(
             (data) => res.status(200).json(data)
             ).catch(
              error=>next(error)
@@ -154,8 +149,11 @@ exports.sortbykey=((req,res,next)=>{
     }
     else if(req.params.sortKey=="fN")
     {
-        patientSchema.find({},{}).populate({path:"appointmentId",select:{ patient:1}})
-        .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).sort({firstName:1}).then(
+        patientSchema.find({},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}}).sort({firstName:1}).then(
             (data) => res.status(200).json(data)
             ).catch(
              error=>next(error)
@@ -163,8 +161,11 @@ exports.sortbykey=((req,res,next)=>{
     }
     else if(req.params.sortKey=="LN")
     {
-        patientSchema.find({},{}).populate({path:"appointmentId",select:{ patient:1}})
-        .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).sort({lastName:1}).then(
+        patientSchema.find({},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}}).sort({lastName:1}).then(
             (data) => res.status(200).json(data)
             ).catch(
              error=>next(error)
@@ -172,8 +173,11 @@ exports.sortbykey=((req,res,next)=>{
     }
     else if(req.params.sortKey=="app")
     {
-        patientSchema.find({},{}).populate({path:"appointmentId",select:{ patient:0}},{sort: [{'appointdate':'asc' }]})
-        .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).then(
+        patientSchema.find({},{})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+        .populate({path:"healthRecordId",select:{patientId:0}})
+        .populate({path:"prescriptionId",select:{_id:0}})
+        .populate({path:"clinicId",select:{clinicName:1}}).then(
             (data) => res.status(200).json(data)
             ).catch(
              error=>next(error)
