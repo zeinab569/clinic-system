@@ -4,11 +4,13 @@ const patientSchema=mongoose.model("patient");
 exports.getAllPatient=(req,res,next)=>{
 //     patientSchema.aggregate(
 //         [{$addFields: {
-//           firstVisit:"$prescriptionId",
-//           lastVisit: "p"
+//           firstVisit:{ $arrayElemAt: ['$appointmentId',0] },
+//           lastVisit: { $arrayElemAt: [ "$appointmentId", -1 ] }
 //     },
     
+    
 // },
+// // { $lookup: { from: "tbl_items", localField: "items.item", foreignField: "_id", as: "items.item" }}
 // // {$lookup:
 // //     {
 // //         from:"MedicalHistory" ,
@@ -28,7 +30,7 @@ exports.getAllPatient=(req,res,next)=>{
     patientSchema.find().
     populate({path:"appointmentId",select:{ date:1,status:1}})
     .populate({path:"healthRecordId",select:{patientId:0,medicine:0,_id:0}})
-    .populate({path:"prescriptionId",select:{_id:0}}).populate({path:clinicId,select:clinicName})
+    .populate({path:"prescriptionId",select:{_id:0}})
     .then((data)=>{
         res.status(200).json(data)
     })
@@ -36,8 +38,9 @@ exports.getAllPatient=(req,res,next)=>{
 }
 exports.getPatientById=(req,res,next)=>{
     patientSchema.findOne({_id:req.params.id}).populate({path:"appointmentId",select:{ patient:1}})
-    .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"})
-    .populate({path:clinicId,select:clinicName}).then((data)=>{
+    .populate({path:"healthRecordId",select:{_id:1,patientId:1}})
+    .populate({path:"prescriptionId"}).
+    populate({path:clinicId,select:clinicName}).then((data)=>{
         res.status(200).json(data)
     })
     .catch(error=>{next(error)})
@@ -45,22 +48,19 @@ exports.getPatientById=(req,res,next)=>{
 exports.createPatient=(req,res,next)=>{
     let addPatientSchema=new patientSchema({
         _id:req.body.id,
-         firstName:req.body.firstName,
-         lastName:req.body.lastName,
-         age:req.body.age,
-         gender:req.body.gender,
-        "address.city":req.body.address.city,
-        "address.street":req.body.address.street,
-        "address.building":req.body.address.building,
-         email:req.body.email,
-        insuranceNumber:req.body.insuranceNumber,
+         firstName:req.body.patientFirstName,
+         lastName:req.body.patientLastName,
+         age:req.body.patientAge,
+         gender:req.body.patientGender,
+         "address.city":req.body.address.city,
+         "address.street":req.body.address.street,
+         "address.building":req.body.address.building,
+         email:req.body.patientEmail, 
+        insuranceNumber:req.body.patientInsuranceNumber,
         phoneNumber:req.body.patientPhoneNumber,
-
-       appointmentId:[{appointmentid:req.body.appointmentId}],
-    //    img:req.file.path
+        appointmentId:[{appointmentid:req.body.appointmentId}],
         healthRecordId:req.body.healthRecordId
        // img:req.file.path
-
         
     });
     addPatientSchema.save(
