@@ -24,24 +24,25 @@ const doctorSchema=new mongoose.Schema({
    Specialization:{
     type:String
    },
+   age:Number,
    gender:{
       type:String,
       enum:['female','male']
    },
    userName:{
     type:String,
-    //required:true,
+
+    required:true,
     unique:true,
     matchRegx:/^[a-zA-Z]+((['_,. -][a-zA-Z ])?[a-zA-Z]*)*$/,
    },
    password:{
-    type:Number,
-   // required:true,
+    type:String,
+   //  required:true,
     minLength:8,
    },
    doctorImage:{
     type:String,
-   
    },
    salary:{
     type:Number,
@@ -49,9 +50,9 @@ const doctorSchema=new mongoose.Schema({
    },
    address:schemas.addressSchema,
    clinicId:{
-      type:Number,
-      ref:'clinic',
-   },
+      type:Array,
+       ref:'clinic',
+    },
    departmentId:{
       type:Number,
       ref:'Department',
@@ -63,7 +64,8 @@ const doctorSchema=new mongoose.Schema({
      date:{type:String,default:" "},
      ref:'appointment',
   },
-
-})//end of schema
-//  doctorSchema.plugin(AutoIncrement);
+},{_id:false})//end of schema
+ doctorSchema.plugin(AutoIncrement,
+   {id:"doctorId",inc_field:"_id",start_seq:1}
+   );
 module.exports=mongoose.model("doctor",doctorSchema);

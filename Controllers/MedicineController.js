@@ -5,7 +5,7 @@ const mongoose=require("mongoose");
  exports.getAllmedicine=(request,response,next)=>{
 
     MedicineSchema.find()
-//.populate({ path: "patient" ,select:"id"})
+.populate({ path: "department_Id"})
 .then((data)=>{
 
  response.status(200).json(data);
@@ -13,10 +13,9 @@ const mongoose=require("mongoose");
     
  }
 //getting medicine by id
-
     exports.getMedicinebyId = (req, res, next) => {
         DepartmentSchema.findOne({ id: req.params.id })
-        //.populate({ path: "patient" })
+        .populate({ path: "department" })
     
             .then((data) => {
                 if (data == null) throw new Error("there is No medicine with this id");
@@ -27,13 +26,10 @@ const mongoose=require("mongoose");
             });
     };
 
-
-
-
 //adding new medicine
  exports.Addmedicine=(request,response,next)=>{
     let newmedicine=new MedicineSchema({
-        id:request.body.id,
+        _id:request.body.id,
         Name: request.body.Name,
         production_Date:request.body.production_Date,
         expiary_Date:request.body.expiary_Date,
@@ -41,6 +37,7 @@ const mongoose=require("mongoose");
         Recommendation:request.body.Recommendation,
         quantity:request.body.quantity,
         img:request.body.img,
+        department_Id:request.body.department_Id
         
     });
     newmedicine.save()

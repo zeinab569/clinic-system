@@ -16,11 +16,10 @@ const server=express();
 require("dotenv").config();
 let port=process.env.PORT||8080;
 
-
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.DB_URL)
       .then(()=>{
-            // console.log("DBconected");
+           
             server.listen(port,()=>{
                 console.log("server is open now I am listening  ^_^", port);
             });
@@ -51,6 +50,7 @@ server.use(DepartmentRouter);
 server.use(medicineRouter);
 server.use(invoiceRoute)
 server.use(appointmentRouter)
+
 
 
 //Not Found

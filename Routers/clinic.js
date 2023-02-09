@@ -2,13 +2,13 @@ const express=require("express");
 const {body,query,param,validationResult}=require("express-validator");
 const clinicController=require("./../Controllers/clinic");
 const errorValidator=require("./../Middlelwares/error_validation");
-const  Validation=require("./../Middlelwares/validation").clinicValidation;
+const  Validator=require("./../Middlelwares/validation").clinicValidation;
 const router=express.Router();
 
 
 router.route("/clinic")
 .get (clinicController.getAllClinic)
-.post(Validation,errorValidator,clinicController.addClinic)
+.post(Validator,errorValidator,clinicController.addClinic)
 
 
 

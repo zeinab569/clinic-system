@@ -10,7 +10,7 @@ medicine:[
     {
         id:{type:Number,ref:"medicines"},
         quantity:{type:Number},
-        period:{type:String,match:/^[0-9][d|W|M|Y]$/},
+        period:{type:String,match:/^[0-9][d|w|m|y]$/},
         medicinedate:{type:Date,default:Date.now()}
     }
 ],
@@ -20,19 +20,19 @@ required:true
 },
 patient_id:{ type:Number,
     required:true,
-   // ref:"patient"
+    ref:"patient"
 },
 doctor_id:{type:Number,
-    required:true
-   //ref:"doctor"
+    required:true,
+   ref:"doctor"
 },
 clinic_id:{
     type:Number,
-  //  ref:"clinic"
+    ref:"clinic"
 },
-services_id:{
+dept_id:{
     type:Number,
- //   ref:"clincService"
+   ref:"Department"
 }
 },{_id:false})
  mongoose.model("prescriptions",prescreptionSchema);

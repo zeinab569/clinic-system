@@ -1,12 +1,12 @@
 const Employee_Schema = require("../Models/employeeSchema");
+const DoctorSchema=require("../Models/doctor")
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
 
- // check admin done test it for employee
   async function checkadmin(req, res, next) {
-    const admin = ["admin", "doctor"];
+    const admin = ["admin"];
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
@@ -18,7 +18,7 @@ dotenv.config();
         });
         if (admin.findIndex((x) => x === userdata.user_role) === -1)
           return res.json({ error: "not admin" });
-      
+
       } catch (error) {
         error.status=403;
         error.message="not authorized";
@@ -29,11 +29,11 @@ dotenv.config();
   
 
   async function checkreception(req, res, next) {
-    const admin = ["admin", "doctor", "reception"];
+    const admin = ["admin", "receptionist"];
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-      /*------------redirect to error page--------------------- */
+     
       try {
         const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
@@ -41,48 +41,40 @@ dotenv.config();
           status: true,
         });
         if (admin.findIndex((x) => x === userdata.user_role) === -1)
-          return res.json({ error: "g" });
+          return res.json({ error: "not authorized" });
       } catch (err) {
-        return /*redirect to error page*/ res.json({ error: "d" });
+        return res.json({ error: "not authorized" });
       }
     } catch (err) {
-      return res.json({ error: "f" });
+      return res.json({ error: "not authorized" });
     }
-    /*------------redirect to error page--------------------- */
+   
     next();
   }
 
   async function checkdoctor(req, res, next) {
-    const admin = ["doctor"];
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-      /*------------redirect to error page--------------------- */
-      try {
         const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
         });
-        if (admin.findIndex((x) => x === userdata.user_role) === -1)
-          return res.send({ error: "g" });
-      } catch (err) {
-        return /*redirect to error page*/ res.send({ error: "d" });
-      }
+
     } catch (err) {
-      return res.send({ error: "f" });
+      return res.json({ error: "not authorized" });
     }
-    /*------------redirect to error page--------------------- */
+    
     next();
   }
  
 
   async function checkaccount(req, res, next) {
-    const admin = ["admin", "account"];
+    const admin = ["admin", "accountant"];
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-      /*------------redirect to error page--------------------- */
       try {
         const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
@@ -90,14 +82,35 @@ dotenv.config();
           status: true,
         });
         if (admin.findIndex((x) => x === userdata.user_role) === -1)
-          return res.send({ error: "g" });
+          return res.json({ error: "not authorized" });
       } catch (err) {
-        return /*redirect to error page*/ res.send({ error: "d" });
+        return res.json({ error: "not authorized" });
       }
     } catch (err) {
-      return res.send({ error: "f" });
+      return res.json({ error: "not authorized" });
     }}
 
-    // phamsysit
+   
     
-  module.exports = { checkadmin, checkreception, checkdoctor ,checkaccount};
+ async function checkpharmasist(req, res, next) {
+      const admin = ["admin", "pharmacist"];
+      try {
+        const token = await req.get("Authorization").replace("Bearer ", "");
+        const decodedToken = jwt.verify(await token, process.env.jwt_secret);
+        try {
+          const userdata = await Employee_Schema.findOne({
+            _id: await decodedToken.id,
+            role: await decodedToken.role,
+            status: true,
+          });
+          if (admin.findIndex((x) => x === userdata.user_role) === -1)
+            return res.json({ error: "not authorized" });
+        } catch (err) {
+          return res.json({ error: "not authorized" });
+        }
+      } catch (err) {
+        return res.json({ error: "not authorized" });
+    }}
+
+
+  module.exports = { checkadmin, checkreception, checkdoctor ,checkaccount,checkpharmasist};
