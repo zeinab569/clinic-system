@@ -28,7 +28,7 @@ exports.getAllPatient=(req,res,next)=>{
     patientSchema.find().
     populate({path:"appointmentId",select:{ date:1,status:1}})
     .populate({path:"healthRecordId",select:{patientId:0,medicine:0,_id:0}})
-    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"prescriptionId",select:{_id:0}}).populate({path:clinicId,select:clinicName})
     .then((data)=>{
         res.status(200).json(data)
     })
@@ -36,7 +36,8 @@ exports.getAllPatient=(req,res,next)=>{
 }
 exports.getPatientById=(req,res,next)=>{
     patientSchema.findOne({_id:req.params.id}).populate({path:"appointmentId",select:{ patient:1}})
-    .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"}).then((data)=>{
+    .populate({path:"healthRecordId",select:{_id:1,patientId:1}}).populate({path:"prescriptionId"})
+    .populate({path:clinicId,select:clinicName}).then((data)=>{
         res.status(200).json(data)
     })
     .catch(error=>{next(error)})
