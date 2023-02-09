@@ -11,6 +11,8 @@ exports.getAllDoctors=(request,response,next)=>{
     .populate("prescreption",{'_id':1 })
     .populate("patientid",{'firstName':1,'lastName':1})
     // .populate({path:"appointments"})
+
+
   .then((data) => {
     if (data ){ 
       response.status(200).json({message:"The Doctor with this Id.....",data});

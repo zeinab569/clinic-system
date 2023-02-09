@@ -1,5 +1,6 @@
 const { text } = require("express");
 const mongoose=require("mongoose");
+const autoIncrement=require("mongoose-sequence")(mongoose)
 const prescreptionSchema=new mongoose.Schema(
 
 {
@@ -35,4 +36,5 @@ dept_id:{
    ref:"Department"
 }
 },{_id:false})
+prescreptionSchema.plugin(autoIncrement,{id:"prescriptionId",inc_field:"_id"});
  mongoose.model("prescriptions",prescreptionSchema);

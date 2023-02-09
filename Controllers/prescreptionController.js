@@ -7,9 +7,9 @@ exports.getAllprescreptions=(request,response,next)=>{
     prescreptionSchema.find()
     .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
     .populate({path:"doctor_id",select:{fullName:1}})
-    .populate({path:"clinic_id",select:{clinicName:1}})
+    .populate({path:"clinic_id",select:{_id:0}})
     .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
-   // .populate({path:"service_id",select:{servicesName}})
+    .populate({path:"dept_id",select:{_id:0,Name:1}})
     .then((data)=>{
        response.status(200).json(data);
    }).catch(error=>
@@ -26,7 +26,9 @@ exports.createPrescreption=(request,response,next)=>{
          period:request.body.medicine.period }],
        dosage:request.body.dosage , 
       patient_id:request.body.patient_id,
-      doctor_id:request.body.doctor_id
+      doctor_id:request.body.doctor_id,
+      clinic_id:request.body.clinic_id,
+      dept_id:request.body.dept_id,
       
        
    });
@@ -73,12 +75,12 @@ exports.updatePrescreptions=(request,response,next)=>{
     .catch(error=>{next(error)})
 }
 module.exports.getPrescrptionBydoctorId=((req,res,next)=>{
-       prescreptionSchema.find({doctor_id:req.params.id},{}).
-       populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
+       prescreptionSchema.find({doctor_id:req.params.id},{})
+       .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
     .populate({path:"doctor_id",select:{fullName:1}})
-    .populate({path:"clinic_id",select:{clinicName:1}})
+    .populate({path:"clinic_id",select:{_id:0}})
     .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
-    // .populate({path:"service_id",select:{servicesName}})
+    .populate({path:"dept_id",select:{_id:0,Name:1}})
     sort({doctor_id:1})
        .then(
             (data) => res.status(200).json(data)
@@ -90,10 +92,10 @@ module.exports.getPrescrptionBydoctorId=((req,res,next)=>{
 module.exports.getPrescrptionByPatientId=((req,res,next)=>{
     prescreptionSchema.find({patient_id:req.params.id},{})
     .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
- .populate({path:"doctor_id",select:{fullName:1}})
- .populate({path:"clinic_id",select:{clinicName:1}})
- .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
- // .populate({path:"service_id",select:{servicesName}})
+    .populate({path:"doctor_id",select:{fullName:1}})
+    .populate({path:"clinic_id",select:{_id:0}})
+    .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+    .populate({path:"dept_id",select:{_id:0,Name:1}})
     .then(
          (data) => res.status(200).json(data)
          ).catch(
@@ -104,10 +106,10 @@ module.exports.getPrescrptionByPatientId=((req,res,next)=>{
 module.exports.getPrescrptionById=((req,res,next)=>{
     prescreptionSchema.findOne({_id:req.params.id},{})
     .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
- .populate({path:"doctor_id",select:{fullName:1}})
- .populate({path:"clinic_id",select:{clinicName:1}})
- .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
- // .populate({path:"service_id",select:{servicesName}})
+    .populate({path:"doctor_id",select:{fullName:1}})
+    .populate({path:"clinic_id",select:{_id:0}})
+    .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+    .populate({path:"dept_id",select:{_id:0,Name:1}})
     .then(
          (data) => res.status(200).json(data)
          ).catch(
@@ -122,9 +124,10 @@ module.exports.sort=((req,res,next)=>{
         prescreptionSchema.find({},{})
            .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1},sort: [{'firstName':'asc' }]},
         )
-        .populate({path:"doctor_id",select:{fullName:1}},)
-        .populate({path:"clinic_id",select:{clinicName:1}})
-        // .populate({path:"service_id",select:{servicesName}})
+        .populate({path:"doctor_id",select:{fullName:1}})
+        .populate({path:"clinic_id",select:{_id:0}})
+        .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+        .populate({path:"dept_id",select:{_id:0,Name:1}})
            .then(
                 (data) => res.status(200).json(data)
                 ).catch(
@@ -134,10 +137,11 @@ module.exports.sort=((req,res,next)=>{
     else if(req.params.sortKey=="DN")
     {
         prescreptionSchema.find({},{})
-           populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
-        .populate({path:"doctor_id",select:{fullName:1},sort: [{'fullName': 'asc' }]})
-        .populate({path:"clinic_id",select:{clinicName:1}})
-        // .populate({path:"service_id",select:{servicesName}})
+        .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
+        .populate({path:"doctor_id",select:{fullName:1}})
+        .populate({path:"clinic_id",select:{_id:0}})
+        .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+        .populate({path:"dept_id",select:{_id:0,Name:1}})
            .then(
                 (data) => res.status(200).json(data)
                 ).catch(
@@ -147,10 +151,11 @@ module.exports.sort=((req,res,next)=>{
     else if(req.params.sortKey=="PID")
     {
         prescreptionSchema.find({},{})
-           populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
+        .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
         .populate({path:"doctor_id",select:{fullName:1}})
-        .populate({path:"clinic_id",select:{clinicName:1}})
-        // .populate({path:"service_id",select:{servicesName}})
+        .populate({path:"clinic_id",select:{_id:0}})
+        .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+        .populate({path:"dept_id",select:{_id:0,Name:1}})
         .sort({patient_id:1})
            .then(
                 (data) => res.status(200).json(data)
@@ -160,11 +165,12 @@ module.exports.sort=((req,res,next)=>{
     }
     else if(req.params.sortKey=="DID")
     {
-        prescreptionSchema.find({},{}).
-           populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
+        prescreptionSchema.find({},{})
+        .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
         .populate({path:"doctor_id",select:{fullName:1}})
-        .populate({path:"clinic_id",select:{clinicName:1}})
-        // .populate({path:"service_id",select:{servicesName}})
+        .populate({path:"clinic_id",select:{_id:0}})
+        .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+        .populate({path:"dept_id",select:{_id:0,Name:1}})
         sort({doctor_id:1})
            .then(
                 (data) => res.status(200).json(data)
@@ -175,9 +181,11 @@ module.exports.sort=((req,res,next)=>{
     else
     {
         prescreptionSchema.find().populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
+        .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
         .populate({path:"doctor_id",select:{fullName:1}})
-        .populate({path:"clinic_id",select:{clinicName:1}})
-        .populate({path:"dept_id",select:{servicesName}})
+        .populate({path:"clinic_id",select:{_id:0}})
+        .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+        .populate({path:"dept_id",select:{_id:0,Name:1}})
         .then((data)=>{
            response.status(200).json(data);
        }).catch(error=>next(error))

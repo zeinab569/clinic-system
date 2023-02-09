@@ -69,4 +69,5 @@ const patientSchema= new mongoose.Schema(
     },{_id:false}
 )
 //  patientSchema.plugin(autoIncrement);
+patientSchema.plugin(autoIncrement,{id:"patientId",inc_field:"_id"});
  mongoose.model('patient',patientSchema)
