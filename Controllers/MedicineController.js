@@ -1,23 +1,18 @@
 const mongoose=require("mongoose");
  require("./../Models/MedicineModel");
- const MedicineSchema=mongoose.model("medicines");
- //getting all medicines
+ const MedicineSchema=mongoose.model("medicine");
+
  exports.getAllmedicine=(request,response,next)=>{
 
-    MedicineSchema.find()
-.populate({ path: "department_Id"})
-.then((data)=>{
+    MedicineSchema.find().then((data)=>{
 
  response.status(200).json(data);
     }).catch(error=>next(error))
     
  }
-//getting medicine by id
+
     exports.getMedicinebyId = (req, res, next) => {
-        DepartmentSchema.findOne({ id: req.params.id })
-        .populate({ path: "department" })
-    
-            .then((data) => {
+        MedicineSchema.findOne({ id: req.params.id }).then((data) => {
                 if (data == null) throw new Error("there is No medicine with this id");
                 res.status(200).json(data);
             })
@@ -29,14 +24,14 @@ const mongoose=require("mongoose");
 //adding new medicine
  exports.Addmedicine=(request,response,next)=>{
     let newmedicine=new MedicineSchema({
-        _id:request.body.id,
+      
         Name: request.body.Name,
         production_Date:request.body.production_Date,
         expiary_Date:request.body.expiary_Date,
         price:request.body.price,
         Recommendation:request.body.Recommendation,
         quantity:request.body.quantity,
-        img:request.body.img,
+        //img: request.file.path,
         department_Id:request.body.department_Id
         
     });
@@ -56,17 +51,12 @@ const mongoose=require("mongoose");
  response.status(200).json({message:` this medicine 'DELETED SUCCESSFULLY'`});
  console.log(result);
  response.send(result);
- 
       }
 catch(error){
-
     console.log(error.message);
-}
-            
+}   
             
     }
-
-
     // deleting
 exports.DeleteMedicine=(request,response,next)=>{
 let Name=request.body.Name;
@@ -74,18 +64,14 @@ let Name=request.body.Name;
         _id:request.body.id,
         Name:request.body.Name
     }
-    ).then(result=>
-        
+    ).then(result=> 
         {
             response.status(200).json({message:`${Name} is deleted from the pharmacy`});
     
         }).catch(error=>next(error))
-    
-    
+
     }
     //updating
-
-
     exports.updatemedicine=(request,response,next)=>{
 
         MedicineSchema.updateOne({_id:request.body.id},{
@@ -93,8 +79,9 @@ let Name=request.body.Name;
                 production_Date:request.body.production_Date,
                 expiary_Date:request.body.expiary_Date,
                 price:request.body.price,
+                quantity:request.body.quantity,
                 Recommendation:request.body.Recommendation,
-                img:request.body.img
+                img:request.file.path
                 }
         })
         .then((data)=>{
@@ -108,3 +95,44 @@ let Name=request.body.Name;
     }
     exports.getMedicinebyId=(request,response,next)=>{
         response.status(201).json({data:request.params})}
+
+
+
+        exports.Searchmedicine= async (request,response,next)=>{
+            try {
+              //  Filtering
+              const queryObj = { ...request.query }
+              const excludedFields = ['page', 'sort', 'limit', 'fields']
+              excludedFields.forEach(el => delete queryObj[el])
+              console.log(queryObj)
+          
+              // Advanced filtering
+              let queryString = JSON.stringify(queryObj)
+              console.log(queryString)
+              queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+              let query = MedicineSchema.find(JSON.parse(queryString))
+              
+             //sort
+              if (request.query.sort) {
+                const sortBy = request.query.sort.split(',').join(' ')
+                query = query.sort(sortBy)
+              } else {
+                query = query.sort('Name')
+              }
+          
+              const res = await query
+              response.status(200).json({
+                status: 'success',
+                results: res.length,
+                data: {
+                  res
+                }
+              });
+             
+            } catch (err) {
+              response.status(400).json({
+                status: 'fail',
+                message: err
+              })
+            }
+          }
