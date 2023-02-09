@@ -6,9 +6,6 @@ require("../Models/AppointmentModel")
 const appointmentSchema=mongoose.model("appointment")
 const doctorSchema=mongoose.model("doctor")
 
-
-
-
 // get appointments with specified id and after it
 exports.getAllAppointments=(req,res,next)=>{
   appointmentSchema.find().populate( 'patientID',{'firstName':1,'_id':0 }).populate('departmentID',{'Name':1,'Service':1,'_id':0 })
@@ -157,21 +154,6 @@ exports.updateAppointStatusByID=(req,res,next)=>{
 }
 
 
-// report
-exports.report=(req,res,next)=>{
-  appointmentSchema.find()
-             .then((data)=>{
-              let report = " ";
-              for (const result of data) {
-                report += `id: ${result.id}, patient: ${result.patientID}, service: ${result.departmentID}, date: ${result.date}, time: ${result.time}, doctor: ${result.doctorID} `;
-                report+="                                          ";
-              }
-              console.log(report)
-              res.status(200).json(report)
-             })
-             .catch(error=>{next(error)})
-   }
-
 
    const filePath = '/path/to/ApppointmentReport.json';
    // report 
@@ -199,6 +181,37 @@ exports.report=(req,res,next)=>{
                     })
                     .catch(err=>next(err))
   }
+
+
+ //filter and sort
+exports. searchAppointments=async(req,res,next)=>{
+  try {
+    const queryObj = { ...req.query }
+    const excludedFields = ['page', 'sort', 'limit', 'fields']
+    excludedFields.forEach(el => delete queryObj[el])
+    console.log(queryObj)
+    // Advanced filtering
+    let queryString = JSON.stringify(queryObj)
+    console.log(queryString)
+    queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+    let query = appointmentSchema.find(JSON.parse(queryString))
+    
+   //sort
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ')
+      query = query.sort(sortBy)
+    } else {
+      query = query.sort('date')
+    }
+
+    const filterNumbers = await query
+    res.status(200).json({status: 'success',results: filterNumbers.length,data:filterNumbers});
+   } 
+   catch (err) {next(err) }
+}  
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 const express=require("express");
 const mongoose=require("mongoose");
 const loginRoute=require("./Routers/login_route");
-const employeeRoute =require("./Routers/employee_rpoute");
+const employeeRoute =require("./Routers/employeeRoute");
 const doctorsRouter=require("./Routers/doctor");
 const clinicRouter=require("./Routers/clinic");
 const patientRouter=require("./Routers/patientRoute")
@@ -11,6 +11,7 @@ const DepartmentRouter=require("./Routers/DepartmentRoute")
 const medicineRouter=require("./Routers/MedicineRoute")
 const invoiceRoute=require("./Routers/invoiceRoute")
 const appointmentRouter=require("./Routers/appointmentRoute")
+const serviceRouter=require("./Routers/serivceRoute")
 
 const server=express(); 
 require("dotenv").config();
@@ -50,7 +51,7 @@ server.use(DepartmentRouter);
 server.use(medicineRouter);
 server.use(invoiceRoute)
 server.use(appointmentRouter)
-
+server.use(serviceRouter)
 
 //Not Found
 server.use((request,response,next)=>{

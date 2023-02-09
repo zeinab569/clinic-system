@@ -1,6 +1,10 @@
 const mongoose= require("mongoose")
 require("../Models/employeeSchema")
+require("../Models/doctor")
+const nodemailer = require('nodemailer')
 const Employee_Schema = mongoose.model("employee");
+const Doctor_Schema= mongoose.model("doctor")
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -8,6 +12,32 @@ const { request } = require("express");
 const { response } = require("express");
 dotenv.config();
 
+
+function sendMail(username,pass){
+  const transporter = nodemailer.createTransport({
+    host: "0.0.0.0",
+     port:1025,
+    secure: false,
+    auth: {
+    user: "zeinabelazzab875@gmail.com",
+    pass:"********"
+   }
+  });
+  
+    const mailOptions = {
+      from: 'zeinabelazzab875@gmail.com',
+      to: 'testem@gmail.com',
+      subject: 'welcome to our clinic',
+      text: `Your password is ${pass} and your user name is ${username}`
+    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+}
 
 // create user done
 async function createUser(request, response,next) {
@@ -57,6 +87,7 @@ async function createUser(request, response,next) {
       const savednewuser = await newuser.save()
       .then(result=>{
         response.status(201).json(result)
+        sendMail(result.user,result.password)
       })
      .catch(error=>next(error))
       } 
@@ -64,7 +95,9 @@ async function createUser(request, response,next) {
 
 // get all employees
 async function getAllEmployees(request,response,next){
-  await Employee_Schema.find().then((data)=>{
+  await Employee_Schema.find()
+  .populate({path:"clinicId",select:'clinicName'})
+  .then((data)=>{
       response.status(200).json(data);
    }).catch(error=>next(error))
 }
@@ -121,7 +154,7 @@ async function changeUserPassword(request, response,next) {
 
 // get employee by id
 async function getbyid(request,response,next){
-   await Employee_Schema.findOne({data: request.params.id},)
+    await Employee_Schema.findOne({ _id: request.params.id })
    .then(thedata=>{
        response.status(200).json({data:thedata})
    }).catch(error=>next(error))
@@ -131,9 +164,9 @@ async function getbyid(request,response,next){
 async function getDoctorList(request, response,next) {
   try {
     const list = [];
-    const datas = await Employee_Schema.find(
-      { status: true, user_role: "doctor" },
-      { user_name: 1,name:1 ,_id: 0 }
+    const datas = await Doctor_Schema.find(
+      { user_role: "doctor" },
+      { userName: 1, fullName:1 ,_id: 0 }
     );
     if (datas.length > 0) {
       return response.json({ success: datas });
@@ -163,7 +196,7 @@ async function getReseptionistList(request, response,next) {
   }
 }
 
-// get list of account
+// get list of accountant
 async function getAccountantList(request, response,next) {
   try {
     const list = [];
@@ -209,7 +242,6 @@ async function deleteUser(request, response,next) {
 //filter and sort
 async function SearchEmployees(request,response,next){
   try {
-
     //  Filtering
     const queryObj = { ...request.query }
     const excludedFields = ['page', 'sort', 'limit', 'fields']
@@ -230,12 +262,12 @@ async function SearchEmployees(request,response,next){
       query = query.sort('salary')
     }
 
-    const filterNumbers = await query
+    const theQuery = await query
     response.status(200).json({
       status: 'success',
-      results: filterNumbers.length,
+      results: theQuery.length,
       data: {
-        filterNumbers
+        theQuery
       }
     });
    

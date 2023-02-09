@@ -69,6 +69,7 @@ const doctorSchema=new mongoose.Schema({
    default:"doctor",
 },
 
+
 },{_id:false})//end of schema
  doctorSchema.plugin(AutoIncrement,
    {id:"doctorId",inc_field:"_id",start_seq:1}

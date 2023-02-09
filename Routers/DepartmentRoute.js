@@ -3,11 +3,13 @@ const validator=require("./../Middlelwares/error_validation");
 
 const Controller=require("./../Controllers/DepartmentController");
 const validateDepartment=require("./../Middlelwares/the_valid_object").Department
+const check_permission= require("../Middlelwares/check_users");
 
 const router= express.Router();
 
 
 router.route("/Department")
+     .all(check_permission.checkadmin)
     .get(Controller.getAllDepartment)
     .post(validator,Controller.AddDepartment)
     .patch(validator,Controller.updateDepartment)
@@ -21,7 +23,7 @@ router.route("/Department")
 
 //sorting
 
-router.get("/Department/SortByName",
+router.get("/Department/SortByName",check_permission.checkadmin,
 Controller.SortByName
  );
 //getting department by id
@@ -30,16 +32,17 @@ Controller.getDepartmentbyId
 
  );
  //updating dep
- router.patch("/Department/:_id",Controller.updateDepartment
+ router.patch("/Department/:_id",check_permission.checkadmin,
+ Controller.updateDepartment
  
   );
 //Deleting by id
-  router.delete("/Department/:_id",
+  router.delete("/Department/:_id",check_permission.checkadmin,
 Controller.DeleteDepartmentById
  );
 
 //searching
- router.post("/Search",
+ router.post("/Search",check_permission.checkadmin,
 Controller.SearchRecord
  );
 

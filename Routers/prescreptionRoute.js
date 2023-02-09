@@ -2,20 +2,24 @@ const express=require("express");
 const validator=require("../Middlelwares/error_validation");
 const prescriptionController=require("../Controllers/prescreptionController");
 const {prescriptionValidation}=require("../Middlelwares/validation")
+const check_permission= require("../Middlelwares/check_users");
 
 const router= express.Router();
 
-router.get("/prescreption",prescriptionController.getAllprescreptions)
+router.get("/prescreption",check_permission.checkdoctor,prescriptionController.getAllprescreptions)
+
 router.route("/prescreption")
-//.all() check for doctor
+.all(check_permission.checkdoctor)
     .post(prescriptionValidation,validator,prescriptionController.createPrescreption)
-    .patch(prescriptionController.updatePrescreptions).delete(prescriptionController.deletePrescreption);
-router.get("/prescreption",prescriptionController.getAllprescreptions)
+    .patch(prescriptionController.updatePrescreptions)
+    .delete(prescriptionController.deletePrescreption);
+
+router.get("/prescreption",check_permission.checkdoctor,prescriptionController.getAllprescreptions)
 //check  doctor
-router.get('/prescreption/doctor/:id',prescriptionController.getPrescrptionBydoctorId)
-router.get('/prescreption/patient/:id',prescriptionController.getPrescrptionByPatientId)
-router.get('/prescreption/:id',prescriptionController.getPrescrptionById)
-router.get('/prescrption/sort/:sortKey',prescriptionController.sort)
+router.get('/prescreption/doctor/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionBydoctorId)
+router.get('/prescreption/patient/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionByPatientId)
+router.get('/prescreption/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionById)
+router.get('/prescrption/sort/:sortKey',check_permission.checkdoctor,prescriptionController.sort)
 
 
 module.exports=router;

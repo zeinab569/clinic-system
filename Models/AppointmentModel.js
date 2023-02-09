@@ -14,7 +14,7 @@ const schema= new mongoose.Schema({        //constructor to define object
    date:{type:String,required:true,validate:/^\d{2}-\d{2}-\d{4}$/},
    time:{type:String,required:true,validate:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/},
    status:{type:String,default:"unAssign",enum:['Done','Cancel','Postpone','unAssign']}
-})
+},{_id:false})
 
-//schema.plugin(autoIncrement , {_id:'appointmentCounter'})
+schema.plugin(autoIncrement,{id:"appointmentId",inc_field:"_id",start_seq:200});
 mongoose.model("appointment",schema) 
