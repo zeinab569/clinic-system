@@ -42,7 +42,6 @@ exports.filterDocotr=(request,response,next)=>{
   })
   .catch((error) => next(error));
 }
-
 // exports.getAllDoctors=(request,response,next)=>{
 //     doctorSchema.find({})
 //    .populate({path:"clinicId",select:'clinicName'})
@@ -143,7 +142,8 @@ exports.getDoctorById=(request,response,next)=>{
           }
         })
         .catch((error) => next(error));
-    }//done trueeeeeeeeeeeee
+
+    }//done trueeeeeeeeeeeeee
 
     //------------sort------------------------//
 

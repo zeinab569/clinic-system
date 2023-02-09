@@ -2,15 +2,18 @@
 const {body,query,param,validationResult}=require("express-validator");
 
 let doctorValidation=[
-    body("_id").isInt().withMessage("_id must be integer"),
+   
     body("fullName").isAlpha().withMessage("full name must be string"),
     body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
     body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^01[0125](-)?[0-9]{8}$/),
-    body("Specialization").isAlpha().withMessage("Specialization must be text or word"),
+    body("Specialization").isString().withMessage("Specialization must be text or word"),
     body("gender").isAlpha().withMessage("gender must be one of two [female,male]"),
+
     body("userName").isString().withMessage("userName must be string"),
-    body("password").isString().withMessage("password minimum length is 8"),//make it encrbiمشفره
-    body("image").isString().withMessage("image path isn't right"),//------------
+    body("password").isString().withMessage("password minimum length is 8"),
+    body("image").isString().withMessage("image path isn't right"),
+
+    // body("userName").isString().withMessage("userName must be string"),
     body("salary").isInt().withMessage("salary must be more than 2000"),
     body("address").isObject().withMessage("address must be object"),
     body("address.city").isAlpha().withMessage("city must be string"),
@@ -19,21 +22,19 @@ let doctorValidation=[
     body("clinicId").isInt().withMessage("clinicId must be number"),
     body("appointmentId").isInt().withMessage("buliding must be number"),
 ];
-let doctorValidation1=[
-    body("_id").isInt().withMessage("_id must be integer"),
-    body("fullName").isAlpha().withMessage("full name must be string"),
+let importVIP=[
+ 
     body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
+
 ];
 
 let clinicValidation=[
     body("clinicName").isAlpha().withMessage("clinic name must be string"),
     body("email").isEmail().withMessage("it is not a valid email").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ),
-   // body("phoneNumber").isString().withMessage("it is not a matched format for phone number").matches(/^01[0125](-)?[0-9]{8}$/),// بيعمل ايرورس
    
 ];
 
-
-module.exports={doctorValidation,clinicValidation}
+module.exports={doctorValidation,clinicValidation,importVIP}
 module.exports.patientValidation=[
     body("patientFirstName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
     body("patientLastName").isString().matches(/^[a-z]{3,}$/i).withMessage("Patient Name should be alphabtic"),
@@ -82,3 +83,30 @@ let Medicine=[
     body("quantity").isNumeric().withMessage("quantity must be Number"),
     body("img").isString().withMessage("img must be string")
 ]
+
+
+
+module.exports.appointValidation=[
+    
+    body("id").isInt().withMessage("id must be integer"),
+    body("employeeID").isInt().withMessage("employeeID should be Number ."),
+    body("patientID").isInt().withMessage("patientId should be Number ."),
+    body("departmentID").isInt().withMessage("serviceId should be Number ."),
+    body("doctorID").isInt().withMessage("doctorId should be Number ."),
+    body("date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("date should be date like this DD-MM-YYYY ."),
+    body("time").isString().matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/).withMessage("time should be time like this HH:MM ."),
+    body("status").default('unAssign')
+]
+
+module.exports.invoiceValidation=[
+
+    body("id").isInt().withMessage("id must be integer"),
+    body("employeeID").isInt().withMessage("employeeID should be Number ."),
+    body("patientID").isInt().withMessage("patientId should be Number ."),
+    body("date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("date should be date like this  DD-MM-YYYY ."),
+    body("amount").isInt().withMessage("amount should be int"),
+    body("payment_way").isIn(["cash","credit","insurance credit"]).withMessage("payment should be cash or credit or Insurance Card "),
+    body("due_date").isString().matches(/^\d{2}-\d{2}-\d{4}$/).withMessage("due_date should be date like this  DD-MM-YYYY ."),
+    body("appointmentID").isInt().withMessage("appointmentId should be Number ."),
+]
+

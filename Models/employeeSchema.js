@@ -1,5 +1,4 @@
 const mongoose= require('mongoose')
-
 const address_schema=new mongoose.Schema({
    city:{type:String},
    street:{type:String},
@@ -29,5 +28,6 @@ const EmployeeSchema= new mongoose.Schema({
     clinictId:{type:Number,ref:'clinic'}, //refrance
     
 },{_id:false})
+
 
 module.exports=mongoose.model('employee',EmployeeSchema)

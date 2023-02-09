@@ -20,8 +20,9 @@ const clinicSchema=new mongoose.Schema({
 },
 {_id:false}
 )//end of schema
+clinicSchema.plugin(AutoIncrement,
+  {id:"clinicId",inc_field:"_id",start_seq:100});
 
-
-clinicSchema.plugin(AutoIncrement);
+// clinicSchema.plugin(AutoIncrement);
 //module.exports=mongoose.model("doctor",doctorSchema);
 mongoose.model("clinic",clinicSchema);

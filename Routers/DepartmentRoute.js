@@ -9,8 +9,8 @@ const router= express.Router();
 
 router.route("/Department")
     .get(Controller.getAllDepartment)
-    .post(Controller.AddDepartment)
-    .patch(Controller.updateDepartment)
+    .post(validator,Controller.AddDepartment)
+    .patch(validator,Controller.updateDepartment)
   //.delete(Controller.DeleteDepartment);
 
 
@@ -25,16 +25,16 @@ router.get("/Department/SortByName",
 Controller.SortByName
  );
 //getting department by id
-router.get("/Department/:id",
+router.get("/Department/:_id",
 Controller.getDepartmentbyId
 
  );
  //updating dep
- router.patch("/Department/:id",Controller.updateDepartment
+ router.patch("/Department/:_id",Controller.updateDepartment
  
   );
 //Deleting by id
-  router.delete("/Department/:id",
+  router.delete("/Department/:_id",
 Controller.DeleteDepartmentById
  );
 
