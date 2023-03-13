@@ -8,7 +8,7 @@ exports.getAllprescreptions=(request,response,next)=>{
     .populate({path:"patient_id",select:{firstName:1,lastName:1,age:1,gender:1}})
     .populate({path:"doctor_id",select:{fullName:1}})
     .populate({path:"clinic_id",select:{_id:0}})
-    .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
+    //.populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
     .populate({path:"dept_id",select:{_id:0,Name:1}})
     .then((data)=>{
        response.status(200).json(data);
@@ -170,7 +170,7 @@ module.exports.sort=((req,res,next)=>{
         .populate({path:"clinic_id",select:{_id:0}})
         .populate({path:"medicine.id",select:{Name:1,Recommendation:1,price:1}})
         .populate({path:"dept_id",select:{_id:0,Name:1}})
-        sort({doctor_id:1})
+        .sort({doctor_id:1})
            .then(
                 (data) => res.status(200).json(data)
                 ).catch(

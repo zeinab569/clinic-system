@@ -9,7 +9,7 @@ _id:{type:Number},
 creationDate:{type:Date ,default:Date.now()},
 medicine:[
     {
-        id:{type:Number,ref:"medicines"},
+        id:{type:Number,ref:"medicine"},
         quantity:{type:Number},
         period:{type:String,match:/^[0-9][d|w|m|y]$/},
         medicinedate:{type:Date,default:Date.now()}

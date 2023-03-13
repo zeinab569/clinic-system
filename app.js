@@ -12,6 +12,8 @@ const medicineRouter=require("./Routers/MedicineRoute")
 const invoiceRoute=require("./Routers/invoiceRoute")
 const appointmentRouter=require("./Routers/appointmentRoute")
 const serviceRouter=require("./Routers/serivceRoute")
+const reportRouter=require("./Routers/report")
+
 
 const server=express(); 
 require("dotenv").config();
@@ -52,7 +54,7 @@ server.use(medicineRouter);
 server.use(invoiceRoute)
 server.use(appointmentRouter)
 server.use(serviceRouter)
-
+server.use(reportRouter);
 //Not Found
 server.use((request,response,next)=>{
     response.status(404).json({data:"Not Fount"});

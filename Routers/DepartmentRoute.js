@@ -42,7 +42,7 @@ Controller.SearchRecord
  );
 
 
- router.get("/searchfor/:res",check_permission.checkadmin,
+ router.get("/searchforr/:res",check_permission.checkadmin,
  Controller.SearchDepartment
  
  )

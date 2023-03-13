@@ -35,7 +35,7 @@ let Department=[
     body("Name").isAlpha().trim().withMessage("your name should be string"),
 
    
-    body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/),
+    body("phoneNumber").isString().withMessage("it is not a matched format").matches(/^01[0125](-)?[0-9]{8}$/),
 
  
 ];

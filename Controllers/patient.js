@@ -40,7 +40,7 @@ exports.createPatient=(req,res,next)=>{
         appointmentId:[{appointmentid:req.body.appointmentId}],
         healthRecordId:req.body.healthRecordId,
         clinicId:req.body.clinicId,
-         img:req.file.path
+        img:req.file.path
         
     });
     addPatientSchema.save(

@@ -6,7 +6,6 @@ const check_permission= require("../Middlelwares/check_users");
 
 const router= express.Router();
 
-router.get("/prescreption",check_permission.checkdoctor,prescriptionController.getAllprescreptions)
 
 router.route("/prescreption")
 .all(check_permission.checkdoctor)
@@ -21,6 +20,7 @@ router.get('/prescreption/patient/:id',check_permission.checkdoctor,prescription
 router.get('/prescreption/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionById)
 router.get('/prescrption/sort/:sortKey',check_permission.checkdoctor,prescriptionController.sort)
 router.get('/prescrption/search/:filter',prescriptionController.searchPrescrption)
+
 
 
 module.exports=router;

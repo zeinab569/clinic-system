@@ -34,7 +34,7 @@ router.route('/appointmentStatus/:status',check_permission.checkreception)
 router.route('/appointmentDate/:id',check_permission.checkreception)
       .patch([idValidate,appointValidation[5]],validator,appointmentController.updateAppointDateByID)
 
-router.route('/appointmentStatus/:id',check_permission.checkreception)
+router.route('/AppointmentStatus/:id',check_permission.checkreception)
        .patch([idValidate,status],validator,appointmentController.updateAppointStatusByID)
 
 router.get("/searhApp/:filterNumbers",appointmentController.searchAppointments)

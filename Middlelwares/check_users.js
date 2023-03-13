@@ -71,45 +71,50 @@ dotenv.config();
  
 
   async function checkaccount(req, res, next) {
-    const admin = ["admin", "accountant"];
+    const admin = ["accountant"];
     try {
       const token = await req.get("Authorization").replace("Bearer ", "");
       const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-      try {
+     
         const userdata = await Employee_Schema.findOne({
           _id: await decodedToken.id,
           role: await decodedToken.role,
           status: true,
         });
         if (admin.findIndex((x) => x === userdata.user_role) === -1)
-          return res.json({ error: "not authorized" });
-      } catch (err) {
-        return res.json({ error: "not authorized" });
-      }
-    } catch (err) {
-      return res.json({ error: "not authorized" });
-    }}
+          return res.json({ error: "not accountant" });
 
+      } catch (error) {
+        error.status=403;
+        error.message="not authorized";
+        next(error)
+    } 
+    next();
+  }
+ 
+  async function checkpharmasist(req, res, next) {
+    const admin = ["pharmacist"];
+    try {
+      const token = await req.get("Authorization").replace("Bearer ", "");
+      const decodedToken = jwt.verify(await token, process.env.jwt_secret);
+     
+        const userdata = await Employee_Schema.findOne({
+          _id: await decodedToken.id,
+          role: await decodedToken.role,
+          status: true,
+        });
+        if (admin.findIndex((x) => x === userdata.user_role) === -1)
+          return res.json({ error: "not pharmacist" });
+
+      } catch (error) {
+        error.status=403;
+        error.message="not authorized";
+        next(error)
+    } 
+    next();
+  }
+ 
    
-    
- async function checkpharmasist(req, res, next) {
-      const admin = ["admin", "pharmacist"];
-      try {
-        const token = await req.get("Authorization").replace("Bearer ", "");
-        const decodedToken = jwt.verify(await token, process.env.jwt_secret);
-        try {
-          const userdata = await Employee_Schema.findOne({
-            _id: await decodedToken.id,
-            role: await decodedToken.role,
-            status: true,
-          });
-          if (admin.findIndex((x) => x === userdata.user_role) === -1)
-            return res.json({ error: "not authorized" });
-        } catch (err) {
-          return res.json({ error: "not authorized" });
-        }
-      } catch (err) {
-        return res.json({ error: "not authorized" });
-    }}
+ 
 
   module.exports = { checkadmin, checkreception, checkdoctor ,checkaccount,checkpharmasist};

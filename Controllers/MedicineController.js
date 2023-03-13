@@ -12,13 +12,9 @@ const mongoose=require("mongoose");
  }
 
     exports.getMedicinebyId = (req, res, next) => {
-        MedicineSchema.findOne({ id: req.params.id }).then((data) => {
-                if (data == null) throw new Error("there is No medicine with this id");
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                next(err);
-            });
+        MedicineSchema.findOne({ _id: req.params.id }).then(thedata=>{
+          response.status(200).json({data:thedata})
+      }).catch(error=>next(error))
     };
 
 //adding new medicine
