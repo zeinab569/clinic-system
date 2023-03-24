@@ -9,7 +9,7 @@ const { route } = require("express/lib/application");
 const router = express.Router();
 
 router.route("/employee")
-  .all(check_permission.checkadmin)
+  //.all(check_permission.checkadmin)
   .get(controller.getAllEmployees)  
   .post(
     upload.single('employeeImage'),
@@ -17,22 +17,26 @@ router.route("/employee")
     validate,
     controller.createUser
     )
-  .patch(controller.update)  
-  .delete(controller.deleteUser)
+  //.patch(controller.update)  
+  //.delete(controller.theDelete)
 
+//router.put("/:id",controller.updateStudent)
+
+router.delete("/employee/:id",controller.theDelete)
+router.put("/employee/:id",controller.theUpdate)
 // get employee by id
-router.get("/employee/:id",check_permission.checkadmin,
+router.get("/employee/:id",//check_permission.checkadmin,
   param("id").isInt().withMessage("your id should be integer"),
   controller.getbyid
 )
 
 // get all doctors
-router.get("/doctorList",check_permission.checkadmin,
+router.get("/doctorList",//check_permission.checkadmin,
  controller.getDoctorList
 )
 
 // get all reseptionist
-router.get("/reseptionistList",check_permission.checkadmin,
+router.get("/reseptionistList",//check_permission.checkadmin,
  controller.getReseptionistList
 )
 

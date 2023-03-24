@@ -22,7 +22,7 @@ async function userLogin(request, response,next) {
         token = jwt.sign(
           { id: doctourusername._id, role: doctourusername.role },
           process.env.jwt_secret,
-          {expiresIn:"1h"}
+          {expiresIn:"2h"}
         );
         response.json({
           success: await token,
@@ -85,6 +85,7 @@ async function userLogin(request, response,next) {
     }
   }
 
+  
 
 
   module.exports = {userLogin,verifyUserDetails}

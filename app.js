@@ -1,5 +1,7 @@
 const express=require("express");
 const mongoose=require("mongoose");
+const cors = require("cors");
+const cookieSession = require("cookie-session");
 const loginRoute=require("./Routers/login_route");
 const employeeRoute =require("./Routers/employeeRoute");
 const doctorsRouter=require("./Routers/doctor");
@@ -13,13 +15,21 @@ const invoiceRoute=require("./Routers/invoiceRoute")
 const appointmentRouter=require("./Routers/appointmentRoute")
 const serviceRouter=require("./Routers/serivceRoute")
 const reportRouter=require("./Routers/report")
-
+const AuthRouter = require("./Routers/auth")
+const userRouter =require("./Routers/user")
+const Role=require("./Models/role")
 
 const server=express(); 
 require("dotenv").config();
 let port=process.env.PORT||8080;
 
 mongoose.set('strictQuery', true);
+
+server.use(cors(
+    {
+      origin: "http://localhost:4200"
+    }  ));
+  
 mongoose.connect(process.env.DB_URL)
       .then(()=>{
            
@@ -32,7 +42,6 @@ mongoose.connect(process.env.DB_URL)
             console.log("DBproblem"+ error)
         })
 
-
 // first middleware
 server.use((request,response,next)=>{
     console.log("Hello from FirstMW", request.url,request.method);
@@ -40,9 +49,13 @@ server.use((request,response,next)=>{
   });
 
 server.use(express.json());
-// routs
 
-server.use(loginRoute);
+  // routes
+//server.use(AuthRouter)
+//server.use(userRouter)
+
+//server.use(loginRoute);
+
 server.use(employeeRoute);
 server.use(doctorsRouter);
 server.use(clinicRouter);
@@ -55,6 +68,9 @@ server.use(invoiceRoute)
 server.use(appointmentRouter)
 server.use(serviceRouter)
 server.use(reportRouter);
+
+
+
 //Not Found
 server.use((request,response,next)=>{
     response.status(404).json({data:"Not Fount"});

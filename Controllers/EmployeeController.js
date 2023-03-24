@@ -57,18 +57,18 @@ async function createUser(request, response,next) {
       user_role: request.body.user_role,
       name:request.body.name,
       phoneno: request.body.phoneno,
-      employeeImage: request.file.path,
+      //employeeImage: request.file.path,
       email: request.body.email,
       password: hashedpassword,
       salary:request.body.salary,
       gender:request.body.gender,
       workHours:request.body.workHours,
       age:request.body.age,
-      address:{
-        city: request.body.city,
-        street: request.body.street,
-        building: request.body.building,
-    },
+     // address:{
+      //  city: request.body.city,
+     //   street: request.body.street,
+     //   building: request.body.building,
+   // },
     
   
     });
@@ -238,6 +238,41 @@ async function deleteUser(request, response,next) {
        }).catch(error=>next(error))
 }
 
+
+async function theDelete(request,response,next){
+  try{
+    let data=await Employee_Schema.findByIdAndDelete(request.params.id)
+    if(data==null) throw new Error("Employee Is not Found!")
+    response.status(200).json({message:"deleted"})
+}catch(error)
+{
+    next(error)
+}
+     
+
+}
+
+async function theUpdate(request,response,next){
+
+  Employee_Schema.findByIdAndUpdate(request.params.id,{
+    $set:{
+      user_name: request.body.user_name,
+      user_role: request.body.user_role,
+      name:request.body.name,
+      phoneno: request.body.phoneno,
+      email: request.body.email,
+      salary:request.body.salary,
+      gender:request.body.gender,
+      workHours:request.body.workHours,
+      age:request.body.age,
+     }
+    })
+    .then(data=>{
+       if(data==null) throw new Error("Employee Is not Found!")
+           response.status(200).json(data)
+          })
+          .catch(error=>next(error))
+}
 //filter and sort
 async function SearchEmployees(request,response,next){
   try {
@@ -290,4 +325,6 @@ module.exports = {
   getbyid,
   getPharmacistList,
   SearchEmployees,
+  theDelete,
+  theUpdate
 };

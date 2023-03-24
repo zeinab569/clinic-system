@@ -15,11 +15,11 @@ router.route("/Department")
     .patch(validateDepartment,validator,Controller.updateDepartment)
   .delete(Controller.DeleteDepartment);
 
-
 //sorting
 router.get("/Department/SortByName",check_permission.checkadmin,
 Controller.SortByName
  );
+ 
 //getting department by id
 router.get("/Department/:_id",
 check_permission.checkadmin,
