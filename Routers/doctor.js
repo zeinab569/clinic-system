@@ -10,13 +10,14 @@ const upload=require('./../Middlelwares/image');
 
 
 router.route("/doctor")
-.all(check_permission.checkadmin)
+// .all(check_permission.checkadmin)
 .get(controller.getAllDoctors)
-.post(upload.single('doctorImage'),Validator,errorValidator,controller.addDoctors)
+.post(controller.addDoctors)
+// .post(upload.single('doctorImage'),Validator,errorValidator,controller.addDoctors)
 
 
 router.route("/doctor/:_id")
-      .all(check_permission.checkadmin)
+      // .all(check_permission.checkadmin)
       .get(param("_id").isInt().withMessage("_id must be Number"),errorValidator,controller.getDoctorById)
       .delete(param("_id").isInt().withMessage("_id must be Number"),errorValidator,controller.deleteDoctorbyID)
       .patch(param("_id").isInt().withMessage("_id must be Number"),errorValidator,controller.updateDoctor)

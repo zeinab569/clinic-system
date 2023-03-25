@@ -10,12 +10,13 @@ exports.getAllDoctors=(request,response,next)=>{
     .populate("departmentId",{'Name':1})
     .populate("prescreption",{'_id':1 })
     .populate("patientid",{'firstName':1,'lastName':1})
-    .populate({path:"appointments"})
+    // .populate({path:"appointments"})
 
 
   .then((data) => {
     if (data ){ 
-      response.status(200).json({message:"The Doctor with this Id.....",data});
+      // response.status(200).json({message:"The Doctor with this Id.....",data});
+      response.status(200).json(data);
       console.log(data);
     }else {
       next(new Error("Doctor  is not  here -_-"));
@@ -37,16 +38,16 @@ exports.addDoctors=async(request,response,next)=>{
         userName:request.body.userName,
         email:          request.body.email,
        // doctorImage:     request.file.path,
-        Specialization:request.body.Specialization,
+        // Specialization:request.body.Specialization,
         salary:request.body.salary,
         departmentId:request.body.departmentId,
         phoneNumber:request.body.phoneNumber,
-        address:
-        {
-          city:request.body.city,
-          street:request.body.street,
-          building:request.body.building
-         }
+        // address:
+        // {
+        //   city:request.body.city,
+        //   street:request.body.street,
+        //   building:request.body.building
+        //  }
 
       
     });
@@ -104,7 +105,8 @@ exports.getDoctorById=(request,response,next)=>{
         doctorSchema.findOne({ _id: request.params._id })
         .then((data) => {
           if (data){ 
-            response.status(200).json({message:"The Doctor with this Id.....",data});
+            // response.status(200).json({message:"The Doctor with this Id.....",data});
+            response.status(200).json(data);
           }else {
             next(new Error("Doctor is not  here -_-"));
           }
