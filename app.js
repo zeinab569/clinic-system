@@ -1,4 +1,5 @@
 const express=require("express");
+const path  =require("path");
 const mongoose=require("mongoose");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
@@ -15,9 +16,8 @@ const invoiceRoute=require("./Routers/invoiceRoute")
 const appointmentRouter=require("./Routers/appointmentRoute")
 const serviceRouter=require("./Routers/serivceRoute")
 const reportRouter=require("./Routers/report")
-const AuthRouter = require("./Routers/auth")
-const userRouter =require("./Routers/user")
-const Role=require("./Models/role")
+const userRoutes = require('./Routers/user');
+
 
 const server=express(); 
 require("dotenv").config();
@@ -27,8 +27,11 @@ mongoose.set('strictQuery', true);
 
 server.use(cors(
     {
-      origin: "http://localhost:4200"
-    }  ));
+      origin: "http://localhost:4200",
+      credentials:true,            //access-control-allow-credentials:true
+      optionSuccessStatus:200
+    }  
+    ));
   
 mongoose.connect(process.env.DB_URL)
       .then(()=>{
@@ -50,12 +53,27 @@ server.use((request,response,next)=>{
 
 server.use(express.json());
 
+
+server.use("/images" , express.static(path.join("images")));
+/*
+server.use((req,res,next)=>{
+    res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With ,Content-Type,Authorization ,Accept",
+      "HTTP/1.1 200 OK",
+      "append,delete,entries,foreach,get,has,keys,set,values,Authorization"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET,POST,PATCH,DELETE,OPTIONS,PUT"
+    );
+    next();
+  });
+*/
   // routes
-//server.use(AuthRouter)
-//server.use(userRouter)
-
 //server.use(loginRoute);
-
+server.use("/user",userRoutes);
 server.use(employeeRoute);
 server.use(doctorsRouter);
 server.use(clinicRouter);
