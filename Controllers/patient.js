@@ -9,7 +9,10 @@ exports.getAllPatient=(req,res,next)=>{
     .populate({path:"clinicId",select:{clinicName:1}})
     .then((data)=>{
         res.status(200).json(data)
-        console.log(data);
+       // console.log(Buffer.from(data[0].img).toString())
+        // console.log(data.img.data);
+        // const b=Buffer.from(data.img.data)
+        // console.log(b.toString())
     })
     .catch(error=>{next(error)})
 }
@@ -21,6 +24,20 @@ exports.getPatientById=(req,res,next)=>{
     .populate({path:"clinicId",select:{clinicName:1}})
    
     .then((data)=>{
+        
+        res.status(200).json(data)
+    })
+    .catch(error=>{next(error)})
+}
+exports.getPatientByDoctorId=(req,res,next)=>{
+    patientSchema.findOne({doctor_id:req.params.id})
+    .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+    .populate({path:"healthRecordId",select:{patientId:0}})
+    .populate({path:"prescriptionId",select:{_id:0}})
+    .populate({path:"clinicId",select:{clinicName:1}})
+   
+    .then((data)=>{
+        
         res.status(200).json(data)
     })
     .catch(error=>{next(error)})
@@ -36,11 +53,16 @@ exports.createPatient=(req,res,next)=>{
          "address.building":req.body.address.building,
          email:req.body.patientEmail, 
         insuranceNumber:req.body.patientInsuranceNumber,
+        // insuranceCompany:parseInt(req.body.insuranceCompany),
         phoneNumber:req.body.patientPhoneNumber,
         appointmentId:[{appointmentid:req.body.appointmentId}],
         healthRecordId:req.body.healthRecordId,
         clinicId:req.body.clinicId,
+<<<<<<< Updated upstream
         img:req.file.path
+=======
+        img: "http://localhost:8080/"+Buffer.from(req.file.path)
+>>>>>>> Stashed changes
         
     });
     addPatientSchema.save(
@@ -51,7 +73,7 @@ exports.createPatient=(req,res,next)=>{
 
 }
 exports.deletePatient=((req,res,next)=>{
-    patientSchema.deleteOne({_id:req.body.id}).then(result=>
+    patientSchema.deleteOne({_id:req.params.id}).then(result=>
        
         {
             res.status(200).json({message:"patient is deleted"});
@@ -59,7 +81,7 @@ exports.deletePatient=((req,res,next)=>{
         }).catch(error=>next(error))
   });
   exports.editPatient=((req,res,next)=>{
-      patientSchema.updateOne({_id:req.body.id},{
+      patientSchema.updateOne({_id:req.params.id},{
         $set:{
             age:req.body.patientAge,
             "address.city":req.body.address.city,
@@ -68,7 +90,7 @@ exports.deletePatient=((req,res,next)=>{
             email:req.body.patientEmail,
             phoneNumber:req.body.patientPhoneNumber, 
         },
-        $push: { appointmentId:{appointmentid:req.body.appointmentId}},
+        // $push: { appointmentId:{appointmentid:req.body.appointmentId}},
       }).then(
         result=>{
             res.status(201).json({message:" patient is updated"})}
@@ -172,7 +194,7 @@ exports.sortbykey=((req,res,next)=>{
     else if(req.params.sortKey=="app")
     {
         patientSchema.find({},{})
-        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0}})
+        .populate({path:"appointmentId.appointmentid",select:{date:1, time:1, status:1,_id:0},sort: [{'date':'asc' }]})
         .populate({path:"healthRecordId",select:{patientId:0}})
         .populate({path:"prescriptionId",select:{_id:0}})
         .populate({path:"clinicId",select:{clinicName:1}}).then(

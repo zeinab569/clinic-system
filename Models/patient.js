@@ -14,7 +14,8 @@ const patientSchema= new mongoose.Schema(
             type:Number 
           },
         firstName:{
-            type:String,required:true,
+            type:String,
+            required:true,
             match:/^[a-z]{3,}$/i
         },
         lastName:{
@@ -29,7 +30,7 @@ const patientSchema= new mongoose.Schema(
         },
         gender:{
             type:String,
-            enum:['female','male']
+            enum:['Female','Male']
          },
         address:patientAddress_schema,
         email:{type:String,
@@ -40,6 +41,11 @@ const patientSchema= new mongoose.Schema(
             unique:true,
             minlength:14,
             maxlength:14}, 
+        insuranceCompany:
+        {
+            type:Number,
+           ref:"insuranceCompany"
+        } ,   
         phoneNumber:{type:String,
             minlength:12
             ,maxlength:12,
@@ -47,8 +53,9 @@ const patientSchema= new mongoose.Schema(
         },
         img:
         {
-            data: Buffer,
-            contentType: String
+        
+           type:Buffer
+           
         },
         appointmentId:[
             appointmentSchema
