@@ -25,10 +25,11 @@ const mongoose=require("mongoose");
             }).catch(error=>next(error))
         }
 //adding new Service 
- exports.AddService=(request,response,next)=>{
-    let NewService=new ServiceSchema({
 
-        Name: request.body.Name,   
+exports.AddService=(request,response,next)=>{
+    let NewService=new ServiceSchema({
+      
+       name: request.body.name,   
        price:request.body.price,
        description:request.body.description
     });
@@ -36,8 +37,6 @@ const mongoose=require("mongoose");
         .then(()=> 
             { response.status(201).json({message:"new Service added to the Department"})})
             .catch(error=>{next(error)})
-
-    
     }
 
   //deleting Service by id 
@@ -181,8 +180,5 @@ console.log("error:",error)
     }
 
 
-
-
-
-
+   
 

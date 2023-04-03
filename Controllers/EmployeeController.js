@@ -16,7 +16,7 @@ dotenv.config();
 function sendMail(username,pass){
   const transporter = nodemailer.createTransport({
     host: "0.0.0.0",
-     port:1025,
+    port:1025,
     secure: false,
     auth: {
     user: "zeinabelazzab875@gmail.com",

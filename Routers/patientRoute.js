@@ -8,7 +8,7 @@ const check_permission= require("../Middlelwares/check_users");
 //check for doctor
 
 router.route('/patient')
-.all(check_permission.checkreception)
+//.all(check_permission.checkreception)
 .post(upload.single('img'),patientValidation,validator,patientController.createPatient)
 .get(
     patientController.getAllPatient
