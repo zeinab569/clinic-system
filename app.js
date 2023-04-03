@@ -1,13 +1,8 @@
 const express=require("express");
 const path  =require("path");
 const mongoose=require("mongoose");
-<<<<<<< Updated upstream
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-=======
-var cors = require('cors');
-const  path=require("path");
->>>>>>> Stashed changes
 const loginRoute=require("./Routers/login_route");
 const employeeRoute =require("./Routers/employeeRoute");
 const doctorsRouter=require("./Routers/doctor");
@@ -57,34 +52,10 @@ server.use((request,response,next)=>{
   });
   server.use(cors());
 server.use(express.json());
-<<<<<<< Updated upstream
-
-
-server.use("/images" , express.static(path.join("images")));
-/*
-server.use((req,res,next)=>{
-    res.setHeader("Access-Control-Allow-Origin","*");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With ,Content-Type,Authorization ,Accept",
-      "HTTP/1.1 200 OK",
-      "append,delete,entries,foreach,get,has,keys,set,values,Authorization"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET,POST,PATCH,DELETE,OPTIONS,PUT"
-    );
-    next();
-  });
-*/
-  // routes
-//server.use(loginRoute);
-server.use("/user",userRoutes);
-=======
 // routs
 server.use("/uploads",express.static(path.join('./uploads/')));
-server.use(loginRoute);
->>>>>>> Stashed changes
+//server.use(loginRoute);
+server.use("/user",userRoutes);
 server.use(employeeRoute);
 server.use(doctorsRouter);
 server.use(clinicRouter);
