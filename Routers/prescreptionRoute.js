@@ -6,19 +6,23 @@ const check_permission= require("../Middlelwares/check_users");
 
 const router= express.Router();
 
+<<<<<<< Updated upstream
+=======
+router.get("/prescreption",prescriptionController.getAllprescreptions)
+>>>>>>> Stashed changes
 
 router.route("/prescreption")
-.all(check_permission.checkdoctor)
+ //.all(check_permission.checkdoctor)
     .post(prescriptionValidation,validator,prescriptionController.createPrescreption)
-    .patch(prescriptionController.updatePrescreptions)
-    .delete(prescriptionController.deletePrescreption);
+    
+    router.route("/prescreption/:id").delete(prescriptionController.deletePrescreption).patch(prescriptionController.updatePrescreptions);
 
-router.get("/prescreption",check_permission.checkdoctor,prescriptionController.getAllprescreptions)
+// router.get("/prescreption",check_permission.checkdoctor,prescriptionController.getAllprescreptions)
 //check  doctor
-router.get('/prescreption/doctor/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionBydoctorId)
-router.get('/prescreption/patient/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionByPatientId)
-router.get('/prescreption/:id',check_permission.checkdoctor,prescriptionController.getPrescrptionById)
-router.get('/prescrption/sort/:sortKey',check_permission.checkdoctor,prescriptionController.sort)
+router.get('/prescreption/doctor/:id',prescriptionController.getPrescrptionBydoctorId)
+router.get('/prescreption/patient/:id',prescriptionController.getPrescrptionByPatientId)
+router.get('/prescreption/:id',prescriptionController.getPrescrptionById)
+router.get('/prescrption/sortt/:sortKey',prescriptionController.sort)
 router.get('/prescrption/search/:filter',prescriptionController.searchPrescrption)
 
 

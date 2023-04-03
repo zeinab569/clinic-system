@@ -7,19 +7,19 @@ const check_permission= require("../Middlelwares/check_users");
 
 router.route('/MedicalRecord')
 
-.all(check_permission.checkdoctor) 
+//.all(check_permission.checkdoctor) 
 .post(medicalHistoryValidation,validator,medicalHistoryController.createMedicalHistory)
 .patch(medicalHistoryController.editpateintMedicalHistory).delete(medicalHistoryController.deleteMedicalHistory)
 router.route('/MedicalRecord/:id')
-.all(check_permission.checkdoctor) 
+//.all(check_permission.checkdoctor) 
 .get(medicalHistoryController.getMedicalHistoryById)
 router.route('/MedicalRecord/patient/:id')
-.all(check_permission.checkdoctor) 
+//.all(check_permission.checkdoctor) 
 .get(medicalHistoryController.getMedicalHistoryByPatientId)
 
 router.route('/MedicalRecord/doctor/:id').get(medicalHistoryController.getMedicalHistoryByDoctorId)
 
 router
-.all(check_permission.checkadmin) 
+//all(check_permission.checkadmin) 
 .get('/MedicalRecord',medicalHistoryController.getAllMedicalHistory)
 module.exports=router

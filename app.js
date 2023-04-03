@@ -1,8 +1,13 @@
 const express=require("express");
 const path  =require("path");
 const mongoose=require("mongoose");
+<<<<<<< Updated upstream
 const cors = require("cors");
 const cookieSession = require("cookie-session");
+=======
+var cors = require('cors');
+const  path=require("path");
+>>>>>>> Stashed changes
 const loginRoute=require("./Routers/login_route");
 const employeeRoute =require("./Routers/employeeRoute");
 const doctorsRouter=require("./Routers/doctor");
@@ -50,8 +55,9 @@ server.use((request,response,next)=>{
     console.log("Hello from FirstMW", request.url,request.method);
      next();
   });
-
+  server.use(cors());
 server.use(express.json());
+<<<<<<< Updated upstream
 
 
 server.use("/images" , express.static(path.join("images")));
@@ -74,6 +80,11 @@ server.use((req,res,next)=>{
   // routes
 //server.use(loginRoute);
 server.use("/user",userRoutes);
+=======
+// routs
+server.use("/uploads",express.static(path.join('./uploads/')));
+server.use(loginRoute);
+>>>>>>> Stashed changes
 server.use(employeeRoute);
 server.use(doctorsRouter);
 server.use(clinicRouter);
