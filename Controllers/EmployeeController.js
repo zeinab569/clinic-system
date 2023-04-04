@@ -57,7 +57,7 @@ async function createUser(request, response,next) {
       user_role: request.body.user_role,
       name:request.body.name,
       phoneno: request.body.phoneno,
-      //employeeImage: request.file.path,
+      employeeImage: "http://localhost:8080/"+Buffer.from(req.file.path),
       email: request.body.email,
       password: hashedpassword,
       salary:request.body.salary,

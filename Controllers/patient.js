@@ -58,11 +58,7 @@ exports.createPatient=(req,res,next)=>{
         appointmentId:[{appointmentid:req.body.appointmentId}],
         healthRecordId:req.body.healthRecordId,
         clinicId:req.body.clinicId,
-<<<<<<< Updated upstream
-        img:req.file.path
-=======
         img: "http://localhost:8080/"+Buffer.from(req.file.path)
->>>>>>> Stashed changes
         
     });
     addPatientSchema.save(

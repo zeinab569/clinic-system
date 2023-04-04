@@ -6,10 +6,7 @@ const check_permission= require("../Middlelwares/check_users");
 
 const router= express.Router();
 
-<<<<<<< Updated upstream
-=======
 router.get("/prescreption",prescriptionController.getAllprescreptions)
->>>>>>> Stashed changes
 
 router.route("/prescreption")
  //.all(check_permission.checkdoctor)

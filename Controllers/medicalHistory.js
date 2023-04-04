@@ -4,24 +4,24 @@ require('../Models/pateintMedicalHistoryModel')
 const { jsPDF } = require("jspdf");
 const MedicalHistorySchema=mongoose.model("MedicalHistory");
 
-// exports.createMedicalHistory=((req,res,next)=>
-// {
-//  let addpateintMedicalHistory=new MedicalHistorySchema({
-//     patientId:req.body.patientId,
-//     "medicinesbefore.name":req.body.medicinesbefore.name,
-//     "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
-//     "medicinesbefore.from":req.body.medicinesbefore.from,
-//     "medicinesbefore.to":req.body.medicinesbefore.to,
-//     medicine:req.body.prescriptionNumber,
-//     chronicdiseases:req.body.chronicdiseases,
-//     bloodType:req.body.bloodType,
-//     doctorId:req.body.doctorId
+exports.createMedicalHistory=((req,res,next)=>
+{
+ let addpateintMedicalHistory=new MedicalHistorySchema({
+    patientId:req.body.patientId,
+    "medicinesbefore.name":req.body.medicinesbefore.name,
+    "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
+    "medicinesbefore.from":req.body.medicinesbefore.from,
+    "medicinesbefore.to":req.body.medicinesbefore.to,
+    medicine:req.body.prescriptionNumber,
+    chronicdiseases:req.body.chronicdiseases,
+    bloodType:req.body.bloodType,
+    doctorId:req.body.doctorId
 
-//  });
-//  addpateintMedicalHistory.save().then(
-//     data=>{res.status(200).json({message:"medical history is added succesfully"})}
-//  ).catch(err=>next(err))
-// });
+ });
+ addpateintMedicalHistory.save().then(
+    data=>{res.status(200).json({message:"medical history is added succesfully"})}
+ ).catch(err=>next(err))
+});
 exports.editpateintMedicalHistory=((req,response,next)=>{
 
   MedicalHistorySchema.findByIdAndUpdate(req.params.id,{
