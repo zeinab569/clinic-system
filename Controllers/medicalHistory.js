@@ -8,10 +8,16 @@ exports.createMedicalHistory=((req,res,next)=>
 {
  let addpateintMedicalHistory=new MedicalHistorySchema({
     patientId:req.body.patientId,
-    "medicinesbefore.name":req.body.medicinesbefore.name,
-    "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
-    "medicinesbefore.from":req.body.medicinesbefore.from,
-    "medicinesbefore.to":req.body.medicinesbefore.to,
+    // "medicinesbefore.name":req.body.medicinesbefore.name,
+    // "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
+    // "medicinesbefore.from":req.body.medicinesbefore.from,
+    // "medicinesbefore.to":req.body.medicinesbefore.to,
+    medicinesbefore:{
+          name:req.body.name,
+          quantity:req.body.quantity,
+          from:req.body.from,
+          to:req.body.to,
+        },
     medicine:req.body.prescriptionNumber,
     chronicdiseases:req.body.chronicdiseases,
     bloodType:req.body.bloodType,
@@ -30,10 +36,16 @@ exports.editpateintMedicalHistory=((req,response,next)=>{
       // bloodType:req.body.bloodType,
       medicine:req.body.medicine,
       chronicdiseases:req.body. chronicdiseases,
-      "medicinesbefore.name":req.body.medicinesbefore.name,
-      "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
-      "medicinesbefore.from":req.body.medicinesbefore.from,
-      "medicinesbefore.to":req.body.medicinesbefore.to,
+      // "medicinesbefore.name":req.body.medicinesbefore.name,
+      // "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
+      // "medicinesbefore.from":req.body.medicinesbefore.from,
+      // "medicinesbefore.to":req.body.medicinesbefore.to,
+      medicinesbefore:{
+         name:req.body.name,
+         quantity:req.body.quantity,
+         from:req.body.from,
+         to:req.body.to,
+       },
      }
     })
     .then(data=>{
@@ -42,24 +54,27 @@ exports.editpateintMedicalHistory=((req,response,next)=>{
           })
           .catch(error=>next(error))
 });
-exports.editpateintMedicalHistory=((req,res,next)=>{
-    MedicalHistorySchema.updateOne({_id:req.body.id},{
-        $set:{
-            _id:req.body.id,
-            medicine:req.body.prescriptionNumber,
-            chronicdiseases:req.body. chronicdiseases,
-            "medicinesbefore.name":req.body.medicinesbefore.name,
-            "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
-            "medicinesbefore.from":req.body.medicinesbefore.from,
-            "medicinesbefore.to":req.body.medicinesbefore.to,
-        }
-      }).then(
-        result=>{
-            res.status(201).json({message:" MedicalHistory is updated"})}
-      ).catch(
-        error=>next(error)
-      )
-});
+
+// exports.editpateintMedicalHistory=((req,res,next)=>{
+//     MedicalHistorySchema.updateOne({_id:req.body.id},{
+//         $set:{
+//             _id:req.body.id,
+//             medicine:req.body.prescriptionNumber,
+//             chronicdiseases:req.body. chronicdiseases,
+//             "medicinesbefore.name":req.body.medicinesbefore.name,
+//             "medicinesbefore.quantity":req.body.medicinesbefore.quantity,
+//             "medicinesbefore.from":req.body.medicinesbefore.from,
+//             "medicinesbefore.to":req.body.medicinesbefore.to,
+//         }
+//       }).then(
+//         result=>{
+//             res.status(201).json({message:" MedicalHistory is updated"})}
+//       ).catch(
+//         error=>next(error)
+//       )
+// });
+
+
 exports.getAllMedicalHistory=((req,res,next)=>{ 
   MedicalHistorySchema.find().populate("patientId",{'firstName':1,'lastName':1,'phoneNumber':1,'email':1,'gender':1})  
 // MedicalHistorySchema.find().populate({path:"patientId",select:'firstName lastName age gender'})
@@ -71,6 +86,7 @@ exports.getAllMedicalHistory=((req,res,next)=>{
 }
 )
 });
+
 exports.getMedicalHistoryByPatientId=((req,res,next)=>{
     MedicalHistorySchema.findOne({patientId:req.params.id})
     .populate({path:"patientId",select:'firstName lastName age gender'})
@@ -88,12 +104,12 @@ exports.getMedicalHistoryByDoctorId=((req,res,next)=>{
         MedicalHistorySchema.find({doctorId:req.params.id}).
         populate({path:"patientId",select:'firstName lastName age gender'})
         .populate({path:"doctorId",select:'fullName Specialization'})
-        // .
-        // populate({path:"medicine",select:'medicine'})
+        // .populate({path:"medicine",select:'medicine'})
         .then(
         (data)=>res.status(200).json(data) 
         )
         })
+        
 exports.getMedicalHistoryById=((req,res,next)=>{
             MedicalHistorySchema.findOne({_id:req.params.id})
             .populate({path:"patientId",select:'firstName lastName age gender'})
