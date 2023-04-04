@@ -32,7 +32,7 @@ exports.createPrescreption=(request,response,next)=>{
        
    });
    newprescreption.save()
-                 .then(()=>{response.status(201).json({message:"New Prescreption is Created"}) })
+                 .then((data)=>{response.status(201).json(data) })
                  .catch(error=>{next(error)})
 
    
