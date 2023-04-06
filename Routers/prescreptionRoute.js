@@ -12,7 +12,9 @@ router.route("/prescreption")
  //.all(check_permission.checkdoctor)
     .post(prescriptionValidation,validator,prescriptionController.createPrescreption)
     
-    router.route("/prescreption/:id").delete(prescriptionController.deletePrescreption).patch(prescriptionController.updatePrescreptions);
+    router.route("/prescreption/:id")
+    .delete(prescriptionController.deletePrescreption)
+    .patch(prescriptionController.updatePrescreptions);
 
 // router.get("/prescreption",check_permission.checkdoctor,prescriptionController.getAllprescreptions)
 //check  doctor

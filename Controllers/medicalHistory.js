@@ -96,10 +96,12 @@ exports.getMedicalHistoryByPatientId=((req,res,next)=>{
     (data)=>
     {
       res.status(200).json(data) 
-      generateTable(data);
+      // generateTable(data);
     }
     )
     })
+
+
 exports.getMedicalHistoryByDoctorId=((req,res,next)=>{
         MedicalHistorySchema.find({doctorId:req.params.id}).
         populate({path:"patientId",select:'firstName lastName age gender'})
@@ -133,7 +135,7 @@ exports.getMedicalHistoryById=((req,res,next)=>{
   doc.setTextColor("3A98B9");
   doc.text('Medical History Report', startX+50, startY -20);
   doc.setFontSize(15);
-  doc.text( 'Pateint Name:- ' +data.patientId.firstName+" "+data.patientId.lastName,startX,startY)
+  // doc.text( 'Pateint Name:- ' +data.patientId.firstName+" "+data.patientId.lastName,startX,startY)
   doc.text( 'Age:- ' +data.patientId.age+" year ",startX,startY+10)
   doc.text( 'Gender:- ' +data.patientId.gender,startX,startY+20)
   doc.text( 'Blood Type :- ' +data.bloodType,startX,startY+30)
@@ -144,8 +146,8 @@ exports.getMedicalHistoryById=((req,res,next)=>{
   doc.text( 'Start Date:- '+data.medicinesbefore.from ,startX+20,startY+80)
   doc.text( 'End Date:- '+data.medicinesbefore.to ,startX+20,startY+90)
   doc.setTextColor(255, 0, 0);
-  doc.text( 'Doctor Name:- '+data.doctorId.fullName,startX+100,startY+120)
-  doc.text( 'Doctor Signture:- '+data.doctorId.fullName,startX+100,startY+130)
+  // doc.text( 'Doctor Name:- '+data.doctorId.fullName,startX+100,startY+120)
+  // doc.text( 'Doctor Signture:- '+data.doctorId.fullName,startX+100,startY+130)
   doc.rect(10, 10, doc.internal.pageSize.width-20 , doc.internal.pageSize.height-20 , 'S');
   // var _header= ['Name', 'Quantity', '  Start Date', 'End Date'];
   // var _data=[
