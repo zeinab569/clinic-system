@@ -12,18 +12,18 @@ router.route("/Service")
 //.all(check_permission.checkadmin)
     .get(Controller.getAllService)
     .post(validateservice,Controller.AddService)
-    //.patch(validateservice,validator,Controller.updateService)
-   //.delete(Controller.DeleteService);
+    .patch(validateservice,validator,Controller.updateService)
+   .delete(Controller.DeleteService);
 
   // zeinab
    //router.delete("/Service/:id",controller.theDelete)
   // router.put("/Service/:id",controller.theUpdate)
 
 //getting service by Name
-router.get("/Service/:Name",
-check_permission.checkadmin,
-Controller.getServicebyName
-);
+// router.get("/Service/:Name",
+// check_permission.checkadmin,
+// Controller.getServicebyName
+// );
 
 //getting Service by id
 router.get("/Service/:_id",
